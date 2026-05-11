@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SuperMarché Vision - L'exceptionnel au quotidien</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#6f001b",
+                        "surface-container-low": "#131313",
+                        "on-primary-fixed": "#000000",
+                        "on-error-container": "#ffa8a3",
+                        "outline-variant": "#494847",
+                        "outline": "#777575",
+                        "surface-bright": "#2c2c2c",
+                        "surface-variant": "#262626",
+                        "on-secondary": "#49000f",
+                        "on-tertiary-fixed-variant": "#573000",
+                        "tertiary-container": "#fe9400",
+                        "on-error": "#490006",
+                        "surface-container-highest": "#262626",
+                        "primary-fixed-dim": "#5191ff",
+                        "primary-container": "#6c9fff",
+                        "on-primary-container": "#00214f",
+                        "on-surface-variant": "#adaaaa",
+                        "secondary-fixed-dim": "#ffaeb2",
+                        "inverse-surface": "#fcf8f8",
+                        "surface-container-high": "#201f1f",
+                        "surface-tint": "#85adff",
+                        "on-secondary-container": "#fff6f5",
+                        "secondary-container": "#be0036",
+                        "primary": "#85adff",
+                        "on-primary-fixed-variant": "#002a61",
+                        "on-secondary-fixed-variant": "#a4002d",
+                        "primary-fixed": "#6c9fff",
+                        "secondary-dim": "#e51245",
+                        "error-dim": "#d7383b",
+                        "background": "#0e0e0e",
+                        "surface-container-lowest": "#000000",
+                        "surface-dim": "#0e0e0e",
+                        "error": "#ff716c",
+                        "tertiary-dim": "#ea8900",
+                        "surface": "#0e0e0e",
+                        "on-tertiary-container": "#482600",
+                        "secondary-fixed": "#ffc3c4",
+                        "error-container": "#9f0519",
+                        "on-background": "#ffffff",
+                        "on-tertiary": "#562f00",
+                        "on-surface": "#ffffff",
+                        "tertiary-fixed": "#ff9817",
+                        "secondary": "#ff6f7c",
+                        "inverse-on-surface": "#565554",
+                        "tertiary": "#ffa84f",
+                        "tertiary-fixed-dim": "#ee8b00",
+                        "primary-dim": "#0070eb",
+                        "inverse-primary": "#005bc2",
+                        "on-tertiary-fixed": "#281300",
+                        "surface-container": "#1a1919",
+                        "on-primary": "#002c65"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Space Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .text-shadow-lg {
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .asymmetric-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .mesh-gradient-bg {
+            background: radial-gradient(at 0% 0%, rgba(133, 173, 255, 0.15) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(255, 111, 124, 0.15) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary/30 overflow-x-hidden">
+<!-- TopNavBar Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-[20px] border-b border-white/15 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] flex justify-between items-center px-8 py-4 w-full">
+<div class="font-serif italic text-2xl text-white">SuperMarché</div>
+<div class="hidden md:flex gap-8 items-center font-serif text-lg tracking-tight">
+<a class="text-blue-500 font-bold hover:text-blue-400 transition-colors duration-300" href="#">Home</a>
+<a class="text-white/70 hover:text-blue-400 transition-colors duration-300" href="#">Explore</a>
+<a class="text-white/70 hover:text-blue-400 transition-colors duration-300" href="#">Concierge</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-white/70 hover:text-blue-400 transition-colors duration-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-white/70 hover:text-blue-400 transition-colors duration-300">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border border-white/20">
+<img alt="User profile" data-alt="Close-up portrait of a sophisticated person with warm studio lighting and a clean neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU9UyhW5sMrxqpFKLGfUEvK5A66XREcy9V09LU37oAtJa4uYtGhioWDeX8LwNUyBJs_jqG7ob0Tgq8hGqFgMKEfrmL8sbjBAaroGSwjJmsKU4LRDFC8upp7mB50FmFsEN_sygAPSzWjSKpemJua2FEtSgcV_VUenPXPNbA7RBjCq8oinx47_8kj4SR2fG0DkjqIcSSTROi8o9VQRKYC9dXWDE8LZxTTdUPfwXJgLkL481qLTIeAQOImjFNersAGNbgOVb4jEVgyhJd"/>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+<!-- Back Layer -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-black/40 z-10"></div>
+<img alt="Market Scene" class="w-full h-full object-cover" data-alt="Cinematic drone shot of a vibrant European open-air market at sunrise with warm golden light and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuOT0GGjnt7ihZ2fm0T3TiwUyP9kL3XsMxQC3yEyIZOEQXvobuuT4S-sUb3OfQJOlDVPYQkYP91gHqh9_gI9tA42_fud7ZB2hazKnaRl5sPTZnfHBDKSwkOBM7R4ds2drp_-g9eTdrikvo7S2WDiYRfCa-kNh-77VA_PHUj0-J8wBbFmZMWJdP-K7ABHHfvNAiXJX0dAiaUbyjIDmATd5RoPSnIgsJ1G_p4H-Z43XsSYFoU5nhep4Q0yL8Z3fomGvzvW0A7VgI87Ps"/>
+</div>
+<!-- Middle Layer: Floating Cards -->
+<div class="absolute inset-0 z-20 pointer-events-none hidden lg:block">
+<div class="absolute top-[20%] left-[10%] w-64 aspect-[3/4] glass-panel rounded-xl rotate-[-12deg] shadow-[0_20px_40px_rgba(133,173,255,0.2)] p-4 flex flex-col justify-end">
+<img class="absolute inset-0 w-full h-full object-cover rounded-xl opacity-80" data-alt="Close-up of fresh organic strawberries with water droplets in dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhqCW28s8H0wGoL9EvwqNLmTdiG8u2npMED1TCo2KSWH0fAsGsiIZZv75a0f5SrHwjfYsrNJcxxWjYML2UiZpzL7lrHmxn2zBrym0OWvyvj2OPhwQKz1yMuGoHc1At0mdryMlODXV8XA3Ef6l8cTjTkOAYXBv6SOj8bcX-W01J1TenVd5597cR43KNj749uUFEvg8aYrc8S1ZU1oQRRU9fhoz-l4ip_NsP-ccOLK8t5yi-iUibj3GfZYz0Fiyqsn2wWYvgZgYed8Yx"/>
+<div class="relative z-10 text-white font-headline text-xl">Fraises de Plougastel</div>
+</div>
+<div class="absolute top-[15%] right-[15%] w-72 aspect-video glass-panel rounded-xl rotate-[8deg] shadow-[0_20px_40px_rgba(255,111,124,0.2)] p-4">
+<img class="absolute inset-0 w-full h-full object-cover rounded-xl opacity-60" data-alt="Elegant glass of red wine on a dark wooden table with soft candle light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ3vS4KSiyf1k0Jx6iONJ-xOfUQM1VyfXLWlgopJxuuhVJT2x_vj8lW2bZzl8g-w7IVIYjeivFx2lk4t7zfP8Ow8BXjaFsG6Tm0wK7C3k8Q6eR0CoNNbi4h-090hmEnwIYXK1qEptPJ1QPagJZPM0ev5cwlzMfTzL41YopHBfx76MrBXr62x_KWDGNLH2KutGDaj0VI4peevinyA_zZz2M7WgG-_t7ahM2ny-nimJYnOCp1ZTHvKNq2wBxfDC6aPqn0AakG2QQKi3L"/>
+<div class="relative z-10 text-white font-headline text-xl text-right">Grands Crus</div>
+</div>
+</div>
+<!-- Front Layer -->
+<div class="relative z-30 text-center px-6 max-w-5xl">
+<h1 class="font-headline font-bold text-6xl md:text-8xl leading-tight mb-8 text-white tracking-tighter drop-shadow-2xl">
+                L'exceptionnel <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">au quotidien</span>
+</h1>
+<div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+<button class="px-10 py-4 glass-panel border border-white/30 rounded-full text-white font-bold text-lg hover:bg-white/20 transition-all duration-300">
+                    Explorer
+                </button>
+</div>
+</div>
+<!-- Bouncing Chevron -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 animate-bounce">
+<span class="material-symbols-outlined text-white text-4xl">keyboard_double_arrow_down</span>
+</div>
+</header>
+<!-- Section 2: Categories Carousel -->
+<section class="py-32 mesh-gradient-bg relative">
+<div class="container mx-auto px-6">
+<h2 class="font-headline text-4xl md:text-5xl mb-20 text-center">Nos Univers</h2>
+<div class="flex overflow-x-auto pb-10 gap-8 no-scrollbar perspective-1000 items-center justify-center">
+<!-- Inactive Card -->
+<div class="min-w-[280px] h-[400px] rounded-2xl overflow-hidden glass-panel opacity-50 grayscale scale-90 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="Close up of various green vegetables in a rustic wooden crate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgpL-t2CXrNwc7DldW9jICkhYU7x9Div_Jz62z4pp9cDrwWPMuZZiO4_fIQZGPSahyF1X924J5ITzFAVdvfZoFNDcbNTHRduOLPAYNbTHv6Gyp99KvY25DvuF9T6gIGkXN2yp9wRFbJuGPV8Hl3M6XE0ZO9FNBupWE3bIYDhfxaJ5ZawG1Wc9TBOr1uJBTRrmfSwchMypCxr3vXscCbFJTh233J6DvMiEIlHaCwwapUYxg2VJyfIeZdgl3ur2sJheCGaD5i94GHXXa"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="font-headline text-2xl">Légumes</span>
+</div>
+</div>
+<!-- Active Card -->
+<div class="min-w-[320px] h-[480px] rounded-3xl overflow-hidden shadow-2xl scale-110 transition-all duration-500 border-2 border-primary/50 relative group">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Selection of exotic fruits including pitaya and mango on dark slate background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-i_KaAiTM4Ws06Z0f3eN8c6ZMUQmbc98CpRXvC8CyNi9lQtcP9xbZk3W92D_NnYCQ7qwUa_SOcwM7GYywjpD_87UxWqK1EEg7Ev_1nt8oq0cMgIEkvopOM-kYejHDlxqX_aFQ-9V3s1j_bwbau0UHWIGiq-82X6CcxSzz9_iQaxLEnFMvzrlUQm9Spbsz4a1MyZZvmQ_RNErtlrfBGdplUQieOHjSY1sjP5QBCo6vdu4fotWNFOprxZ1MhDCh_ULSe9rxhxzupfXz"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-8">
+<span class="font-headline text-3xl mb-2">Fruits Exotiques</span>
+<p class="text-on-surface-variant text-sm">Sélectionnés avec soin à travers le monde.</p>
+</div>
+</div>
+<!-- Inactive Card -->
+<div class="min-w-[280px] h-[400px] rounded-2xl overflow-hidden glass-panel opacity-50 grayscale scale-90 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="Freshly baked sourdough bread with a crispy golden crust" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRmwlEzeXE92JbitK_WVzU_OItWl64cOJONpu7xrHQfUYzIfZVFD1OENLiOQiBo5pPGIxzqGNfOjmPvQ1KQfehhM1Tfqar-wwYwN1bP3KvWHMFjUdyPl-GcHzCWSKFrnjCRf3cylic00du5Z-58HQeSEojjJZjnmN6vxkmIqjRMjP0D-Lly2BBwaisvgbBRubsksiyetymiXWhQNUlJdKGrZNR9Y5S-vICRjI6mW73R4oMwl_2Wi0x5BcZm9OqqgGXjTaxpMBPB9rH"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="font-headline text-2xl">Boulangerie</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Sélection du moment (Asymmetric Masonry) -->
+<section class="py-32 bg-surface-container-low">
+<div class="container mx-auto px-6">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-headline text-sm uppercase tracking-[0.3em] text-primary mb-4">L'Art de Vivre</h2>
+<h3 class="font-headline text-5xl">Sélection du moment</h3>
+</div>
+<button class="text-primary-fixed-dim font-headline italic text-lg hover:underline underline-offset-8">Tout voir</button>
+</div>
+<div class="asymmetric-grid">
+<!-- Large Card -->
+<div class="col-span-12 md:col-span-8 group relative rounded-3xl overflow-hidden aspect-video">
+<img class="w-full h-full object-cover" data-alt="Gourmet cheese platter with grapes, nuts, and honey in elegant low-light setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcUs8PJ6p-evXm1qU3fzynWbTtGXeslgkoby6yk38C1K96idMVVPwfBIOBZe2AdeIzA9WKkREP7dBA9frI-MgVojTdSOONIeCDze-lULz5PtsHnzHus6MwhWClGhrWH25EXxwhaRYrOElgF0fCiJo2vyoWd_c4ivNpkxS4-_b47MHGeExr2PQSOYoplv8aEMSq2s8Lh7R7A_0vZxVJ9ZF1ZGvneNYlBIuzkehZBe0SRtGboDu9TCGCXqYdes_8eZEG1xjJJkNfKG_h"/>
+<div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<div class="absolute top-8 right-8 flex flex-col items-end">
+<span class="font-label text-4xl text-white font-bold text-shadow-lg">42.00 €</span>
+<span class="text-white/70 text-sm font-label">Plateau Découverte</span>
+</div>
+<div class="absolute bottom-8 left-8">
+<button class="w-16 h-16 rounded-full glass-panel flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 duration-300 border border-white/20 shadow-xl">
+<span class="material-symbols-outlined text-white text-3xl">add_shopping_cart</span>
+</button>
+</div>
+</div>
+<!-- Small Card -->
+<div class="col-span-12 md:col-span-4 group relative rounded-3xl overflow-hidden aspect-[4/5]">
+<img class="w-full h-full object-cover" data-alt="High-end organic extra virgin olive oil in a dark glass bottle with artistic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkthKYkcbjd23YGqB_kbIU2h1rG7IDcO6athHXkoQAqGoFxat-6lwkOKG--5K_fWEfH5g2sbg6sSYc0b3p1LiFm91OwZA8NgMcXdFCFWzXXwaR74oyRAwWzoUQKsacF54I0So7tntdm71eB7NFDz27H7hc6pCUce6iFaTfk6QthsESW_I2FKqjYw_cZB5r3gB22neU6uaR-cHeHzvCOykJlyCE1krgfFV9ZC42fzAo0rQvVOSWZKy73ODATx4bjPziYu9NxpACCVh3"/>
+<div class="absolute top-6 right-6">
+<span class="font-label text-2xl text-white font-bold text-shadow-lg">18.50 €</span>
+</div>
+<div class="absolute bottom-6 left-6 text-white">
+<h4 class="font-headline text-xl mb-1">Huile d'Olive Bio</h4>
+<span class="text-xs uppercase tracking-widest text-primary">Provence</span>
+</div>
+</div>
+<!-- Small Card -->
+<div class="col-span-12 md:col-span-4 group relative rounded-3xl overflow-hidden aspect-square">
+<img class="w-full h-full object-cover" data-alt="Luxury chocolate truffles in a minimalist ceramic dish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUkvJehTedgD-d_IRk4vSzroBKb9xpoell7aMMynMACbynExkIsL5igBnFzDywEgUQnqmxkIieUfzO9CgYsf91CRWdmIgzfnbM5hmhHrWjTJ4LQUFgmsJDD1Yau3xQgLFDN4Dxx5i6G7CBc1HcGCXBnrpmQPFu1d2kOTgAEJfXZkjlKmiCOIBbx6VzzvP5QTbd1uaqVWfcnoHMlQ3h0_CQ0amZPfwm-9prMhEQzv3u18ueLzHKjDYWYE4323U3Pi2xOyd_wumHKuQe"/>
+<div class="absolute top-6 right-6">
+<span class="font-label text-2xl text-white font-bold text-shadow-lg">24.00 €</span>
+</div>
+</div>
+<!-- Medium Card -->
+<div class="col-span-12 md:col-span-8 group relative rounded-3xl overflow-hidden h-[400px]">
+<img class="w-full h-full object-cover" data-alt="Artisanal pastry selection in a high-end French patisserie case" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7dfivBAWaQYpKGWFTUyMgDYfRtxX7kayF4TMmLaBOUh5OY8Oed6KhzLW_DuuannfnzCCZIebfbNxzqe9A4hV7efX_f5NjZWcC3R22rsVOHrZ_b1_53EhhHAih2RQiC6Kythar_9uRl98YtQFR8dMdzyLMucR37NxE_pUnSiN2oi5eUJBIaADRKAYlw5gDUA2bfH6lpZDe7pyYM8034gmoDcpB9VfdGyWHjXzR_wjVWZ1ipbQI2BYtw0gm-7M8Egb-HWxP-iyDlp_r"/>
+<div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex flex-col justify-center p-12">
+<h4 class="font-headline text-4xl mb-4 max-w-xs leading-tight">Douceurs Matinales</h4>
+<button class="px-8 py-3 bg-white text-black rounded-full font-bold w-fit hover:scale-105 transition-transform">Découvrir</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Features -->
+<section class="py-32 container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Feature 1 -->
+<div class="glass-panel p-12 rounded-[2rem] border border-white/5 flex flex-col items-center text-center group hover:scale-105 transition-transform duration-500">
+<div class="w-20 h-20 mb-8 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1;">electric_bolt</span>
+</div>
+<h4 class="font-headline text-2xl mb-4">Livraison 2h</h4>
+<p class="text-on-surface-variant leading-relaxed">Une rapidité sans compromis pour vos envies les plus pressantes.</p>
+</div>
+<!-- Feature 2 -->
+<div class="glass-panel p-12 rounded-[2rem] border border-white/5 flex flex-col items-center text-center group hover:scale-105 transition-transform duration-500">
+<div class="w-20 h-20 mb-8 rounded-2xl bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+<span class="material-symbols-outlined text-secondary text-5xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<h4 class="font-headline text-2xl mb-4">Fraîcheur Garantie</h4>
+<p class="text-on-surface-variant leading-relaxed">Directement du producteur à votre table, le jour même.</p>
+</div>
+<!-- Feature 3 -->
+<div class="glass-panel p-12 rounded-[2rem] border border-white/5 flex flex-col items-center text-center group hover:scale-105 transition-transform duration-500">
+<div class="w-20 h-20 mb-8 rounded-2xl bg-tertiary-container/10 flex items-center justify-center group-hover:bg-tertiary-container/20 transition-colors">
+<span class="material-symbols-outlined text-tertiary text-5xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<h4 class="font-headline text-2xl mb-4">Qualité Supérieure</h4>
+<p class="text-on-surface-variant leading-relaxed">Chaque produit est goûté et validé par nos curateurs.</p>
+</div>
+</div>
+</section>
+<!-- Section 5: Témoignages -->
+<section class="py-32 bg-surface-dim overflow-hidden">
+<div class="container mx-auto px-6 mb-16 text-center">
+<h2 class="font-headline text-4xl italic">Ce qu'ils en disent</h2>
+</div>
+<div class="flex gap-8 px-6 animate-scroll no-scrollbar overflow-x-hidden">
+<!-- Review 1 -->
+<div class="min-w-[400px] p-10 glass-panel rounded-3xl border border-white/10">
+<div class="flex gap-1 mb-6">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-lg italic font-headline mb-8 text-white/90">"Une expérience révolutionnaire. La qualité des produits frais est tout simplement incomparable."</p>
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-surface-container-highest"></div>
+<div>
+<div class="font-bold text-white">Marc Aubert</div>
+<div class="text-xs text-on-surface-variant uppercase tracking-widest">Paris VII</div>
+</div>
+</div>
+</div>
+<!-- Review 2 -->
+<div class="min-w-[400px] p-10 glass-panel rounded-3xl border border-white/10">
+<div class="flex gap-1 mb-6">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-lg italic font-headline mb-8 text-white/90">"Enfin un service qui comprend l'importance du détail et de la gastronomie fine."</p>
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-surface-container-highest"></div>
+<div>
+<div class="font-bold text-white">Sophie Laurent</div>
+<div class="text-xs text-on-surface-variant uppercase tracking-widest">Lyon 2ème</div>
+</div>
+</div>
+</div>
+<!-- Review 3 -->
+<div class="min-w-[400px] p-10 glass-panel rounded-3xl border border-white/10">
+<div class="flex gap-1 mb-6">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-lg italic font-headline mb-8 text-white/90">"L'exceptionnel est vraiment là. Le service conciergerie est une perle rare."</p>
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-surface-container-highest"></div>
+<div>
+<div class="font-bold text-white">Jean-Pierre K.</div>
+<div class="text-xs text-on-surface-variant uppercase tracking-widest">Bordeaux</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: CTA Final -->
+<section class="py-40 relative px-6 overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary via-primary-dim to-secondary-dim opacity-20"></div>
+<div class="container mx-auto relative z-10 text-center max-w-4xl">
+<h2 class="font-headline text-5xl md:text-7xl mb-10 leading-tight">Prêt à simplifier vos courses ?</h2>
+<p class="text-xl text-on-surface-variant mb-12 max-w-2xl mx-auto">Rejoignez le club exclusif SuperMarché Vision et profitez de votre première livraison offerte.</p>
+<button class="px-12 py-5 bg-white text-black font-bold text-xl rounded-full hover:scale-110 transition-transform shadow-2xl">
+                Créer mon compte
+            </button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full pt-20 pb-10 px-8 bg-neutral-950 flex flex-col items-center justify-center text-center">
+<div class="font-serif text-xl text-white mb-4">SuperMarché Vision</div>
+<div class="flex gap-8 mb-8 font-serif text-sm tracking-wide text-neutral-500">
+<a class="hover:text-blue-400 transition-colors" href="#">Privacy</a>
+<a class="hover:text-blue-400 transition-colors" href="#">Terms</a>
+<a class="hover:text-blue-400 transition-colors" href="#">Concierge</a>
+</div>
+<p class="font-serif text-sm tracking-wide text-neutral-600">© 2024 SuperMarché Vision. The Digital Curator.</p>
+</footer>
+<!-- BottomNavBar Shell -->
+<nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-lg rounded-full border border-white/20 bg-white/10 dark:bg-neutral-900/40 backdrop-blur-[20px] shadow-[0_20px_40px_rgba(0,0,0,0.4)] flex justify-around items-center py-3 px-6 z-50">
+<div class="flex flex-col items-center justify-center text-blue-500 scale-110 transition-transform">
+<span class="material-symbols-outlined">home</span>
+<span class="font-sans text-[10px] uppercase tracking-widest">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/50 hover:text-white transition-all">
+<span class="material-symbols-outlined">search</span>
+<span class="font-sans text-[10px] uppercase tracking-widest">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/50 hover:text-white transition-all">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-sans text-[10px] uppercase tracking-widest">Cart</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/50 hover:text-white transition-all">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-sans text-[10px] uppercase tracking-widest">Orders</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/50 hover:text-white transition-all">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest">Profile</span>
+</div>
+</nav>
+</body></html>

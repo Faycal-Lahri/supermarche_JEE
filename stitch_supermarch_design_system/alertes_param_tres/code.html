@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f9f9fb",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#005cbb",
+                    "on-secondary-fixed": "#1a1b1f",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#00531c",
+                    "secondary-fixed-dim": "#c7c6cb",
+                    "secondary": "#5e5e63",
+                    "on-surface": "#1a1c1d",
+                    "tertiary-container": "#008633",
+                    "tertiary-fixed": "#72fe88",
+                    "on-secondary-container": "#626267",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#414753",
+                    "on-secondary-fixed-variant": "#46464b",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f3f3f5",
+                    "secondary-fixed": "#e3e2e7",
+                    "error": "#ba1a1a",
+                    "surface-container": "#eeeef0",
+                    "primary": "#0059b5",
+                    "on-primary-container": "#fcfbff",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#006a26",
+                    "on-tertiary-fixed": "#002107",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f9f9fb",
+                    "tertiary-fixed-dim": "#53e16f",
+                    "on-primary-fixed-variant": "#00458f",
+                    "primary-fixed": "#d7e2ff",
+                    "outline": "#717785",
+                    "primary-fixed-dim": "#abc7ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#1a1c1d",
+                    "inverse-primary": "#abc7ff",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface": "#f9f9fb",
+                    "primary-container": "#0071e3",
+                    "on-primary-fixed": "#001b3f",
+                    "surface-variant": "#e2e2e4",
+                    "outline-variant": "#c1c6d6",
+                    "secondary-container": "#e0dfe4",
+                    "surface-dim": "#d9dadc",
+                    "inverse-surface": "#2f3132",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-tertiary-container": "#f1ffec"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e2e4; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-[#f3f3f5] dark:bg-slate-900 flex flex-col py-6 px-4 font-['Inter'] antialiased tabular-nums text-sm font-medium">
+<div class="mb-10 px-2 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-lg">inventory_2</span>
+</div>
+<div class="flex flex-col">
+<span class="text-lg font-bold tracking-tight text-[#1A1C1D] dark:text-white">SuperMarché</span>
+<span class="text-[10px] uppercase tracking-wider text-slate-500">Admin Stock Control</span>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 transition-all duration-200 ease-in-out text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 transition-all duration-200 ease-in-out text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 transition-all duration-200 ease-in-out text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">history</span>
+                History
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 transition-all duration-200 ease-in-out text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+                Orders
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 transition-all duration-200 ease-in-out bg-white dark:bg-slate-800 text-[#0059b5] dark:text-blue-400 border-l-4 border-[#0059b5] shadow-sm rounded-r-lg" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+                Alerts
+            </a>
+</nav>
+<div class="mt-auto">
+<button class="w-full bg-primary hover:bg-primary-container text-white font-semibold py-3 px-4 rounded-xl transition-all duration-150 active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">description</span>
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 left-64 h-16 z-30 bg-white/80 backdrop-blur-xl flex justify-between items-center px-8">
+<div class="flex items-center gap-4 w-1/3">
+<div class="relative w-full max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Rechercher une alerte..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Admin Stock</span>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:bg-[#f3f3f5] rounded-lg transition-opacity active:opacity-80">
+<span class="material-symbols-outlined">schedule</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-[#f3f3f5] rounded-lg relative transition-opacity active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-white"></span>
+</button>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-slate-200 ring-2 ring-surface-container">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7WcD8WCNddG5yfghZwi2vRryQFLqXYhcIVlg8RGhcXiDX_UmkivkwIuf-RnH2Ng9wQf4G2t12vtLdnLvhTchyjclxuA2TQP_4W63gP6qtfIPoMpzCLSw_J2NraI23M22sugou-u4E-fIZd71TpSKQAFbBmvS_gD9INkJcB9z8Q7L7OIxJ4Er8KfKeENDoZ8zVLrp1GnEmTXR5zniVtQVWFFZWM8envnbgc2T7MqilWKTb6IGNdcny2oRKo-IMuF4dLb96tUdND_Vk"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex items-end justify-between">
+<div class="space-y-1">
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface">Centre d'Alertes</h1>
+<p class="text-on-surface-variant text-sm">Gérez les priorités de réapprovisionnement et les notifications critiques.</p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-low p-1 rounded-xl flex gap-1">
+<button class="px-4 py-1.5 bg-white text-primary text-xs font-bold rounded-lg shadow-sm">Actives</button>
+<button class="px-4 py-1.5 text-on-surface-variant text-xs font-medium rounded-lg hover:bg-surface-container-high">Archivées</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<!-- Left: Alert Center List (Bento Section) -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- Critical Alert Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border-l-4 border-error flex gap-6 items-start">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<span class="px-2 py-0.5 bg-error-container text-error text-[10px] font-bold uppercase rounded-full mb-1 inline-block">Rupture imminente</span>
+<h3 class="text-lg font-bold text-on-surface">Lait Demi-Écrémé 1L</h3>
+</div>
+<span class="text-xs text-on-surface-variant font-medium tabular-nums">Il y a 12 min</span>
+</div>
+<p class="mt-2 text-on-surface-variant text-sm leading-relaxed">Le stock actuel (4 unités) est bien en dessous du seuil de sécurité. Rupture prévue d'ici 4 heures.</p>
+<div class="mt-4 flex items-center gap-4">
+<button class="bg-primary text-white text-xs font-bold px-6 py-2 rounded-lg hover:bg-primary-container transition-all">Commander en urgence</button>
+<button class="text-on-surface-variant text-xs font-bold hover:underline">Ignorer</button>
+</div>
+</div>
+</div>
+<!-- Alert List Grid -->
+<div class="bg-surface-container-low rounded-2xl p-2 space-y-2">
+<!-- Alert Item -->
+<div class="bg-white rounded-xl p-4 flex items-center justify-between group hover:bg-surface-container-lowest transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-slate-50 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="organic red apples in a wooden crate with natural soft window light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1XyXfWeRsf96Q3iOyG-5-v_hSSl1xhg7fy64gQQuHDkX4c4nbkert_bSZbNQVLJuagCIV6W5q0lC7zIpDHbvuIiqzFvi_hRPUYm_F_UipKTGd7CxjJIjIn-nw847n5TXbnONF4JFwLyLWy4byfqOJrdQKURdgQXXklFqqSsQRk0W1X5kAvN18yXB8Ie0cv83-5EDk5rzx9wCKZCHVp91DATsXAYHaE9N4gtpQYOyQizfjklZ2atmRrB0ob2a7j0YBP_O0fD2ti1mo"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-sm font-bold text-on-surface">Pommes Gala Bio (Sac 2kg)</h4>
+<span class="px-2 py-0.5 bg-secondary-container text-secondary text-[10px] font-bold uppercase rounded-full">Stock bas</span>
+</div>
+<p class="text-xs text-on-surface-variant">Reste 12 sacs. Seuil d'alerte configuré à 15.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right tabular-nums">
+<p class="text-xs font-bold text-on-surface">Aujourd'hui, 08:45</p>
+<p class="text-[10px] text-on-surface-variant">ID: #SKU-9921</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-surface-container-high hover:text-primary transition-all">
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="bg-white rounded-xl p-4 flex items-center justify-between group hover:bg-surface-container-lowest transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-slate-50 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="creamy white greek yogurt in a ceramic bowl with honey swirl and walnuts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChXWEBurXzRlTbKtnbt4_72iDyCiAHpmx6gwnF8_oA4_uFs1ETM7UR3IEV8ciWoXVbO3XhWzv3k4uvpa6sq6uJM8KSZsBkU1xK3HTSFbZloWp-ABBSVOGEzuzhgdkB8hLOMP3KJQeWZguNmWOVqacfjXXGjRWSp5hekaUhDHKY7qFEilxGyasJZjLTfILa15yjYXPJx2p2CRkdvH5OnEUk1Dg9KOAkHqtDh0rMVTkmJWlMBESl37shSGK50YyFCd3a2ZNmWh8Fnk6l"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-sm font-bold text-on-surface">Yaourt Grec Nature</h4>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-tertiary text-[10px] font-bold uppercase rounded-full">Produit périmé</span>
+</div>
+<p class="text-xs text-on-surface-variant">Lot #B22 expire dans 48h. Retrait rayons recommandé.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right tabular-nums">
+<p class="text-xs font-bold text-on-surface">Hier, 17:30</p>
+<p class="text-[10px] text-on-surface-variant">ID: #SKU-4402</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-surface-container-high hover:text-primary transition-all">
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="bg-white rounded-xl p-4 flex items-center justify-between group hover:bg-surface-container-lowest transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-slate-50 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="variety of colorful fresh bell peppers including red yellow and orange in a bright grocery display" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhAwPn3eWg6aIc_ZfTLz6OUwa0zpAdGkdhMryzS9fREuYpjHY2mN0wFRY4jQwNJMnO-yBUh6Suh2VPCaI2IfA2a11ARIENkcXiP1rmFa-2DWXOBQ7u3YH6b_ah3RRxWlj38hmm669jtFFYCR-nbdsatKOB_whFpsTGCIovMYzOrQDbi33ycCgLcaHBl857PqqO7GIQvAkwkvaYpfGnxnUktePoqztn68S5j_P08TOhcJkQ3q67_RoWrssRWzNXjugVv8R3JujUGMht"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-sm font-bold text-on-surface">Poivrons Mixtes</h4>
+<span class="px-2 py-0.5 bg-primary-fixed text-primary text-[10px] font-bold uppercase rounded-full">Commande urgente</span>
+</div>
+<p class="text-xs text-on-surface-variant">Livraison prévue à 10:00 non reçue. Contactez le fournisseur.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right tabular-nums">
+<p class="text-xs font-bold text-on-surface">Aujourd'hui, 10:15</p>
+<p class="text-[10px] text-on-surface-variant">ID: #SUPP-A12</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-surface-container-high hover:text-primary transition-all">
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Mini Cards Section -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-3">
+<span class="material-symbols-outlined text-secondary">inventory_2</span>
+<span class="text-[10px] font-bold text-error bg-error-container px-2 py-0.5 rounded-full">-15%</span>
+</div>
+<h5 class="text-xs font-bold text-on-surface truncate">Eau Minérale 1.5L</h5>
+<p class="text-[10px] text-on-surface-variant mb-3">Stock: 22 / 100</p>
+<div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[22%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-3">
+<span class="material-symbols-outlined text-secondary">egg</span>
+<span class="text-[10px] font-bold text-tertiary bg-tertiary-fixed px-2 py-0.5 rounded-full">Ok</span>
+</div>
+<h5 class="text-xs font-bold text-on-surface truncate">Œufs Frais x12</h5>
+<p class="text-[10px] text-on-surface-variant mb-3">Stock: 48 / 50</p>
+<div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[96%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-outline-variant/10 hidden md:block">
+<div class="flex items-center justify-between mb-3">
+<span class="material-symbols-outlined text-secondary">coffee</span>
+<span class="text-[10px] font-bold text-error bg-error-container px-2 py-0.5 rounded-full">-5%</span>
+</div>
+<h5 class="text-xs font-bold text-on-surface truncate">Café Arabica 250g</h5>
+<p class="text-[10px] text-on-surface-variant mb-3">Stock: 5 / 80</p>
+<div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[6%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Settings Panel -->
+<aside class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Config Threshold -->
+<div class="bg-white rounded-3xl p-6 shadow-sm border border-outline-variant/10 space-y-6">
+<div>
+<h3 class="text-base font-bold text-on-surface mb-1">Configuration Générale</h3>
+<p class="text-xs text-on-surface-variant">Ajustez les déclencheurs d'alertes globaux.</p>
+</div>
+<div class="space-y-4">
+<div>
+<label class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-2">Seuil d'alerte global (%)</label>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between group focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-lg">remove</span>
+</button>
+<div class="flex items-baseline gap-1">
+<span class="text-xl font-bold text-primary tabular-nums">15</span>
+<span class="text-xs font-medium text-on-surface-variant">%</span>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<div class="space-y-3 pt-2">
+<label class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">Canaux de Notification</label>
+<div class="flex items-center justify-between py-1">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 text-lg">mail</span>
+<span class="text-sm font-medium text-on-surface">Email</span>
+</div>
+<div class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1">
+<div class="w-3.5 h-3.5 bg-white rounded-full ml-auto shadow-sm"></div>
+</div>
+</div>
+<div class="flex items-center justify-between py-1">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 text-lg">sms</span>
+<span class="text-sm font-medium text-on-surface">SMS / Push</span>
+</div>
+<div class="w-10 h-5 bg-surface-container-high rounded-full relative flex items-center px-1">
+<div class="w-3.5 h-3.5 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+<div class="flex items-center justify-between py-1">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 text-lg">app_registration</span>
+<span class="text-sm font-medium text-on-surface">In-app Badge</span>
+</div>
+<div class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1">
+<div class="w-3.5 h-3.5 bg-white rounded-full ml-auto shadow-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Restock Schedules -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-base font-bold text-on-surface">Plannings Réappro</h3>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="w-2 h-2 mt-1.5 rounded-full bg-tertiary"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Produits Frais</p>
+<p class="text-xs text-on-surface-variant">Quotidien • 06:00 &amp; 14:00</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-2 h-2 mt-1.5 rounded-full bg-primary"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Épicerie Sèche</p>
+<p class="text-xs text-on-surface-variant">Lun, Mer, Ven • 09:00</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-2 h-2 mt-1.5 rounded-full bg-outline"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Hygiène &amp; Beauté</p>
+<p class="text-xs text-on-surface-variant">Mardi • 11:30</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 bg-surface-container-high rounded-xl text-xs font-bold text-on-surface hover:bg-surface-variant transition-colors">
+                            Voir le calendrier complet
+                        </button>
+</div>
+<!-- Visual Context Image -->
+<div class="rounded-3xl overflow-hidden h-40 relative group">
+<img class="w-full h-full object-cover" data-alt="modern warehouse interior with organized high shelves and bright fluorescent lighting creating a professional logistical atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD0yuw1h-QyaiQ6teOAW88ziTHdML7zAxT_pvruQKGybnRu7JhrwdRq-YjKxJ9xWaXYU62BxshdzV40ACC_U5hhvHEy6asFXWEckJFy43nDQuREEeYQgbEv00eYskef_1HyZ2c6xMIS-o_VfvaQzJcXrJZVcjg1cyhN7dVtuyyYtX78oJXu1kdS7j6LJ1E_OIgAmE60ErvoxY-hUF0hwMfGeBzzVGxio5-C-BbejfAOHIggUJW7992P3PjzdrO6iWQMavxbzoKwjts"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex flex-col justify-end p-4">
+<p class="text-white text-xs font-medium">Statut de l'Entrepôt</p>
+<p class="text-white/80 text-[10px]">Optimisé • Dernière inspection: 2h ago</p>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+</body></html>

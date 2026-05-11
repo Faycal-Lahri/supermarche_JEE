@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SuperMarché - Gérer les Administrateurs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#006a26",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#f9f9fb",
+                    "on-tertiary-fixed": "#002107",
+                    "surface-container-low": "#f3f3f5",
+                    "tertiary-fixed-dim": "#53e16f",
+                    "on-secondary-container": "#626267",
+                    "primary-container": "#0071e3",
+                    "background": "#f9f9fb",
+                    "primary-fixed": "#d7e2ff",
+                    "on-background": "#1a1c1d",
+                    "primary-fixed-dim": "#abc7ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#00531c",
+                    "surface-dim": "#d9dadc",
+                    "on-primary-container": "#fcfbff",
+                    "primary": "#0059b5",
+                    "surface-tint": "#005cbb",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f3132",
+                    "on-primary-fixed-variant": "#00458f",
+                    "on-secondary-fixed": "#1a1b1f",
+                    "on-surface-variant": "#414753",
+                    "secondary": "#5e5e63",
+                    "on-primary-fixed": "#001b3f",
+                    "secondary-fixed": "#e3e2e7",
+                    "inverse-primary": "#abc7ff",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface-container": "#eeeef0",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-surface": "#1a1c1d",
+                    "on-secondary-fixed-variant": "#46464b",
+                    "tertiary-container": "#008633",
+                    "on-tertiary-container": "#f1ffec",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c6d6",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "outline": "#717785",
+                    "surface-variant": "#e2e2e4",
+                    "secondary-fixed-dim": "#c7c6cb",
+                    "secondary-container": "#e0dfe4",
+                    "tertiary-fixed": "#72fe88"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; letter-spacing: -0.02em; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-zinc-50 dark:bg-zinc-950 flex flex-col py-8 px-4 gap-2 z-40">
+<div class="flex items-center gap-3 px-4 mb-10">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-black text-xl">S</div>
+<div>
+<h1 class="text-lg font-black text-zinc-900 dark:text-zinc-100 leading-none">Super Admin</h1>
+<p class="text-[0.65rem] text-on-secondary-container tracking-wider uppercase opacity-70">Invisible Authority</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 flex items-center gap-3 px-4 py-3 rounded-full transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Dashboard</span>
+</a>
+<!-- Active State -->
+<a class="bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm rounded-full mx-2 flex items-center gap-3 px-4 py-3 font-semibold transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Admins</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 flex items-center gap-3 px-4 py-3 rounded-full transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Supervision</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 flex items-center gap-3 px-4 py-3 rounded-full transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">database</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Data</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 flex items-center gap-3 px-4 py-3 rounded-full transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Configuration</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 flex items-center gap-3 px-4 py-3 rounded-full transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Logs</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-4 bg-surface-container-low rounded-2xl mx-2">
+<div class="flex items-center gap-3">
+<img alt="Super Admin Profile" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" data-alt="Portrait of a professional man with a neutral background, high-end corporate photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVpmu8I0g6kXrtnphDV5TqoKua4x89N11E1Q0IZYRfvmeuYQb4kQFGfybqVX458n_forkgVoHxv5tdUoQYoLsVRBEclWw8wNWcwpqjRryoDrwYFJTbsZKJoNXxtzqKeotfwLOID1IFhcbgaBsbXw96DvyTnEQLKo4fPX44kLpYuuOWCCIh_98q7fesOBTgd2ilevnUxKC5qGkS7Cs25Yfmv-Wd-YAaTfpCXF1eZiEgNH9uDv8f5v5nZxJ5SLT5erXxqOboKLZLkXK3"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold text-on-surface truncate">Alexandre V.</p>
+<p class="text-[10px] text-on-secondary-container">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="pl-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl z-30 flex items-center justify-between px-10 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-6 py-2 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="Rechercher un membre..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<span class="material-symbols-outlined text-zinc-500 hover:text-primary cursor-pointer transition-colors">fiber_manual_record</span>
+</div>
+</header>
+<section class="pt-24 px-10 pb-20">
+<!-- Header Section -->
+<div class="flex items-end justify-between mb-12">
+<div class="max-w-2xl">
+<h2 class="text-[1.75rem] font-bold text-zinc-900 tracking-tight mb-2">Administrateurs</h2>
+<p class="text-on-secondary-container body-md">Gérer les équipes et permissions de la plateforme SuperMarché. Définissez les accès granulaires pour chaque département.</p>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-full flex items-center gap-2 shadow-lg shadow-primary/20 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Créer un administrateur</span>
+</button>
+</div>
+<!-- Stats Overview - Subtle Bento -->
+<div class="grid grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<p class="text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-wider mb-2">Total Admins</p>
+<h3 class="text-3xl font-black tabular-nums">24</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<p class="text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-wider mb-2">Actifs</p>
+<h3 class="text-3xl font-black tabular-nums text-tertiary">22</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4_24px_rgba(0,0,0,0.04)]">
+<p class="text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-wider mb-2">En attente</p>
+<h3 class="text-3xl font-black tabular-nums text-warning">2</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<p class="text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-wider mb-2">Dépôts</p>
+<h3 class="text-3xl font-black tabular-nums">12</h3>
+</div>
+</div>
+<!-- Table Container -->
+<div class="bg-surface-container-lowest rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-4 text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-widest">Administrateur</th>
+<th class="px-8 py-4 text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-widest">Type</th>
+<th class="px-8 py-4 text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-widest">Statut</th>
+<th class="px-8 py-4 text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-widest">Dernière activité</th>
+<th class="px-8 py-4 text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-100">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Headshot of a confident executive man, studio lighting, minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3EOX5t09m-xvQtcoxUCs8xyPXORj3Dk0Kmk6C4v72HfixU_fE92RgUKx0OaQ0tc_CmB8iAvf0XBH08Si-Nu0MXLnSmuFAY_qIMZ2gWXrq4hCxEfR4EDDIxUwvpQ0VXBtECb7-RrikGhr3M6PCRgQl4-wOv3_ybSSqI2py4Ev91XlcuKKJZkgchmsmHYj3zbxoZkdYMxA7C6ajY1nRwWxcPt4RBBgk5gY9Ie_MdoAyD5cB6RD_jWlSg1CTv6SJ6ShmrJzXzIpUtYVO"/>
+<div>
+<p class="font-semibold text-zinc-900">Julien Dupont</p>
+<p class="text-xs text-on-secondary-container">j.dupont@supermarche.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[0.75rem] font-bold text-zinc-600">Super Admin</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+<span class="text-sm font-medium text-zinc-700">Actif</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-on-secondary-container tabular-nums">Aujourd'hui, 14:22</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-zinc-100 rounded-full transition-colors text-zinc-400 hover:text-primary">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a young woman professional, soft lighting, clean elegant style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYh9KrME5CGMnaX45Xzc8NvDnHtISOLxXunoJSXBKvHYhN16L6yoTUc3JdzX5tYzcQcWdiNGefCPHvJ8de_Ghdt2coATYWgnjXFAM_RdsQJHESfrWWEoKVnDfZi9G4UuDfFfgfrklVhKhcIVbzuFcDZlOuO5t5OrmsKut6ozU-PRQQ46PbcMCKrSYSXQ9Ww4mCnFVwgMwoZEqd7vgeJIS8a_hlZGbk-q8Hgv4mycas4fdoiZE9VX4yGcbSmCR8tz26HLIES2uiyr9l"/>
+<div>
+<p class="font-semibold text-zinc-900">Sarah Martin</p>
+<p class="text-xs text-on-secondary-container">s.martin@supermarche.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[0.75rem] font-bold text-zinc-600">Produits</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+<span class="text-sm font-medium text-zinc-700">Actif</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-on-secondary-container tabular-nums">Hier, 09:15</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-zinc-100 rounded-full transition-colors text-zinc-400 hover:text-primary">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Corporate man portrait, sharp focus, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPd2o_8cm85rEjeHtI3E9YSOG4DduCr71Y3aOutyhOtd-8fjqMQ8DZGyFtj-37a_Dk-yP2RBa9jBZyYHozJpR5V_FD90zycQpLSdqOKq3enIordy47V5cKD6zAEWf-5Olcff8odzt51K9xqDustFDmbpAv1KYHP2p9muRmOjTtRcFJfsIjXfb7BMxmGZ_1KExmnRawt4HkKEAxuxRiayFzYlDqdeQae8w87t9xcTpgVztx1aimjofy1yOKBQ8ixbKPgabCHqzHCNtY"/>
+<div>
+<p class="font-semibold text-zinc-900">Marc Lefebvre</p>
+<p class="text-xs text-on-secondary-container">m.lefebvre@supermarche.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[0.75rem] font-bold text-zinc-600">Stock</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#86868B]"></span>
+<span class="text-sm font-medium text-zinc-500">Inactif</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-on-secondary-container tabular-nums">12 Oct. 2023</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-zinc-100 rounded-full transition-colors text-zinc-400 hover:text-primary">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="font-semibold text-zinc-900">Claire Morel</p>
+<p class="text-xs text-on-secondary-container">c.morel@supermarche.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[0.75rem] font-bold text-zinc-600">Supervision</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+<span class="text-sm font-medium text-zinc-700">Actif</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-on-secondary-container tabular-nums">Il y a 2h</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-zinc-100 rounded-full transition-colors text-zinc-400 hover:text-primary">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Side-over Modal Backwash -->
+<div class="fixed inset-0 bg-zinc-900/40 backdrop-blur-sm z-[60] flex justify-end">
+<!-- Modal Content -->
+<div class="w-full max-w-lg bg-surface h-full shadow-2xl flex flex-col">
+<!-- Modal Header -->
+<div class="px-8 py-8 flex items-center justify-between">
+<div>
+<h3 class="text-2xl font-bold text-zinc-900 tracking-tight">Créer un administrateur</h3>
+<p class="text-on-secondary-container text-sm mt-1">Invitation et configuration des droits</p>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-zinc-500 hover:text-zinc-900 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto px-8 py-4">
+<!-- Step 1: Email -->
+<div class="mb-10">
+<div class="flex items-center gap-3 mb-4">
+<span class="w-7 h-7 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center">01</span>
+<h4 class="font-bold text-zinc-900">Invitation par email</h4>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-[0.75rem] font-bold text-on-secondary-container uppercase tracking-wider mb-2">Adresse email professionnelle</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="ex: nom@supermarche.com" type="email"/>
+</div>
+</div>
+</div>
+<!-- Step 2: Permissions -->
+<div>
+<div class="flex items-center gap-3 mb-4">
+<span class="w-7 h-7 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center">02</span>
+<h4 class="font-bold text-zinc-900">Permissions checklist</h4>
+</div>
+<div class="space-y-3">
+<!-- Permission Item 1 -->
+<label class="flex items-start p-4 bg-surface-container-low rounded-2xl cursor-pointer hover:bg-surface-container-high transition-colors group">
+<div class="mt-1">
+<input class="w-5 h-5 rounded-md border-zinc-300 text-primary focus:ring-primary/20" type="checkbox"/>
+</div>
+<div class="ml-4">
+<p class="font-bold text-zinc-900 text-sm">Gestion Produits</p>
+<p class="text-xs text-on-secondary-container">Accès complet au catalogue, prix et fiches produits.</p>
+</div>
+</label>
+<!-- Permission Item 2 -->
+<label class="flex items-start p-4 bg-surface-container-low rounded-2xl cursor-pointer hover:bg-surface-container-high transition-colors group">
+<div class="mt-1">
+<input class="w-5 h-5 rounded-md border-zinc-300 text-primary focus:ring-primary/20" type="checkbox"/>
+</div>
+<div class="ml-4">
+<p class="font-bold text-zinc-900 text-sm">Gestion Stock</p>
+<p class="text-xs text-on-secondary-container">Consultation et modification des niveaux de stock par dépôt.</p>
+</div>
+</label>
+<!-- Permission Item 3 -->
+<label class="flex items-start p-4 bg-surface-container-low rounded-2xl cursor-pointer hover:bg-surface-container-high transition-colors group">
+<div class="mt-1">
+<input class="w-5 h-5 rounded-md border-zinc-300 text-primary focus:ring-primary/20" type="checkbox"/>
+</div>
+<div class="ml-4">
+<p class="font-bold text-zinc-900 text-sm">Supervision</p>
+<p class="text-xs text-on-secondary-container">Vue d'ensemble des flux, logs système et monitoring.</p>
+</div>
+</label>
+<!-- Permission Item 4 -->
+<label class="flex items-start p-4 bg-surface-container-low rounded-2xl cursor-pointer hover:bg-surface-container-high transition-colors group">
+<div class="mt-1">
+<input class="w-5 h-5 rounded-md border-zinc-300 text-primary focus:ring-primary/20" type="checkbox"/>
+</div>
+<div class="ml-4">
+<p class="font-bold text-zinc-900 text-sm">Accès Financier</p>
+<p class="text-xs text-on-secondary-container">Consultation des marges, CA et rapports de vente.</p>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-8 py-8 bg-surface-container-low/50 flex flex-col gap-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-full shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+                    Envoyer l'invitation
+                </button>
+<button class="w-full bg-white text-zinc-900 font-bold py-4 rounded-full border border-zinc-200 hover:bg-zinc-50 transition-all active:scale-[0.98]">
+                    Annuler
+                </button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 rounded-full px-6 py-3 w-max bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl flex items-center gap-4 z-50 border-[0.5px] border-zinc-200/20 shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Quick Actions</span>
+</button>
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">ios_share</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Export</span>
+</button>
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">System Alert</span>
+</button>
+</nav>
+</body></html>

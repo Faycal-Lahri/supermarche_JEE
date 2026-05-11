@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#006a26",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#f9f9fb",
+                    "on-tertiary-fixed": "#002107",
+                    "surface-container-low": "#f3f3f5",
+                    "tertiary-fixed-dim": "#53e16f",
+                    "on-secondary-container": "#626267",
+                    "primary-container": "#0071e3",
+                    "background": "#f9f9fb",
+                    "primary-fixed": "#d7e2ff",
+                    "on-background": "#1a1c1d",
+                    "primary-fixed-dim": "#abc7ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#00531c",
+                    "surface-dim": "#d9dadc",
+                    "on-primary-container": "#fcfbff",
+                    "primary": "#0059b5",
+                    "surface-tint": "#005cbb",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f3132",
+                    "on-primary-fixed-variant": "#00458f",
+                    "on-secondary-fixed": "#1a1b1f",
+                    "on-surface-variant": "#414753",
+                    "secondary": "#5e5e63",
+                    "on-primary-fixed": "#001b3f",
+                    "secondary-fixed": "#e3e2e7",
+                    "inverse-primary": "#abc7ff",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface-container": "#eeeef0",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-surface": "#1a1c1d",
+                    "on-secondary-fixed-variant": "#46464b",
+                    "tertiary-container": "#008633",
+                    "on-tertiary-container": "#f1ffec",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c6d6",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "outline": "#717785",
+                    "surface-variant": "#e2e2e4",
+                    "secondary-fixed-dim": "#c7c6cb",
+                    "secondary-container": "#e0dfe4",
+                    "tertiary-fixed": "#72fe88"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; letter-spacing: -0.02em; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.04)] h-16 flex items-center justify-between px-10">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50">SuperMarché</span>
+<div class="hidden md:flex items-center gap-6">
+<nav class="flex items-center gap-6 font-['Inter'] tracking-[-0.02em] text-[0.875rem] font-medium">
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors px-3 py-1 rounded-full" href="#">Dashboard</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors px-3 py-1 rounded-full" href="#">Admins</a>
+<a class="text-blue-600 dark:text-blue-400 font-semibold px-3 py-1 rounded-full" href="#">Supervision</a>
+</nav>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined text-zinc-500 hover:bg-zinc-100 p-2 rounded-full cursor-pointer transition-all active:scale-90" data-icon="fiber_manual_record">fiber_manual_record</span>
+</div>
+<img alt="Super Admin Profile" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="minimalist user profile avatar with soft shadows and clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz0SClYNTB8qT8lj2WSu-C4Mhi-jMhFkfpBxeYS2VbPb97qu1zRafrm1NRbKigx01jrZPa3tGbeTeLpYEBZ4ux8ZK5Vxo-ZH1kDP-mRhYjnzhUiupYFVkCo2wKe9vNeUOI_KvzKybIu92L-TsKh58jyFrilF94RMFhEAZQzC0eV844M7ezcXJH1Acs0333IKJ-j-0w_6ODiD8NtBvTnSCaYAgVj_lbl9CL8dibeIQCDC_WVPGtlSmgR2NymC7IhWADtll-RzuKwYtu"/>
+</div>
+</header>
+<!-- SideNavBar (Hidden on small screens) -->
+<aside class="hidden lg:flex flex-col py-8 px-4 gap-2 h-screen w-64 fixed left-0 top-0 bg-zinc-50 dark:bg-zinc-950 pt-20 border-r border-transparent tonal-shift via surface-container-low">
+<div class="mb-8 px-4">
+<h2 class="text-lg font-black text-zinc-900 dark:text-zinc-100">Super Admin</h2>
+<p class="text-xs text-on-secondary-container">Invisible Authority</p>
+</div>
+<nav class="flex flex-col gap-1 font-['Inter'] tracking-[-0.02em] text-[0.875rem]">
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+                Admins
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm rounded-full mx-2 transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                Supervision
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+                Data
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Configuration
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                Logs
+            </a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:pl-64 pt-20 px-6 pb-24 md:px-10 lg:px-12 max-w-[1600px] mx-auto">
+<header class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-[1.75rem] font-bold headline-md mb-2">Supervision Système</h1>
+<p class="text-on-secondary-container body-md max-w-md">Surveillance en temps réel de l'infrastructure et des flux transactionnels.</p>
+</div>
+<!-- Time Range Selector -->
+<div class="flex p-1 bg-surface-container-low rounded-full w-fit">
+<button class="px-6 py-2 text-[0.75rem] font-semibold rounded-full hover:bg-surface-container-high transition-all active:scale-95">24h</button>
+<button class="px-6 py-2 text-[0.75rem] font-semibold bg-primary text-white rounded-full shadow-sm">7j</button>
+<button class="px-6 py-2 text-[0.75rem] font-semibold rounded-full hover:bg-surface-container-high transition-all active:scale-95">30j</button>
+</div>
+</div>
+</header>
+<!-- Alerts Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+<div class="bg-[#FFF8E6] border-none rounded-[20px] p-8 flex items-start gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+<span class="material-symbols-outlined text-[#FF9500] bg-white p-2 rounded-full" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<h3 class="font-bold text-[0.875rem] mb-1">Stock Critique</h3>
+<p class="text-[0.75rem] text-on-secondary-container">3 produits en rupture de stock</p>
+</div>
+</div>
+<div class="bg-[#FEECEB] border-none rounded-[20px] p-8 flex items-start gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+<span class="material-symbols-outlined text-[#E32636] bg-white p-2 rounded-full" data-icon="error" style="font-variation-settings: 'FILL' 1;">error</span>
+<div>
+<h3 class="font-bold text-[0.875rem] mb-1">Incident de Paiement</h3>
+<p class="text-[0.75rem] text-on-secondary-container">1 paiement en échec</p>
+</div>
+</div>
+<div class="hidden lg:flex bg-surface-container-lowest border-none rounded-[20px] p-8 items-center gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<span class="material-symbols-outlined text-tertiary bg-surface-container-low p-2 rounded-full" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<h3 class="font-bold text-[0.875rem] mb-1">Réseau stable</h3>
+<p class="text-[0.75rem] text-on-secondary-container">Latence moyenne: 14ms</p>
+</div>
+</div>
+</section>
+<!-- Primary Supervision Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Modules & Logs -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Modules Actifs -->
+<div class="bg-surface-container-lowest rounded-[20px] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-bold text-[1rem]">MODULES ACTIFS</h2>
+<span class="text-[0.625rem] font-bold tracking-widest text-on-secondary-container uppercase">Live Status</span>
+</div>
+<ul class="space-y-6">
+<li class="flex items-center justify-between group">
+<span class="body-md font-medium">Catalogue</span>
+<div class="flex items-center gap-2">
+<span class="text-[0.75rem] text-on-secondary-container group-hover:text-tertiary transition-colors">Opérationnel</span>
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,106,38,0.4)]"></span>
+</div>
+</li>
+<li class="flex items-center justify-between group">
+<span class="body-md font-medium">Commandes</span>
+<div class="flex items-center gap-2">
+<span class="text-[0.75rem] text-on-secondary-container group-hover:text-tertiary transition-colors">Opérationnel</span>
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,106,38,0.4)]"></span>
+</div>
+</li>
+<li class="flex items-center justify-between group">
+<span class="body-md font-medium">Paiement</span>
+<div class="flex items-center gap-2">
+<span class="text-[0.75rem] text-on-secondary-container group-hover:text-tertiary transition-colors">Opérationnel</span>
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,106,38,0.4)]"></span>
+</div>
+</li>
+<li class="flex items-center justify-between group">
+<span class="body-md font-medium">Livraison</span>
+<div class="flex items-center gap-2">
+<span class="text-[0.75rem] text-on-secondary-container group-hover:text-tertiary transition-colors">Opérationnel</span>
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,106,38,0.4)]"></span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Journal Système -->
+<div class="bg-surface-container-lowest rounded-[20px] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] overflow-hidden">
+<h2 class="font-bold text-[1rem] mb-6">JOURNAL SYSTÈME</h2>
+<div class="space-y-4">
+<div class="flex gap-4 p-3 hover:bg-surface-container-low rounded-xl transition-all">
+<span class="text-[0.75rem] font-mono text-on-secondary-container tabular-nums pt-1">14:02:11</span>
+<p class="text-[0.8125rem] leading-relaxed"><span class="font-semibold text-primary">API_AUTH</span> Nouveau token généré pour admin_82</p>
+</div>
+<div class="flex gap-4 p-3 hover:bg-surface-container-low rounded-xl transition-all">
+<span class="text-[0.75rem] font-mono text-on-secondary-container tabular-nums pt-1">13:58:45</span>
+<p class="text-[0.8125rem] leading-relaxed"><span class="font-semibold text-error">DB_REPL</span> Délai de réplication &gt; 500ms sur Node_C</p>
+</div>
+<div class="flex gap-4 p-3 hover:bg-surface-container-low rounded-xl transition-all">
+<span class="text-[0.75rem] font-mono text-on-secondary-container tabular-nums pt-1">13:45:02</span>
+<p class="text-[0.8125rem] leading-relaxed"><span class="font-semibold text-tertiary">BACKUP</span> Sauvegarde quotidienne terminée avec succès</p>
+</div>
+<div class="flex gap-4 p-3 hover:bg-surface-container-low rounded-xl transition-all">
+<span class="text-[0.75rem] font-mono text-on-secondary-container tabular-nums pt-1">13:12:33</span>
+<p class="text-[0.8125rem] leading-relaxed"><span class="font-semibold text-primary">WEBHOOK</span> Confirmation reçue de Stripe (ref_44k)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Metrics (Graphs) -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Smooth Line Chart: Connexions -->
+<div class="bg-surface-container-lowest rounded-[20px] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex items-end justify-between mb-10">
+<div>
+<span class="text-[0.75rem] font-bold tracking-widest text-on-secondary-container uppercase mb-2 block">Temps Réel</span>
+<h2 class="text-3xl font-bold tabular-nums">1,284 <span class="text-[1rem] font-normal text-on-secondary-container">Connexions / 10min</span></h2>
+</div>
+<div class="flex items-center gap-2 text-tertiary">
+<span class="material-symbols-outlined text-[1.25rem]" data-icon="trending_up">trending_up</span>
+<span class="text-[0.875rem] font-bold">+12%</span>
+</div>
+</div>
+<!-- SVG Chart Container -->
+<div class="h-64 w-full relative">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 1000 200">
+<defs>
+<lineargradient id="lineGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0071E3" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#0071E3" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line class="text-outline-variant/10" stroke="currentColor" stroke-width="0.5" x1="0" x2="1000" y1="0" y2="0"></line>
+<line class="text-outline-variant/10" stroke="currentColor" stroke-width="0.5" x1="0" x2="1000" y1="66" y2="66"></line>
+<line class="text-outline-variant/10" stroke="currentColor" stroke-width="0.5" x1="0" x2="1000" y1="133" y2="133"></line>
+<line class="text-outline-variant/10" stroke="currentColor" stroke-width="0.5" x1="0" x2="1000" y1="200" y2="200"></line>
+<!-- Area Fill -->
+<path d="M0,150 C100,140 200,170 300,120 C400,70 500,90 600,40 C700,-10 800,50 900,30 L1000,10 L1000,200 L0,200 Z" fill="url(#lineGradient)"></path>
+<!-- Smooth Line -->
+<path d="M0,150 C100,140 200,170 300,120 C400,70 500,90 600,40 C700,-10 800,50 900,30 L1000,10" fill="none" stroke="#0071E3" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<!-- Floating Point -->
+<circle class="animate-pulse" cx="1000" cy="10" fill="#0071E3" r="6"></circle>
+</svg>
+</div>
+</div>
+<!-- Bar Chart: Commandes -->
+<div class="bg-surface-container-lowest rounded-[20px] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex items-center justify-between mb-10">
+<h2 class="font-bold text-[1rem]">COMMANDES PAR HEURE</h2>
+<span class="text-[0.75rem] font-mono text-on-secondary-container tabular-nums">Moy: 342/h</span>
+</div>
+<div class="h-48 flex items-end justify-between gap-2 md:gap-4">
+<div class="w-full bg-primary/10 rounded-t-lg h-[40%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">142</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[65%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">230</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[35%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">110</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[85%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">312</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[95%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">345</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[50%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">180</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[70%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">260</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[45%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">160</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[80%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">290</span>
+</div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[100%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">380</span>
+</div>
+<div class="w-full bg-primary rounded-t-lg h-[90%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[0.625rem] px-2 py-1 rounded opacity-100 transition-opacity">332</span>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[0.7rem] text-on-secondary-container tabular-nums">
+<span>08:00</span>
+<span>10:00</span>
+<span>12:00</span>
+<span>14:00</span>
+<span>16:00</span>
+<span>18:00</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 rounded-full px-6 py-3 w-max bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl z-50 flex items-center gap-4 border-[0.5px] border-zinc-200/20 shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+<div class="bg-blue-600 text-white rounded-full px-4 py-2 flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[1.2rem]" data-icon="bolt">bolt</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Quick Actions</span>
+</div>
+<div class="text-zinc-600 dark:text-zinc-300 px-4 py-2 flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[1.2rem]" data-icon="ios_share">ios_share</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Export</span>
+</div>
+<div class="text-zinc-600 dark:text-zinc-300 px-4 py-2 flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[1.2rem]" data-icon="warning">warning</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">System Alert</span>
+</div>
+</nav>
+<!-- Floating Action Button (Only on Dashboards as per rules) -->
+<button class="fixed bottom-10 right-10 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</body></html>

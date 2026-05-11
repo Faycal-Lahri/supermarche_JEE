@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Curator Admin - Gestion Catégories</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#6a3b00",
+                        "surface-tint": "#005cbb",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#0059b5",
+                        "surface-container-low": "#f3f3f5",
+                        "on-primary-container": "#fcfbff",
+                        "primary-fixed-dim": "#abc7ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#e0dfe4",
+                        "on-primary-fixed-variant": "#00458f",
+                        "surface-container-highest": "#e2e2e4",
+                        "on-secondary-fixed-variant": "#46464b",
+                        "on-surface-variant": "#414753",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#1a1b1f",
+                        "background": "#f9f9fb",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#c7c6cb",
+                        "inverse-surface": "#2f3132",
+                        "tertiary-fixed": "#ffdcbf",
+                        "on-secondary-container": "#626267",
+                        "on-background": "#1a1c1d",
+                        "inverse-on-surface": "#f0f0f2",
+                        "surface-bright": "#f9f9fb",
+                        "surface-container": "#eeeef0",
+                        "secondary-fixed": "#e3e2e7",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e8e8ea",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#abc7ff",
+                        "tertiary-container": "#ab6200",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb874",
+                        "surface": "#f9f9fb",
+                        "tertiary": "#884d00",
+                        "surface-dim": "#d9dadc",
+                        "on-tertiary-container": "#fffaf9",
+                        "primary-container": "#0071e3",
+                        "outline": "#717785",
+                        "on-primary-fixed": "#001b3f",
+                        "primary-fixed": "#d7e2ff",
+                        "surface-variant": "#e2e2e4",
+                        "outline-variant": "#c1c6d6",
+                        "on-surface": "#1a1c1d",
+                        "secondary": "#5e5e63"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] z-50 bg-slate-50 dark:bg-slate-950 flex flex-col p-6 space-y-2 border-none">
+<div class="mb-10 px-2">
+<h1 class="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">Curator</h1>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-widest">Inventory Suite</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-medium antialiased">Catalogue</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-xl shadow-sm transition-all duration-300 translate-x-1" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-medium antialiased">Catégories</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium antialiased">Clients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">sell</span>
+<span class="font-medium antialiased">Promotions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-medium antialiased">Stock</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 px-4">
+<div class="flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-slate-900">
+<div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional female creative director in a minimalist studio setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqLZ_OT9gIzVuOtJ6Urko5UUmceCC-HaQQuArtkP39wKvDQmQsScGoVTbBjdSpjRYdqKux5PsZufqp7kyaPhf_926wPsyCnp7SvqMedGKfpip2t04BFMN9m6fooLDZrtQC5iTEv91qr8x-dg1vWl7l_hagLWDqC4Qzi79L-w339BTmSTUVzuVJ2IejNqClh6CC2UOCLUuc4iQQmc3a8f9j6JROBK0RmqK5votDzqrW2BUeVR5jBswMFuRETC8XVRhRN5O45Dzlhr7b"/>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Admin Profile</p>
+<p class="text-[10px] text-slate-500">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.04)] flex justify-between items-center px-8 py-4">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-950 border-none rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20" placeholder="Rechercher une catégorie..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                Nouvelle Catégorie
+            </button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[280px] pt-24 p-8 space-y-8">
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Left Panel: Tree View -->
+<section class="col-span-4 bg-surface-container-lowest rounded-[20px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] overflow-hidden">
+<div class="p-6 border-b border-surface-container-low flex justify-between items-center">
+<h2 class="font-bold text-lg tracking-tight text-on-surface">Arborescence</h2>
+<span class="material-symbols-outlined text-outline cursor-pointer">sort</span>
+</div>
+<div class="p-4 space-y-1">
+<!-- Tree Item (Parent) -->
+<div class="group">
+<div class="flex items-center justify-between p-3 rounded-xl bg-primary-container/10 text-primary transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm transition-transform group-open:rotate-90">chevron_right</span>
+<span class="material-symbols-outlined text-lg">category</span>
+<span class="font-semibold text-sm">Mobilier Design</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary text-white rounded-full">124</span>
+</div>
+<!-- Children -->
+<div class="ml-9 mt-1 space-y-1 border-l-2 border-surface-container-low pl-4">
+<div class="flex items-center justify-between p-2 rounded-lg text-secondary hover:bg-surface-container-low transition-colors cursor-pointer group/item">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline opacity-0 group-hover/item:opacity-100">drag_indicator</span>
+<span class="text-sm">Assises &amp; Fauteuils</span>
+</div>
+<span class="text-[10px] font-medium text-outline bg-surface-container-high px-2 py-0.5 rounded-full">42</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg text-secondary hover:bg-surface-container-low transition-colors cursor-pointer group/item">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline opacity-0 group-hover/item:opacity-100">drag_indicator</span>
+<span class="text-sm">Tables &amp; Bureaux</span>
+</div>
+<span class="text-[10px] font-medium text-outline bg-surface-container-high px-2 py-0.5 rounded-full">38</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg text-secondary hover:bg-surface-container-low transition-colors cursor-pointer group/item">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline opacity-0 group-hover/item:opacity-100">drag_indicator</span>
+<span class="text-sm">Rangements</span>
+</div>
+<span class="text-[10px] font-medium text-outline bg-surface-container-high px-2 py-0.5 rounded-full">44</span>
+</div>
+</div>
+</div>
+<!-- Tree Item (Other) -->
+<div class="flex items-center justify-between p-3 rounded-xl text-secondary hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="material-symbols-outlined text-lg">lightbulb</span>
+<span class="font-medium text-sm">Luminaires</span>
+</div>
+<span class="text-[10px] font-medium text-outline bg-surface-container-high px-2 py-0.5 rounded-full">86</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl text-secondary hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="material-symbols-outlined text-lg">local_florist</span>
+<span class="font-medium text-sm">Décoration</span>
+</div>
+<span class="text-[10px] font-medium text-outline bg-surface-container-high px-2 py-0.5 rounded-full">215</span>
+</div>
+</div>
+</section>
+<!-- Right Panel: Details -->
+<section class="col-span-8 space-y-8">
+<!-- Category Settings Card -->
+<div class="bg-surface-container-lowest rounded-[20px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] overflow-hidden">
+<div class="p-8">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-2xl font-bold tracking-tight text-on-surface">Assises &amp; Fauteuils</h3>
+<p class="text-sm text-outline">Modifier les paramètres de la catégorie</p>
+</div>
+<div class="flex gap-2">
+<button class="px-6 py-2 bg-primary text-white rounded-full text-sm font-semibold transition-all hover:shadow-lg hover:shadow-primary/20">Enregistrer</button>
+<button class="p-2 text-error hover:bg-error-container/20 rounded-full transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-6">
+<div>
+<label class="block text-[11px] font-bold text-outline uppercase tracking-widest mb-2">Nom de la catégorie</label>
+<input class="w-full p-4 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20" type="text" value="Assises &amp; Fauteuils"/>
+</div>
+<div>
+<label class="block text-[11px] font-bold text-outline uppercase tracking-widest mb-2">Slug URL</label>
+<div class="flex items-center bg-surface-container-low rounded-xl overflow-hidden">
+<span class="pl-4 text-outline text-xs">curator.com/cat/</span>
+<input class="w-full p-4 bg-transparent border-none text-sm focus:ring-0" type="text" value="assises-et-fauteuils"/>
+</div>
+</div>
+<div>
+<label class="block text-[11px] font-bold text-outline uppercase tracking-widest mb-2">Description SEO</label>
+<textarea class="w-full p-4 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 leading-relaxed" rows="4">Découvrez notre collection exclusive d'assises design, alliant confort ergonomique et esthétique contemporaine pour sublimer vos espaces de vie.</textarea>
+</div>
+</div>
+<div>
+<label class="block text-[11px] font-bold text-outline uppercase tracking-widest mb-2">Image de couverture</label>
+<div class="relative group aspect-[4/3] rounded-2xl overflow-hidden bg-surface-container-low border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center cursor-pointer transition-all hover:border-primary/50">
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Minimalist velvet armchair in a sunlit neutral room with shadows on the wall and high-end editorial composition" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdWk-_1zi637GDvqP7WYZh_CF3nolguPPtapfRhbHXyrRivNJHfGvwGnclcaKnJkL6pxhEqMqhrJzwODDF28PzTfl1bfga8r6evZCDb3zAWc7F5XDcPbtWdPCKbjva24KFPdI3cdgo69Uv1mFp0h--Uz-BR01jmwmuee6bwxQYqQj4lyqpRoJ_z6UkhEHYEcGo0F8Vwi7AfxdxUdMttuNzKs65NAOredegOa-RhBw4iAs05U7UntZclTqcrGBNFg0me73IlFYOet3Y"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+                                            Changer l'image
+                                        </div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-surface-container-low">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-sm font-bold text-on-surface">Sous-catégories</h4>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+                                    Ajout Rapide
+                                </button>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-medium text-secondary flex items-center gap-2">
+                                    Chaises de bureau <span class="material-symbols-outlined text-xs cursor-pointer hover:text-error">close</span>
+</div>
+<div class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-medium text-secondary flex items-center gap-2">
+                                    Fauteuils Lounge <span class="material-symbols-outlined text-xs cursor-pointer hover:text-error">close</span>
+</div>
+<div class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-medium text-secondary flex items-center gap-2">
+                                    Tabourets <span class="material-symbols-outlined text-xs cursor-pointer hover:text-error">close</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Grid Below -->
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-xl font-bold tracking-tight text-on-surface">Produits assignés</h3>
+<p class="text-xs text-outline">42 articles trouvés dans cette catégorie</p>
+</div>
+<button class="flex items-center gap-2 px-5 py-2 bg-surface-container-highest text-secondary rounded-full text-xs font-bold transition-all hover:bg-secondary-container">
+<span class="material-symbols-outlined text-sm">move_down</span>
+                            Bulk Move
+                        </button>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<!-- Product Card 1 -->
+<div class="group bg-surface-container-lowest p-3 rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-all">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-4 bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Classic wood designer chair with black leather cushion against a white studio background with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnfdGL2HWWqWO7IrIosrPrfOLL1xNUWGbHQyRAVP2KEDwuSHvXatxxhKyqxGvoHSKhw356YX_S6AFhMDehjwkuTyzQoSq5WKYvCdpY241IupzyHUZQgBwmADefE7GmMTxFsUOxvSSMTWyeUjhIeiy9Dva07jHW6lrdVrV8cRXLE-sziFa1fDNfFg0lMxtFiD809alk_4XNPU0Wvh4OUq26X4PxxAOsXBsZYKnIYrrR_WrYZlzvTSaInn-HTsxDdH5v6Q1QDkoSSaLz"/>
+</div>
+<div class="px-2 pb-2">
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Möbler</p>
+<h4 class="text-sm font-semibold text-on-surface line-clamp-1 mb-2">Fauteuil Eames Lounge</h4>
+<div class="flex justify-between items-center">
+<span class="text-base font-bold text-on-surface">4 850 €</span>
+<span class="text-[10px] font-medium text-outline">SKU: CH-001</span>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group bg-surface-container-lowest p-3 rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-all">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-4 bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist modern beige armchair with sculptural wooden frame in a clean bright architectural setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAz_u_5w7v-dX__Absgy27Ye8dybig23WsKaFTXhMPY7zlLCCstgqMDLw_0B6Sbddgc75VYACSDh7ccM0syKpDeJEnG6HqXZcN9TSI8IZqIYOLaGS9Yd8RKN3asFFeIdJoIJgqGseoQ27AtbPFj9HXfNLItuTS-PXkT_qXlqCA8BuLPDWgjsza1Hlrh0k1uSWAjOBZFOv9twFVYSfhNj5-3SfTRKCqxupngOdhxq2pHWwsvHXkB_QJCEreUirHAoRr1Afp3qjhtE3K"/>
+</div>
+<div class="px-2 pb-2">
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Scandi</p>
+<h4 class="text-sm font-semibold text-on-surface line-clamp-1 mb-2">Chaise Minimaliste Oslo</h4>
+<div class="flex justify-between items-center">
+<span class="text-base font-bold text-on-surface">1 290 €</span>
+<span class="text-[10px] font-medium text-outline">SKU: CH-024</span>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group bg-surface-container-lowest p-3 rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-all border-2 border-dashed border-surface-container-high flex flex-col items-center justify-center text-outline cursor-pointer hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-4xl mb-2">add_box</span>
+<span class="text-sm font-bold">Ajouter un produit</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating Action Feedback (Mockup) -->
+<div class="fixed bottom-8 right-8 flex flex-col items-end gap-3 z-50">
+<div class="glass-panel text-on-surface px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/20">
+<div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+<p class="text-sm font-medium">Modifications enregistrées automatiquement</p>
+<span class="material-symbols-outlined text-outline text-sm cursor-pointer">close</span>
+</div>
+</div>
+</body></html>

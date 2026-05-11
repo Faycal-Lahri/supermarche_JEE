@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e8e8ea",
+                        "tertiary": "#006a26",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#f9f9fb",
+                        "on-tertiary-fixed": "#002107",
+                        "surface-container-low": "#f3f3f5",
+                        "tertiary-fixed-dim": "#53e16f",
+                        "on-secondary-container": "#626267",
+                        "primary-container": "#0071e3",
+                        "background": "#f9f9fb",
+                        "primary-fixed": "#d7e2ff",
+                        "on-background": "#1a1c1d",
+                        "primary-fixed-dim": "#abc7ff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#00531c",
+                        "surface-dim": "#d9dadc",
+                        "on-primary-container": "#fcfbff",
+                        "primary": "#0059b5",
+                        "surface-tint": "#005cbb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f3132",
+                        "on-primary-fixed-variant": "#00458f",
+                        "on-secondary-fixed": "#1a1b1f",
+                        "on-surface-variant": "#414753",
+                        "secondary": "#5e5e63",
+                        "on-primary-fixed": "#001b3f",
+                        "secondary-fixed": "#e3e2e7",
+                        "inverse-primary": "#abc7ff",
+                        "inverse-on-surface": "#f0f0f2",
+                        "surface-container": "#eeeef0",
+                        "surface-container-highest": "#e2e2e4",
+                        "on-surface": "#1a1c1d",
+                        "on-secondary-fixed-variant": "#46464b",
+                        "tertiary-container": "#008633",
+                        "on-tertiary-container": "#f1ffec",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c1c6d6",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f9f9fb",
+                        "outline": "#717785",
+                        "surface-variant": "#e2e2e4",
+                        "secondary-fixed-dim": "#c7c6cb",
+                        "secondary-container": "#e0dfe4",
+                        "tertiary-fixed": "#72fe88"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; letter-spacing: -0.02em; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e2e4; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Navigation (JSON Reference: SideNavBar) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-zinc-50 dark:bg-zinc-950 flex flex-col py-8 px-4 gap-2 z-40">
+<div class="flex items-center gap-3 px-4 mb-8">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="shield_person">shield_person</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-zinc-900 dark:text-zinc-100 leading-tight">Super Admin</h1>
+<p class="text-[0.7rem] text-on-secondary-container uppercase tracking-widest font-bold">Invisible Authority</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 py-3 px-4 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Admins</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Supervision</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm rounded-full mx-2 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem] font-semibold">Data</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Configuration</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Logs</span>
+</a>
+</nav>
+</aside>
+<!-- Top Navigation (JSON Reference: TopNavBar) -->
+<header class="fixed top-0 left-64 right-0 z-30 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl flex items-center justify-between px-10 h-16 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-6 w-1/2">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-secondary-container" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" placeholder="Rechercher partout..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+<span class="material-symbols-outlined text-zinc-500" data-icon="fiber_manual_record">fiber_manual_record</span>
+</button>
+<img alt="Super Admin Profile" class="w-8 h-8 rounded-full border border-zinc-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeiQidokKmt0stHNaJOnHbctlZX-q4lAZ3Pvgbe5_Kp_bebS4knUzjn3_WbnbH20ZYKTm-yLM2e67OcZj7U5rYVMF6a-3cCehpO_sbe8YKzD2U6au5k8tfUjYnTMrd-l1sbbV3Y8dUhxEIRIk2OtOMJwnzo9tMyakc5R9sCmEROrZbpCdJSo6_FBAquvIa36cnhnW5rmplQS9v5CsthWSR94rflL6gfqhI4QGgdWNsEXLyNMrhpRZ-Z_pRPGskwskyy8NSVWcY0Mw9"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pl-64 pt-16 min-h-screen bg-surface">
+<div class="p-10 max-w-[1400px] mx-auto">
+<!-- Page Header & Tabs -->
+<header class="mb-10">
+<h2 class="text-[1.75rem] font-bold text-on-surface mb-6 font-headline tracking-tighter">Explorateur de Données</h2>
+<div class="flex items-center justify-between border-b-[0.5px] border-outline-variant/20">
+<div class="flex gap-8">
+<button class="pb-4 text-sm font-semibold text-primary border-b-2 border-primary transition-all">Produits</button>
+<button class="pb-4 text-sm font-medium text-on-secondary-container hover:text-on-surface transition-all">Commandes</button>
+<button class="pb-4 text-sm font-medium text-on-secondary-container hover:text-on-surface transition-all">Clients</button>
+<button class="pb-4 text-sm font-medium text-on-secondary-container hover:text-on-surface transition-all">Admins</button>
+<button class="pb-4 text-sm font-medium text-on-secondary-container hover:text-on-surface transition-all">Stock</button>
+</div>
+<div class="flex gap-3 pb-4">
+<button class="flex items-center gap-2 px-4 py-1.5 bg-surface-container-low rounded-full text-xs font-semibold text-on-surface hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                            Filtres
+                        </button>
+<button class="flex items-center gap-2 px-4 py-1.5 bg-primary text-white rounded-full text-xs font-semibold hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                            Nouveau Produit
+                        </button>
+</div>
+</div>
+</header>
+<!-- Filters Bar -->
+<div class="flex flex-wrap gap-4 mb-8">
+<div class="group relative">
+<button class="flex items-center gap-4 px-5 py-2.5 bg-surface-container-lowest rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.04)] text-sm font-medium text-on-surface group-hover:bg-zinc-50 transition-all">
+                        Catégorie <span class="material-symbols-outlined text-xs" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+<div class="group relative">
+<button class="flex items-center gap-4 px-5 py-2.5 bg-surface-container-lowest rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.04)] text-sm font-medium text-on-surface group-hover:bg-zinc-50 transition-all">
+                        Prix <span class="material-symbols-outlined text-xs" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+<div class="group relative">
+<button class="flex items-center gap-4 px-5 py-2.5 bg-surface-container-lowest rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.04)] text-sm font-medium text-on-surface group-hover:bg-zinc-50 transition-all">
+                        Stock <span class="material-symbols-outlined text-xs" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+<div class="group relative">
+<button class="flex items-center gap-4 px-5 py-2.5 bg-surface-container-lowest rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.04)] text-sm font-medium text-on-surface group-hover:bg-zinc-50 transition-all">
+                        Date <span class="material-symbols-outlined text-xs" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Products Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Product Card 1 -->
+<div class="group bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all cursor-pointer border border-transparent hover:border-primary/10">
+<div class="relative mb-6 aspect-square rounded-2xl overflow-hidden bg-zinc-100">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="professional product photography of a sleek minimalist wristwatch on a neutral stone background with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpN2ztk2T5f1gzrazfAaXQ7vEHaZc323T5I7nRtbtlx-_bmxuZAVFHyUU9Osr14ZIIKiGpxsrE3MRcuDytLQQnXHjxaKyr9yJjyDiKEB-4hQvYiqpsxf2SQA7xjSFsjKLpw_jGgLHZ1jZsc-A7gpSDSXbZmSAh9OW_bwOW1gLhQWpG8xKO_ZVDDlT9m2FXZFnW1R9DQb6VEC43TsYTpOxXJ4gDjLlVYJ2qh8v1V6eiO217ijpArQ2qTL7rHko_I_P-D36ZwVkIx-Co"/>
+<div class="absolute top-4 right-4 w-3 h-3 rounded-full bg-tertiary shadow-[0_0_8px_rgba(52,199,89,0.4)]"></div>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-on-secondary-container uppercase tracking-widest">Électronique</p>
+<h3 class="text-base font-bold text-on-surface tracking-tight">Montre Horizon v2</h3>
+<div class="flex justify-between items-end pt-4">
+<span class="text-lg font-black tabular-nums">299,00 €</span>
+<span class="text-xs font-medium text-on-secondary-container">12 en stock</span>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all cursor-pointer border border-transparent hover:border-primary/10">
+<div class="relative mb-6 aspect-square rounded-2xl overflow-hidden bg-zinc-100">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="high-quality studio shot of premium noise-cancelling headphones on a clean white surface with soft dramatic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjWQZpcOzH7iwLNpt2N0sqkAvuv4fapmCkgvsB0Dmk9BbhwFBPvWpxlXMtHE6LQ_L1dGRHCHDLHv_obT10D-bQ_Tz3vlJ6fLFCTpEGJ74TayU3_AYFf14bxJT1OhsPhXnviiIQ37K65EGZarJGh8Bfo25OQxoifcDSAwnmZi2EMdw61_cs-n6pFr_8JXJobPVDGzxYLkL0hj8Nvvpmsv8LZKF8UaJWIBlB_Iw7zN-_vZNY9jQ02a3MVzjZXSVxPGz3_AQI5GzuOzxZ"/>
+<div class="absolute top-4 right-4 w-3 h-3 rounded-full bg-tertiary shadow-[0_0_8px_rgba(52,199,89,0.4)]"></div>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-on-secondary-container uppercase tracking-widest">Audio</p>
+<h3 class="text-base font-bold text-on-surface tracking-tight">Casque Studio Pro</h3>
+<div class="flex justify-between items-end pt-4">
+<span class="text-lg font-black tabular-nums">450,00 €</span>
+<span class="text-xs font-medium text-on-secondary-container">8 en stock</span>
+</div>
+</div>
+</div>
+<!-- Product Card 3 (Low Stock) -->
+<div class="group bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all cursor-pointer border border-transparent hover:border-primary/10">
+<div class="relative mb-6 aspect-square rounded-2xl overflow-hidden bg-zinc-100">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="vintage style instant camera in pastel blue color set against a warm sunlit background with soft organic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-3PisaAiQgcRLPYNTPr-0KTa3mbi2K_OnW8Ys7_st-Tvz_TBo8FilKouR1gauD6m-bU0V2KKexZtM-UHaKWxLcL_NnVft7AhrAgWsfM7-9P-lC7bcBmfxxWfwgNpVtQ4U5JUw5avprbnr0kEqdumnLQqUTvtIPP2RdkWkXZTstRwVk36mlnjCS-FHGrTOnNkLua1Rq_5RyEpcY_LxOYmG7KFdvp3lblcwQk9IkXqqfu_L8vw8hauZO5QBR2cNCfvY1RS2S952UF2r"/>
+<div class="absolute top-4 right-4 w-3 h-3 rounded-full bg-warning shadow-[0_0_8px_rgba(255,149,0,0.4)]"></div>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-on-secondary-container uppercase tracking-widest">Photo</p>
+<h3 class="text-base font-bold text-on-surface tracking-tight">Camera Instax Retro</h3>
+<div class="flex justify-between items-end pt-4">
+<span class="text-lg font-black tabular-nums">89,90 €</span>
+<span class="text-xs font-medium text-on-secondary-container">2 en stock</span>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group bg-surface-container-lowest p-6 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all cursor-pointer border border-transparent hover:border-primary/10">
+<div class="relative mb-6 aspect-square rounded-2xl overflow-hidden bg-zinc-100">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="vibrant red athletic running shoes suspended in mid-air against a clean grey background with bright studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfchyJyxRP5cNlnVlofrPUGwmv7wX7dDxnCpNcwhiJGZAx7sbTAhIgnyFbt3IRRqxb2dXsipZymtQdu9oB0xd4rVdd9TAiFoQfjrSX7HJoDuKfx96Aw_YFxD1Dy0WlEwxNHorR6nzl2Gd6W3wqXLk41gbtmNImHv1j9F8nS7_WZF1ZJDBpABCnHHnDzjT1t_PdUgmYsZNCQ0QjmLj7QcfSYh3OlnISmwk_5XcH3QRtN0Y7-dyNO60flOrnL3bkgidbtgN34i2k9_v7"/>
+<div class="absolute top-4 right-4 w-3 h-3 rounded-full bg-tertiary shadow-[0_0_8px_rgba(52,199,89,0.4)]"></div>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-on-secondary-container uppercase tracking-widest">Sport</p>
+<h3 class="text-base font-bold text-on-surface tracking-tight">Running Air Max</h3>
+<div class="flex justify-between items-end pt-4">
+<span class="text-lg font-black tabular-nums">159,00 €</span>
+<span class="text-xs font-medium text-on-secondary-container">42 en stock</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Detail Panel (Slide-over) -->
+<div class="fixed inset-y-0 right-0 w-[480px] bg-white shadow-[-10px_0_40px_rgba(0,0,0,0.1)] z-50 transform translate-x-0 flex flex-col">
+<div class="p-8 border-b-[0.5px] border-outline-variant/20 flex items-center justify-between">
+<h3 class="text-xl font-bold font-headline">Détails du Produit</h3>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<div class="p-8 space-y-8">
+<!-- Overview Section -->
+<div class="flex gap-6">
+<div class="w-32 h-32 rounded-2xl overflow-hidden bg-zinc-100 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="close up of product watch details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ68b66XIbMkhvlDBo97H47aYz8lFyGFNE7HUyKl9tf8BHkfvnbptGL-zYBypN6ANWjwbskaMVMeH1z1OmnPzs1YE86VSpR1mD_7iwTBWOwyp3ryv5YJMYycy2iEdhjTvCSlzIT1XYSXWAoAzw1fOfNRGo6G0unPP6MmU2SFqKyOx0CSoMmkpp_PFElOWLfmBNq6pgGRODyzxSmZDXddbguzzqVv1UlC1LxLvzdILUnQ1jz3rkxeGzjME5FLr490A8WVtiSwq9aWLM"/>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-1 bg-tertiary/10 text-tertiary text-[0.65rem] font-bold rounded uppercase tracking-wider">Actif</span>
+<span class="text-[0.65rem] text-on-secondary-container font-medium">SKU: HZ-2024-V2</span>
+</div>
+<h4 class="text-2xl font-black mb-1">Montre Horizon v2</h4>
+<p class="text-sm text-on-secondary-container">Dernière mise à jour : Il y a 2 heures par Admin Sarah</p>
+</div>
+</div>
+<!-- Main Fields -->
+<div class="grid grid-cols-2 gap-y-6 gap-x-12">
+<div>
+<label class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-widest block mb-1">Prix de vente</label>
+<p class="text-lg font-black tabular-nums">299,00 €</p>
+</div>
+<div>
+<label class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-widest block mb-1">Prix d'achat</label>
+<p class="text-lg font-bold tabular-nums text-on-secondary-container">145,00 €</p>
+</div>
+<div>
+<label class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-widest block mb-1">Stock Actuel</label>
+<div class="flex items-center gap-2">
+<span class="text-lg font-black tabular-nums">12</span>
+<span class="text-xs text-tertiary font-bold">+4 en transit</span>
+</div>
+</div>
+<div>
+<label class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-widest block mb-1">Catégorie</label>
+<p class="text-base font-semibold">Horlogerie Électronique</p>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="p-6 bg-surface-container-low rounded-2xl space-y-4">
+<h5 class="text-sm font-bold">Actions de Supervision</h5>
+<div class="grid grid-cols-1 gap-2">
+<button class="w-full flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium hover:shadow-sm transition-all group">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="shopping_cart">shopping_cart</span>
+                                Voir les commandes de ce produit
+                            </span>
+<span class="material-symbols-outlined text-xs text-zinc-300 group-hover:text-primary transition-all" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium hover:shadow-sm transition-all group">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="analytics">analytics</span>
+                                Statistiques de vente détaillées
+                            </span>
+<span class="material-symbols-outlined text-xs text-zinc-300 group-hover:text-primary transition-all" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+<!-- History Log -->
+<div class="space-y-4">
+<h5 class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-widest">Historique d'Édition</h5>
+<div class="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/30">
+<div class="relative">
+<div class="absolute -left-[27px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-white"></div>
+<p class="text-xs font-bold">Prix modifié de 279€ à 299€</p>
+<p class="text-[0.65rem] text-on-secondary-container">Hier, 14:20 • Sarah M.</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1.5 w-2.5 h-2.5 rounded-full bg-zinc-300 ring-4 ring-white"></div>
+<p class="text-xs font-bold">Stock réapprovisionné (+10)</p>
+<p class="text-[0.65rem] text-on-secondary-container">12 Oct, 09:45 • Système Auto</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1.5 w-2.5 h-2.5 rounded-full bg-zinc-300 ring-4 ring-white"></div>
+<p class="text-xs font-bold">Fiche produit créée</p>
+<p class="text-[0.65rem] text-on-secondary-container">05 Oct, 11:00 • Jean D.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-8 border-t-[0.5px] border-outline-variant/20 flex gap-4 bg-zinc-50/50">
+<button class="flex-1 py-3 px-6 bg-primary text-white rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">Modifier la Fiche</button>
+<button class="w-12 h-12 flex items-center justify-center bg-white border border-outline-variant/30 rounded-full hover:bg-error/5 group transition-all">
+<span class="material-symbols-outlined text-on-secondary-container group-hover:text-error" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Bottom Actions Bar (JSON Reference: BottomNavBar) -->
+<nav class="fixed bottom-8 left-1/2 -translate-x-1/2 rounded-full px-6 py-3 w-max bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl flex items-center gap-4 z-50 border-[0.5px] border-zinc-200/20 shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="bolt">bolt</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Quick Actions</span>
+</button>
+<button class="flex items-center gap-2 bg-blue-600 text-white rounded-full px-5 py-2.5 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="ios_share">ios_share</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Export</span>
+</button>
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="warning">warning</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">System Alert</span>
+</button>
+</nav>
+</body></html>

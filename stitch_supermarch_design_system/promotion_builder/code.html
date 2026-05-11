@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#6a3b00",
+                    "surface-tint": "#005cbb",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#0059b5",
+                    "surface-container-low": "#f3f3f5",
+                    "on-primary-container": "#fcfbff",
+                    "primary-fixed-dim": "#abc7ff",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#e0dfe4",
+                    "on-primary-fixed-variant": "#00458f",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-secondary-fixed-variant": "#46464b",
+                    "on-surface-variant": "#414753",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#1a1b1f",
+                    "background": "#f9f9fb",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#c7c6cb",
+                    "inverse-surface": "#2f3132",
+                    "tertiary-fixed": "#ffdcbf",
+                    "on-secondary-container": "#626267",
+                    "on-background": "#1a1c1d",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface-bright": "#f9f9fb",
+                    "surface-container": "#eeeef0",
+                    "secondary-fixed": "#e3e2e7",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e8e8ea",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#abc7ff",
+                    "tertiary-container": "#ab6200",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb874",
+                    "surface": "#f9f9fb",
+                    "tertiary": "#884d00",
+                    "surface-dim": "#d9dadc",
+                    "on-tertiary-container": "#fffaf9",
+                    "primary-container": "#0071e3",
+                    "outline": "#717785",
+                    "on-primary-fixed": "#001b3f",
+                    "primary-fixed": "#d7e2ff",
+                    "surface-variant": "#e2e2e4",
+                    "outline-variant": "#c1c6d6",
+                    "on-surface": "#1a1c1d",
+                    "secondary": "#5e5e63"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.25rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); }
+        .ambient-shadow { shadow-[0_10px_40px_rgba(0,0,0,0.04)]; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] z-50 bg-slate-50 dark:bg-slate-950 flex flex-col p-6 space-y-2 font-['Inter'] font-medium antialiased">
+<div class="mb-10 px-2">
+<h1 class="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">Curator</h1>
+<p class="text-xs font-bold uppercase tracking-widest text-outline mt-1">Inventory Suite</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Catalogue</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">category</span>
+<span>Catégories</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Clients</span>
+</a>
+<!-- Active State: Promotions -->
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-xl shadow-sm transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sell</span>
+<span class="font-semibold">Promotions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span>Stock</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 px-4 py-2">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">JD</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white leading-none">Jean Dupont</p>
+<p class="text-[10px] text-slate-500 mt-1">Admin Principal</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.04)] flex justify-between items-center px-8 py-4 font-['Inter'] text-sm tracking-tight">
+<div class="flex items-center bg-slate-50 dark:bg-slate-950 px-4 py-2 rounded-full w-96 transition-all focus-within:ring-2 focus-within:ring-primary/20">
+<span class="material-symbols-outlined text-slate-400 mr-2">search</span>
+<input class="bg-transparent border-none outline-none text-sm w-full focus:ring-0" placeholder="Rechercher une offre, un code..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<span class="font-semibold text-slate-900 dark:text-white">FR</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[280px] pt-24 p-8 min-h-screen">
+<!-- Header Section -->
+<div class="mb-10 flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-black tracking-tighter text-on-surface mb-2">Centre de Promotion</h2>
+<p class="text-secondary text-sm">Gérez et analysez vos campagnes marketing avec une précision éditoriale.</p>
+</div>
+<button class="bg-primary text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-lg">add</span>
+                Nouvelle Campagne
+            </button>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Promo Builder -->
+<div class="col-span-12 lg:col-span-7 space-y-8">
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_10px_40px_rgba(0,0,0,0.04)]">
+<h3 class="text-xs font-bold uppercase tracking-widest text-outline mb-6">Configuration de l'offre</h3>
+<div class="space-y-6">
+<!-- Promo Type Selection -->
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center justify-center p-6 border-2 border-primary bg-primary/5 rounded-xl text-primary transition-all">
+<span class="material-symbols-outlined text-3xl mb-2">percent</span>
+<span class="text-sm font-semibold">Pourcentage</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 border border-surface-container-high rounded-xl text-secondary hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-3xl mb-2">payments</span>
+<span class="text-sm font-semibold">Montant Fixe</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 border border-surface-container-high rounded-xl text-secondary hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-3xl mb-2">local_shipping</span>
+<span class="text-sm font-semibold">Livraison Offerte</span>
+</button>
+</div>
+<!-- Details Row -->
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider ml-1">Valeur de la réduction</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 font-semibold focus:ring-2 focus:ring-primary/20" type="text" value="25"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-outline">%</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider ml-1">Code Promo (Optionnel)</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 font-semibold focus:ring-2 focus:ring-primary/20" placeholder="SUMMER25" type="text"/>
+</div>
+</div>
+<!-- Product Multi-select -->
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider ml-1">Produits Éligibles</label>
+<div class="bg-surface-container-low rounded-xl p-2">
+<div class="flex flex-wrap gap-2 mb-2 p-2">
+<span class="bg-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 shadow-sm">
+                                        Vase Archi-Soft <span class="material-symbols-outlined text-sm cursor-pointer">close</span>
+</span>
+<span class="bg-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 shadow-sm">
+                                        Lampe Néon Minimal <span class="material-symbols-outlined text-sm cursor-pointer">close</span>
+</span>
+</div>
+<div class="flex items-center px-4 py-2 border-t border-surface-container-high">
+<span class="material-symbols-outlined text-outline text-lg mr-2">search</span>
+<input class="bg-transparent border-none outline-none text-sm w-full focus:ring-0" placeholder="Rechercher d'autres produits..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Calendar Validity -->
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider ml-1">Période de Validité</label>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center bg-surface-container-low px-4 py-3 rounded-xl">
+<span class="material-symbols-outlined text-outline mr-3">calendar_today</span>
+<span class="text-sm font-medium">12 Juin 2024</span>
+</div>
+<div class="flex items-center bg-surface-container-low px-4 py-3 rounded-xl">
+<span class="material-symbols-outlined text-outline mr-3">event_repeat</span>
+<span class="text-sm font-medium">30 Sept. 2024</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Performance Analytics Bento -->
+<section class="grid grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_10px_40px_rgba(0,0,0,0.04)] col-span-2 md:col-span-1">
+<h3 class="text-[11px] font-bold uppercase tracking-wider text-outline mb-4">Ventes Promo vs Normal</h3>
+<div class="flex items-end gap-2 h-32 mb-4">
+<div class="w-full bg-surface-container-low rounded-t-lg h-[40%] relative group">
+<div class="absolute inset-0 bg-secondary/20 rounded-t-lg"></div>
+</div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[85%] relative group">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-[70%] rounded-t-lg"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg h-[30%] relative group"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[95%] relative group">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-[85%] rounded-t-lg"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg h-[45%] relative group"></div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold text-on-surface">Offre Active</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="text-[10px] font-bold text-outline">Normal</span>
+</div>
+</div>
+</div>
+<div class="bg-primary text-white rounded-xl p-8 shadow-[0_10px_40px_rgba(0,89,181,0.15)] col-span-2 md:col-span-1 flex flex-col justify-between">
+<h3 class="text-[11px] font-bold uppercase tracking-wider opacity-70 mb-4">Taux de Conversion</h3>
+<div>
+<span class="text-4xl font-black">12.4%</span>
+<div class="flex items-center mt-2 gap-1 text-primary-fixed-dim">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-xs font-semibold">+3.2% vs mois dernier</span>
+</div>
+</div>
+<div class="mt-6 h-1 w-full bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-white w-3/4"></div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Visual Preview -->
+<div class="col-span-12 lg:col-span-5 space-y-8">
+<div class="sticky top-24">
+<section class="bg-surface-container-low rounded-xl p-8 border-2 border-dashed border-outline-variant">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xs font-bold uppercase tracking-widest text-outline">Aperçu en direct</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-white rounded-lg text-[10px] font-bold shadow-sm">MOBILE</button>
+<button class="px-3 py-1 text-[10px] font-bold text-outline">DESKTOP</button>
+</div>
+</div>
+<!-- Product Card Preview -->
+<div class="bg-white rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.06)] max-w-[280px] mx-auto group">
+<div class="relative aspect-[4/5] overflow-hidden">
+<img alt="Minimalist ceramic vase" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Close-up of a sculptural beige ceramic vase on a clean white surface with soft morning light and long shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwyJI_Px_4uYniDHyWJXR3kEiFIxp_zX3irvzCth3FKtr_etAzBB3ECcGlkWe77uHtJQ_pRHGX8EUdkWiAM5Z8M3p80NnDVfLgo72kJ50FkSZLOiXahuX6auadt6rOcwjUY3pnJg-2zDbD1c7kX5Mh8y2_BbDrYiH5f1uzTlb1FoVu5X6W_oFrLaR0dGrNPUE-NH_MM1yISAfyjgoadUUkUkhx_4jpoMDjuEPAfRUa5HTsrqBnNuMNLBSvfigyPztcMxZlQYgHbIOn"/>
+<!-- Dynamic Badge -->
+<div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-lg shadow-primary/30">
+                                    -25% OFF
+                                </div>
+<button class="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md p-2 rounded-full shadow-md">
+<span class="material-symbols-outlined text-on-surface">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h4 class="font-semibold text-on-surface mb-1">Vase Archi-Soft</h4>
+<div class="flex items-center gap-2">
+<span class="text-lg font-black text-on-surface">112,50 €</span>
+<span class="text-sm font-medium text-outline line-through">150,00 €</span>
+</div>
+</div>
+</div>
+<!-- Cart Summary Preview -->
+<div class="mt-10 bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-white">
+<h4 class="text-[10px] font-bold uppercase tracking-widest text-outline mb-4">Calcul du Panier</h4>
+<div class="space-y-3">
+<div class="flex justify-between text-sm font-medium text-secondary">
+<span>Sous-total</span>
+<span>245,00 €</span>
+</div>
+<div class="flex justify-between text-sm font-bold text-primary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">sell</span>
+                                        SUMMER25 (-25%)
+                                    </span>
+<span>- 61,25 €</span>
+</div>
+<div class="pt-3 border-t border-surface-container-highest flex justify-between items-end">
+<span class="text-xs font-bold uppercase text-on-surface">Total</span>
+<span class="text-2xl font-black text-on-surface">183,75 €</span>
+</div>
+</div>
+</div>
+<p class="mt-8 text-center text-[11px] text-outline italic">
+                            "L'aperçu reflète l'application automatique des styles éditoriaux configurés dans votre thème."
+                        </p>
+</section>
+<!-- Quick Actions -->
+<div class="mt-8 flex gap-4">
+<button class="flex-1 py-4 rounded-xl border border-outline-variant font-bold text-sm hover:bg-surface-container-high transition-colors">
+                            Enregistrer en brouillon
+                        </button>
+<button class="flex-1 py-4 rounded-xl bg-on-surface text-white font-bold text-sm shadow-xl hover:opacity-90 transition-opacity">
+                            Publier l'offre
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

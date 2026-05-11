@@ -1,0 +1,9 @@
+target/
+.classpath
+.project
+.settings/
+*.class
+supermarche-frontend/node_modules/
+supermarche-frontend/dist/
+.env
+.DS_Store

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SuperMarché - Traitement des Commandes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f9f9fb",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#005cbb",
+                        "on-secondary-fixed": "#1a1b1f",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#00531c",
+                        "secondary-fixed-dim": "#c7c6cb",
+                        "secondary": "#5e5e63",
+                        "on-surface": "#1a1c1d",
+                        "tertiary-container": "#008633",
+                        "tertiary-fixed": "#72fe88",
+                        "on-secondary-container": "#626267",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#414753",
+                        "on-secondary-fixed-variant": "#46464b",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f3f5",
+                        "secondary-fixed": "#e3e2e7",
+                        "error": "#ba1a1a",
+                        "surface-container": "#eeeef0",
+                        "primary": "#0059b5",
+                        "on-primary-container": "#fcfbff",
+                        "surface-container-high": "#e8e8ea",
+                        "tertiary": "#006a26",
+                        "on-tertiary-fixed": "#002107",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f9f9fb",
+                        "tertiary-fixed-dim": "#53e16f",
+                        "on-primary-fixed-variant": "#00458f",
+                        "primary-fixed": "#d7e2ff",
+                        "outline": "#717785",
+                        "primary-fixed-dim": "#abc7ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#1a1c1d",
+                        "inverse-primary": "#abc7ff",
+                        "inverse-on-surface": "#f0f0f2",
+                        "surface": "#f9f9fb",
+                        "primary-container": "#0071e3",
+                        "on-primary-fixed": "#001b3f",
+                        "surface-variant": "#e2e2e4",
+                        "outline-variant": "#c1c6d6",
+                        "secondary-container": "#e0dfe4",
+                        "surface-dim": "#d9dadc",
+                        "inverse-surface": "#2f3132",
+                        "surface-container-highest": "#e2e2e4",
+                        "on-tertiary-container": "#f1ffec"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tnum { font-variant-numeric: tabular-nums; }
+        .glass-panel { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.8); }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-[#f3f3f5] dark:bg-slate-900 flex flex-col py-6 px-4 no-print">
+<div class="mb-10 px-2 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tight text-[#1A1C1D] dark:text-white">SuperMarché</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Admin Stock Control</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-medium text-sm">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-medium text-sm">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white dark:bg-slate-800 text-[#0059b5] dark:text-blue-400 border-l-4 border-[#0059b5] shadow-sm transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="font-medium text-sm">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-medium text-sm">Alerts</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-4">
+<img alt="Admin Avatar" class="w-8 h-8 rounded-full bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiSEdn87Zb1EQg27bBVZUnqtUkH3v57Cpvm6lYMCMDwWnfpozIhzMdYM1ytka9u9ax9xhM3rY1r7LjlsMScCfUv4kxa8cc3jkH806HzfjuFXcLRETfFepJuRf0hwGLL3TYQsr-DkcxuP9-22MNKLMv2w1JxhLNg7NCeqxgYVyr95nOL_TU8nxWdT1g6tD1unGBOtfpbpbt-rCuyWRCPS7bc7C6MhLAsrjQczomZoyjW3fOoxvsvTEOSnHf5CVjZqNnNTNy2gu4DuPD"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate">Jean Dupont</p>
+<p class="text-[10px] text-slate-500 uppercase">Superviseur</p>
+</div>
+</div>
+<button class="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:opacity-90 transition-opacity active:scale-95 duration-150">
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen no-print">
+<!-- Top Nav Bar -->
+<header class="fixed top-0 right-0 left-64 h-16 z-30 bg-white/80 backdrop-blur-xl flex justify-between items-center px-8 border-b border-transparent">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400" placeholder="Rechercher une commande, un client..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<span class="text-xs font-bold uppercase tracking-tight text-on-surface-variant">Admin Stock</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-surface-container transition-colors relative">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+</div>
+</header>
+<!-- Kanban Board Content -->
+<section class="pt-24 px-8 pb-12">
+<div class="flex items-end justify-between mb-8">
+<div>
+<h2 class="text-2xl font-bold tracking-tight text-on-surface">Traitement des Commandes</h2>
+<p class="text-sm text-slate-500 mt-1">Gérez le flux logistique en temps réel</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/30 text-sm font-semibold flex items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg">filter_list</span> Filtrer
+                    </button>
+<button class="px-4 py-2 rounded-xl bg-primary text-white text-sm font-semibold shadow-md hover:bg-primary-container transition-all">
+                        + Nouvelle commande
+                    </button>
+</div>
+</div>
+<!-- Kanban Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 h-[calc(100vh-220px)] overflow-hidden">
+<!-- Column: En attente -->
+<div class="flex flex-col gap-4 bg-surface-container-low rounded-2xl p-4 overflow-y-auto">
+<div class="flex items-center justify-between px-1 mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-extrabold uppercase tracking-widest text-slate-500">En attente</span>
+<span class="px-2 py-0.5 bg-white text-[10px] font-bold rounded-full shadow-sm tnum">3</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-lg">more_horiz</span>
+</div>
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-transparent hover:border-primary/20 cursor-pointer transition-all group active:scale-[0.98]">
+<div class="flex justify-between items-start mb-3">
+<span class="text-xs font-bold text-primary tnum tracking-tight">#CMD-8921</span>
+<span class="text-[10px] text-slate-400 font-medium tnum">Il y a 12m</span>
+</div>
+<h4 class="text-sm font-semibold text-on-surface mb-1">Marc Lefebvre</h4>
+<div class="flex items-center gap-2 text-[11px] text-slate-500 mb-4">
+<span class="material-symbols-outlined text-xs">inventory_2</span>
+<span>4 articles</span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span class="font-bold text-on-surface tnum">42,50 €</span>
+</div>
+<div class="flex -space-x-2">
+<img alt="product" class="w-6 h-6 rounded-full border-2 border-white bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQS-HaZqyIPoaRb2T0FyyB9l6O9CBevif-dJz2PYDuK1yw0jyj2U-vShiEtujy_4KsHKGUdCdAyzRbdw0TdQxNhmKtyY1oKF7QqLBwY-R-0Ttj7Tlp3u9DoeByUO6mFIw-2oFwcoHTmDN41yg9UQ6Ta-pK6RAL3Hvx1epM4jrklTqEiLlb5m_vHlsiesoQ7PkbSLBsK-MFKLIdYJW288H1WuybABO4aTrGl4kq-4dmzo_8gq2vpZXwF3ymTla_l2Bq2KpfpXETL3WW"/>
+<img alt="product" class="w-6 h-6 rounded-full border-2 border-white bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLlFGshM5mtAVgkX_KFgRxqQHS1ZghiyzmkxO8ie2ct45GqjpfmIIPMNW0rRwx8wpG35Oi1n7ouNrDJaeIOqAS45YHHsXsxHV35aCDXZDgYw2LotwPJmPlZnL9AQOeNKz_IbXW_KxTImGF-KdIiFhT3_Mh89dwm-Urhk-TMBZ_D_hflgb9fM9WFaglWAbEr_lmuEaebo08FWlC7Swm4J7ZtEJuWE4xxK2V484UXevTK4I633KQjBlIvR1bzx9Kkw21p4-exIopqiQb"/>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[8px] font-bold">+2</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-transparent hover:border-primary/20 cursor-pointer transition-all group active:scale-[0.98]">
+<div class="flex justify-between items-start mb-3">
+<span class="text-xs font-bold text-primary tnum tracking-tight">#CMD-8922</span>
+<span class="text-[10px] text-slate-400 font-medium tnum">Il y a 24m</span>
+</div>
+<h4 class="text-sm font-semibold text-on-surface mb-1">Sophie Martin</h4>
+<div class="flex items-center gap-2 text-[11px] text-slate-500 mb-4">
+<span class="material-symbols-outlined text-xs">inventory_2</span>
+<span>12 articles</span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span class="font-bold text-on-surface tnum">118,20 €</span>
+</div>
+<div class="flex -space-x-2">
+<img alt="product" class="w-6 h-6 rounded-full border-2 border-white bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBun2X3nJol6w7p4YHDFL6T_YhunYFV-08Fe3Er1mH85nGpHk2pYngBwh2-gk7zcT8ef2LBfePxa-SaPiJauECvt7kQxDGqlGcbL8rtUIQ7nS0T78Ow9NHmW4yDtloFzwirtWIv5iEzRddOQTXkom-p4hxU8ZrnFbWIOue2ph7xn361yEAuP5PrFfVMUIAMEgaatFc4OdGVywIhgHr63ia5cUm83EeLrPRPZdK3rFgkUb6R7vU5_isNJN_mmDuZdxGYOU3EcBw3Pypk"/>
+<img alt="product" class="w-6 h-6 rounded-full border-2 border-white bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDlDDqL1AB7BLqZgfN-CKxxz80mJxwomihYvDNiU4DoyhCHv0CPIFsrRPcOyBYbF_D2Vr3GA4R-8C0c95WgdyhVjq_zhC_JjvYlk9Q2Qf-DV98wxjQBMrh05p6SvjlYvvIZr8Iv0vJSfDVEya4sQh3h4ITyYhZsw9A7tsZYF82MQvVVIzYqInxmam9EK46hIZDl09yflhjNxjcJ5E9vfWz9UrJEFJxJXpLWVmin7Jp8eAPYR6Y9AhTZ2OnzAkv7LhiPbc0AnI60Gim"/>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[8px] font-bold">+10</div>
+</div>
+</div>
+</div>
+<!-- Column: Confirmée -->
+<div class="flex flex-col gap-4 bg-surface-container-low rounded-2xl p-4 overflow-y-auto">
+<div class="flex items-center justify-between px-1 mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-extrabold uppercase tracking-widest text-slate-500">Confirmée</span>
+<span class="px-2 py-0.5 bg-white text-[10px] font-bold rounded-full shadow-sm tnum">5</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-lg">more_horiz</span>
+</div>
+<!-- Selected Card Example -->
+<div class="bg-white p-4 rounded-xl shadow-[0_4px_12px_rgba(0,89,181,0.08)] border-2 border-primary/40 cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 w-12 h-12 bg-primary/5 rounded-bl-3xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex justify-between items-start mb-3">
+<span class="text-xs font-bold text-primary tnum tracking-tight">#CMD-8895</span>
+<span class="text-[10px] text-slate-400 font-medium tnum">45m</span>
+</div>
+<h4 class="text-sm font-semibold text-on-surface mb-1">Arthur Rimbaud</h4>
+<div class="flex items-center gap-2 text-[11px] text-slate-500 mb-4">
+<span class="material-symbols-outlined text-xs">inventory_2</span>
+<span>3 articles</span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span class="font-bold text-on-surface tnum">28,90 €</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex -space-x-2">
+<img alt="product" class="w-6 h-6 rounded-full border-2 border-white bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLU0psMRgreEzFt9c1zGka9hHSADJdlAcylBqe69Loc-3ejhemse_HcDP3CRKHwgfUkkwc6ptZWsbhL-8JejBNZ7t60YZTfTBwzRQP-Wjxb2YMwASYZgv7OZJfTzpeYrv0_JjZvdNOFPJwhzgQVtTr6yqh0h21t9-2Qjz6pZiAiUo93s2OGPjh39e70xHU-reKrvLq9iXLqq2MSUm7qRncePqkoNLuliu2PqLskPvBnaUnoQ92LGz0WonrYpUisN2GkVYdcsFojgBn"/>
+<img alt="product" class="w-6 h-6 rounded-full border-2 border-white bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfYE2T5rzOf0sACjxsAJQ00XYmQBXgWNxSq5_WeMrncVPTf2I97crWrLBxDvDtc8o1gXk0zmADO7p8_4Is5ocE8ddP7lNuNWFGNUqnql_bBAF5QSyIZOhJWNoreOqACJsW_HJ5LaA0S7kstKONAolfkEpWf_njve1hrrKkMo06J35eBJr_naw7wRDGoXMXjId9SwLV_EcPOPC_M6LfE7nN-G7zAnz17CItObNn3NyUsrLOm9JEY8_1qsqOLLQXiWfgMD-3eoqRr4CW"/>
+<img alt="product" class="w-6 h-6 rounded-full border-2 border-white bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIgmB9OZUtXUecL5_hJzfNr04Xy9Wl42eTagXCfni95BpQhVgEMmvxgEcZGPNUxuV3ZtByZw0Cqym8M2FdsJflBv-nycgKTB_HLuTHlYYZ_zYCAC9PTNqraGZtRT8kgJr2Ut26ka75V9BmyF4wdK_dJWqYtyg-hjUqs2KbmpyjJqJwdWrqiGgoASq7dkYs0_8UgaWPtwg9YZxTe8EjtAWhIEh_N1N0f2YkKgzszLz-Lb-PjqzoZBa1QBUgOgy1AFw1oL11IKsxi8IA"/>
+</div>
+<span class="text-[10px] bg-tertiary/10 text-tertiary font-bold px-2 py-0.5 rounded-full">Prêt</span>
+</div>
+</div>
+</div>
+<!-- Column: En préparation -->
+<div class="flex flex-col gap-4 bg-surface-container-low rounded-2xl p-4 overflow-y-auto">
+<div class="flex items-center justify-between px-1 mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-extrabold uppercase tracking-widest text-slate-500">En préparation</span>
+<span class="px-2 py-0.5 bg-white text-[10px] font-bold rounded-full shadow-sm tnum">8</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-lg">more_horiz</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] opacity-70">
+<div class="h-24 flex items-center justify-center border-2 border-dashed border-outline-variant/30 rounded-lg">
+<span class="text-xs text-slate-400">Zone de préparation active</span>
+</div>
+</div>
+</div>
+<!-- Column: Livrée -->
+<div class="flex flex-col gap-4 bg-surface-container-low rounded-2xl p-4 overflow-y-auto">
+<div class="flex items-center justify-between px-1 mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-extrabold uppercase tracking-widest text-slate-500">Livrée</span>
+<span class="px-2 py-0.5 bg-white text-[10px] font-bold rounded-full shadow-sm tnum">12</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-lg">more_horiz</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-transparent">
+<div class="flex justify-between items-start mb-3">
+<span class="text-xs font-bold text-slate-400 tnum tracking-tight">#CMD-8850</span>
+<span class="text-[10px] text-tertiary font-bold tnum">Terminé</span>
+</div>
+<h4 class="text-sm font-semibold text-slate-500 mb-1">Clara Luciani</h4>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Side Panel: Detail Commande (Slide-over) -->
+<div class="fixed inset-0 z-50 pointer-events-none no-print">
+<div class="absolute inset-0 bg-on-surface/20 backdrop-blur-sm pointer-events-auto"></div>
+<aside class="absolute top-0 right-0 h-full w-[480px] bg-white shadow-2xl pointer-events-auto flex flex-col">
+<div class="p-6 border-b border-surface-container flex items-center justify-between">
+<div class="flex items-center gap-4">
+<button class="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-slate-600">close</span>
+</button>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Détail Commande #CMD-8895</h3>
+<p class="text-xs text-slate-500">Reçue le 24 Octobre à 14:32</p>
+</div>
+</div>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase tracking-wider">Confirmée</span>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Client Info -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h4 class="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">Informations Client</h4>
+<button class="text-primary text-[11px] font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-xs">edit</span> Modifier
+                        </button>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-xl">👤</div>
+<div>
+<p class="font-bold text-on-surface">Arthur Rimbaud</p>
+<p class="text-xs text-slate-500">arthur.r@poesie.fr • 06 12 34 56 78</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-white rounded-lg border border-outline-variant/20 group relative">
+<span class="material-symbols-outlined text-slate-400 text-sm mt-0.5">location_on</span>
+<div class="flex-1">
+<p class="text-xs font-semibold">Adresse de livraison</p>
+<p class="text-xs text-slate-600 leading-relaxed">24 Rue du Bateau Ivre, 08000 Charleville-Mézières</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 absolute right-3 top-3 p-1.5 bg-surface-container rounded-md transition-opacity">
+<span class="material-symbols-outlined text-xs text-slate-600">content_copy</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Product List with Stock Check -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h4 class="text-[11px] font-extrabold uppercase tracking-widest text-slate-400">Articles (3)</h4>
+<span class="text-[11px] font-medium text-slate-500 italic">Inventaire à jour : 15:45</span>
+</div>
+<div class="space-y-3">
+<!-- Product 1: Stock OK -->
+<div class="flex items-center gap-4 p-3 hover:bg-surface-container-low rounded-xl transition-colors group">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-2xl">🧀</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Comté AOP 18 mois (250g)</p>
+<p class="text-[10px] text-slate-400 font-medium tnum">SKU: FRA-COM-18</p>
+</div>
+<div class="text-right flex flex-col items-end gap-1">
+<span class="text-sm font-bold tnum">x1</span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 bg-tertiary-container/10 rounded-full">
+<span class="material-symbols-outlined text-[12px] text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[9px] font-bold text-tertiary uppercase">En stock</span>
+</div>
+</div>
+</div>
+<!-- Product 2: Stock Warning -->
+<div class="flex items-center gap-4 p-3 hover:bg-surface-container-low rounded-xl transition-colors group">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-2xl">🍷</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Château Neuf du Pape 2019</p>
+<p class="text-[10px] text-slate-400 font-medium tnum">SKU: VIN-CNDP-19</p>
+</div>
+<div class="text-right flex flex-col items-end gap-1">
+<span class="text-sm font-bold tnum">x1</span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 bg-error-container text-on-error-container rounded-full">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="text-[9px] font-bold uppercase">Stock Bas (2)</span>
+</div>
+</div>
+</div>
+<!-- Product 3: Stock OK -->
+<div class="flex items-center gap-4 p-3 hover:bg-surface-container-low rounded-xl transition-colors group">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-2xl">🥖</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Baguette Tradition (x1)</p>
+<p class="text-[10px] text-slate-400 font-medium tnum">SKU: BAK-TRA-01</p>
+</div>
+<div class="text-right flex flex-col items-end gap-1">
+<span class="text-sm font-bold tnum">x1</span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 bg-tertiary-container/10 rounded-full">
+<span class="material-symbols-outlined text-[12px] text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[9px] font-bold text-tertiary uppercase">En stock</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Order Summary -->
+<section class="border-t border-surface-container pt-6">
+<div class="space-y-2">
+<div class="flex justify-between text-xs text-slate-500">
+<span>Sous-total</span>
+<span class="tnum">25,40 €</span>
+</div>
+<div class="flex justify-between text-xs text-slate-500">
+<span>Livraison</span>
+<span class="tnum">3,50 €</span>
+</div>
+<div class="flex justify-between text-base font-bold text-on-surface pt-2">
+<span>Total TTC</span>
+<span class="tnum text-primary">28,90 €</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Actions -->
+<div class="p-6 bg-surface-container-low grid grid-cols-2 gap-3 border-t border-surface-container">
+<button class="col-span-2 py-3 bg-white border border-outline-variant/30 rounded-xl text-sm font-bold text-on-surface flex items-center justify-center gap-2 hover:bg-surface-container-high transition-colors" onclick="window.print()">
+<span class="material-symbols-outlined text-lg">print</span> Imprimer Bon de Préparation
+                </button>
+<button class="py-3 bg-error/10 text-error rounded-xl text-sm font-bold hover:bg-error/20 transition-colors">
+                    Annuler
+                </button>
+<button class="py-3 bg-primary text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-container transition-all">
+                    Confirmer la sortie
+                </button>
+</div>
+</aside>
+</div>
+<!-- PRINT VIEW (Bon de Préparation) -->
+<div class="print-only p-12 bg-white text-black min-h-screen">
+<div class="flex justify-between items-start border-b-2 border-black pb-8 mb-8">
+<div>
+<h1 class="text-3xl font-black uppercase tracking-tighter">SuperMarché</h1>
+<p class="text-sm font-bold">LOGISTIQUE CENTRE-EST</p>
+<div class="mt-4">
+<p class="text-lg font-bold">BON DE PRÉPARATION #CMD-8895</p>
+<p class="text-sm">Date: 24/10/2023 | Heure: 14:32</p>
+</div>
+</div>
+<div class="text-right">
+<div class="bg-black text-white px-4 py-2 text-xl font-bold mb-2">QUAI A-04</div>
+<div class="h-16 w-48 bg-slate-200 flex items-center justify-center border border-black">
+<!-- Barcode placeholder -->
+<div class="flex gap-1 h-10 w-40">
+<div class="bg-black w-1"></div><div class="bg-black w-2"></div><div class="bg-black w-0.5"></div><div class="bg-black w-3"></div><div class="bg-black w-1"></div><div class="bg-black w-2"></div><div class="bg-black w-0.5"></div><div class="bg-black w-1"></div><div class="bg-black w-2"></div><div class="bg-black w-0.5"></div><div class="bg-black w-3"></div><div class="bg-black w-1"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-12 mb-12">
+<div>
+<h2 class="text-xs font-black uppercase border-b border-black mb-2">Destinataire</h2>
+<p class="font-bold">ARTHUR RIMBAUD</p>
+<p>24 Rue du Bateau Ivre</p>
+<p>08000 Charleville-Mézières</p>
+<p>Tél: 06 12 34 56 78</p>
+</div>
+<div>
+<h2 class="text-xs font-black uppercase border-b border-black mb-2">Instructions</h2>
+<p class="text-sm italic">"Fragile - Bouteille de vin. Ne pas secouer. Livraison avant 18h impérative."</p>
+</div>
+</div>
+<table class="w-full text-left border-collapse mb-12">
+<thead>
+<tr class="border-b-2 border-black">
+<th class="py-2 text-xs font-black uppercase">Check</th>
+<th class="py-2 text-xs font-black uppercase">Emplacement</th>
+<th class="py-2 text-xs font-black uppercase">Article / SKU</th>
+<th class="py-2 text-xs font-black uppercase text-right">Qté</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200">
+<td class="py-4"><div class="w-6 h-6 border-2 border-black"></div></td>
+<td class="py-4 font-bold">FRA-02-B</td>
+<td class="py-4">
+<p class="font-bold">Comté AOP 18 mois (250g)</p>
+<p class="text-xs text-slate-600">FRA-COM-18</p>
+</td>
+<td class="py-4 font-bold text-right text-xl">1</td>
+</tr>
+<tr class="border-b border-slate-200">
+<td class="py-4"><div class="w-6 h-6 border-2 border-black"></div></td>
+<td class="py-4 font-bold">VIN-12-A</td>
+<td class="py-4">
+<p class="font-bold">Château Neuf du Pape 2019</p>
+<p class="text-xs text-slate-600">VIN-CNDP-19</p>
+</td>
+<td class="py-4 font-bold text-right text-xl">1</td>
+</tr>
+<tr class="border-b border-slate-200">
+<td class="py-4"><div class="w-6 h-6 border-2 border-black"></div></td>
+<td class="py-4 font-bold">BAK-01-S</td>
+<td class="py-4">
+<p class="font-bold">Baguette Tradition (x1)</p>
+<p class="text-xs text-slate-600">BAK-TRA-01</p>
+</td>
+<td class="py-4 font-bold text-right text-xl">1</td>
+</tr>
+</tbody>
+</table>
+<div class="mt-auto pt-12 flex justify-between items-end border-t border-slate-300">
+<div>
+<p class="text-[10px] uppercase font-bold text-slate-400">Signé par le préparateur :</p>
+<div class="h-16 w-64 border-b border-slate-400 border-dashed mt-4"></div>
+</div>
+<div class="text-[10px] text-right font-medium text-slate-500">
+                SuperMarché Système Logistique v2.4.1<br/>
+                Page 1 sur 1
+            </div>
+</div>
+</div>
+</body></html>

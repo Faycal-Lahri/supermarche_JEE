@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#006a26",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#f9f9fb",
+                    "on-tertiary-fixed": "#002107",
+                    "surface-container-low": "#f3f3f5",
+                    "tertiary-fixed-dim": "#53e16f",
+                    "on-secondary-container": "#626267",
+                    "primary-container": "#0071e3",
+                    "background": "#f9f9fb",
+                    "primary-fixed": "#d7e2ff",
+                    "on-background": "#1a1c1d",
+                    "primary-fixed-dim": "#abc7ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#00531c",
+                    "surface-dim": "#d9dadc",
+                    "on-primary-container": "#fcfbff",
+                    "primary": "#0059b5",
+                    "surface-tint": "#005cbb",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f3132",
+                    "on-primary-fixed-variant": "#00458f",
+                    "on-secondary-fixed": "#1a1b1f",
+                    "on-surface-variant": "#414753",
+                    "secondary": "#5e5e63",
+                    "on-primary-fixed": "#001b3f",
+                    "secondary-fixed": "#e3e2e7",
+                    "inverse-primary": "#abc7ff",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface-container": "#eeeef0",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-surface": "#1a1c1d",
+                    "on-secondary-fixed-variant": "#46464b",
+                    "tertiary-container": "#008633",
+                    "on-tertiary-container": "#f1ffec",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c6d6",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "outline": "#717785",
+                    "surface-variant": "#e2e2e4",
+                    "secondary-fixed-dim": "#c7c6cb",
+                    "secondary-container": "#e0dfe4",
+                    "tertiary-fixed": "#72fe88"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; letter-spacing: -0.02em; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .ghost-border { border: 0.5px solid rgba(193, 198, 214, 0.2); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden h-screen flex">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-zinc-50 dark:bg-zinc-950 flex flex-col py-8 px-4 gap-2 z-40">
+<div class="px-4 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="shield_person">shield_person</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-zinc-900 dark:text-zinc-100 leading-tight">Super Admin</h1>
+<p class="text-[0.65rem] uppercase tracking-wider text-on-secondary-container font-bold opacity-70">Invisible Authority</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Admins</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Supervision</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Data</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm rounded-full mx-2 transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem] font-semibold">Configuration</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Logs</span>
+</a>
+</nav>
+<div class="mt-auto px-4">
+<div class="bg-surface-container-low rounded-2xl p-4 ghost-border">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-widest">System Status</span>
+</div>
+<p class="text-[0.75rem] text-on-surface font-medium">All nodes operational</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 flex overflow-hidden">
+<!-- Apple-style Settings List (Left Pane) -->
+<div class="w-80 h-full bg-surface-container-low flex flex-col px-6 pt-12 gap-8 border-r border-outline-variant/10">
+<div>
+<h2 class="text-[1.75rem] font-extrabold tracking-tighter text-on-surface mb-2">Réglages</h2>
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-secondary-container text-[1.1rem]" data-icon="search">search</span>
+<input class="w-full bg-surface-container h-9 pl-10 rounded-xl text-sm border-none focus:ring-0 placeholder:text-on-secondary-container/50" placeholder="Rechercher" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-0.5">
+<button class="flex items-center gap-3 w-full px-3 py-2.5 bg-surface-container-lowest rounded-xl shadow-sm text-primary font-semibold transition-all">
+<div class="w-7 h-7 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[1.1rem] text-white" data-icon="tune">tune</span>
+</div>
+<span class="text-[0.875rem]">Général</span>
+<span class="ml-auto material-symbols-outlined text-outline-variant text-[1.2rem]" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-surface-container-high rounded-xl transition-all text-on-surface">
+<div class="w-7 h-7 rounded-lg bg-zinc-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-[1.1rem] text-white" data-icon="lock">lock</span>
+</div>
+<span class="text-[0.875rem]">Sécurité</span>
+<span class="ml-auto material-symbols-outlined text-outline-variant text-[1.2rem]" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-surface-container-high rounded-xl transition-all text-on-surface">
+<div class="w-7 h-7 rounded-lg bg-red-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-[1.1rem] text-white" data-icon="notifications">notifications</span>
+</div>
+<span class="text-[0.875rem]">Notifications</span>
+<span class="ml-auto material-symbols-outlined text-outline-variant text-[1.2rem]" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-surface-container-high rounded-xl transition-all text-on-surface">
+<div class="w-7 h-7 rounded-lg bg-orange-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-[1.1rem] text-white" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<span class="text-[0.875rem]">Sauvegardes</span>
+<span class="ml-auto material-symbols-outlined text-outline-variant text-[1.2rem]" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-surface-container-high rounded-xl transition-all text-on-surface">
+<div class="w-7 h-7 rounded-lg bg-zinc-900 flex items-center justify-center">
+<span class="material-symbols-outlined text-[1.1rem] text-white" data-icon="build">build</span>
+</div>
+<span class="text-[0.875rem]">Maintenance</span>
+<span class="ml-auto material-symbols-outlined text-outline-variant text-[1.2rem]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Detail Content Area (Right Pane) -->
+<div class="flex-1 h-full overflow-y-auto no-scrollbar pb-32">
+<!-- Header for current section -->
+<div class="px-12 pt-16 pb-8 max-w-4xl">
+<h1 class="text-[2.25rem] font-extrabold tracking-tight text-on-surface">Configuration Système</h1>
+<p class="text-on-secondary-container mt-2">Paramètres globaux pour l'infrastructure SuperMarché.</p>
+</div>
+<!-- Configuration Sections -->
+<div class="px-12 flex flex-col gap-12 max-w-4xl">
+<!-- Section: General -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-secondary-container">Général</h3>
+</div>
+<div class="bg-surface-container-lowest rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] overflow-hidden">
+<div class="flex items-center p-6 justify-between group">
+<span class="text-[0.875rem] font-medium text-on-surface">Nom du site</span>
+<input class="text-right text-[0.875rem] text-on-secondary-container bg-transparent border-none focus:ring-0 p-0 font-medium" type="text" value="SuperMarché Global Operations"/>
+</div>
+<div class="h-[0.5px] mx-6 bg-outline-variant/20"></div>
+<div class="flex items-center p-6 justify-between group">
+<span class="text-[0.875rem] font-medium text-on-surface">Email de contact</span>
+<input class="text-right text-[0.875rem] text-on-secondary-container bg-transparent border-none focus:ring-0 p-0 font-medium" type="email" value="ops@supermarche.corp"/>
+</div>
+<div class="h-[0.5px] mx-6 bg-outline-variant/20"></div>
+<div class="flex items-center p-6 justify-between group">
+<span class="text-[0.875rem] font-medium text-on-surface">Devise par défaut</span>
+<div class="flex items-center gap-2">
+<span class="text-[0.875rem] font-medium text-on-secondary-container">Euro (€)</span>
+<span class="material-symbols-outlined text-[1.2rem] text-outline-variant" data-icon="unfold_more">unfold_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Security -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-secondary-container">Sécurité</h3>
+<button class="text-primary text-[0.75rem] font-bold">HISTORIQUE DES ACCÈS</button>
+</div>
+<div class="bg-surface-container-lowest rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] overflow-hidden">
+<!-- Toggle -->
+<div class="flex items-center p-6 justify-between">
+<div class="flex flex-col gap-1">
+<span class="text-[0.875rem] font-medium text-on-surface">Authentification 2FA</span>
+<span class="text-[0.75rem] text-on-secondary-container">Obligatoire pour tous les administrateurs</span>
+</div>
+<div class="w-11 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="h-[0.5px] mx-6 bg-outline-variant/20"></div>
+<!-- Session Duration Selection -->
+<div class="p-6">
+<span class="text-[0.875rem] font-medium text-on-surface block mb-4">Durée de la session</span>
+<div class="flex p-1 bg-surface-container-low rounded-full w-max">
+<button class="px-4 py-1.5 text-[0.75rem] font-semibold text-on-secondary-container rounded-full hover:bg-white transition-all">4h</button>
+<button class="px-4 py-1.5 text-[0.75rem] font-semibold text-on-surface bg-white shadow-sm rounded-full transition-all">8h</button>
+<button class="px-4 py-1.5 text-[0.75rem] font-semibold text-on-secondary-container rounded-full hover:bg-white transition-all">24h</button>
+<button class="px-4 py-1.5 text-[0.75rem] font-semibold text-on-secondary-container rounded-full hover:bg-white transition-all">7j</button>
+</div>
+</div>
+<div class="h-[0.5px] mx-6 bg-outline-variant/20"></div>
+<!-- Password Policy -->
+<div class="p-6">
+<span class="text-[0.875rem] font-medium text-on-surface block mb-4">Politique de mot de passe</span>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[1.2rem]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[0.8rem] text-on-secondary-container">Min. 12 caractères</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[1.2rem]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[0.8rem] text-on-secondary-container">Caractères spéciaux</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[1.2rem]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[0.8rem] text-on-secondary-container">Chiffres obligatoires</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline-variant text-[1.2rem]" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<span class="text-[0.8rem] text-on-secondary-container opacity-50">Expiration (90j)</span>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="p-6 bg-zinc-50/50 flex justify-center">
+<button class="bg-primary text-on-primary font-semibold text-[0.875rem] px-8 py-3 rounded-full hover:shadow-lg transition-all active:scale-[0.98] bg-gradient-to-b from-primary-container to-primary">
+                                Réinitialiser tous les mots de passe
+                            </button>
+</div>
+</div>
+</section>
+<!-- Section: Backup -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-secondary-container">Sauvegardes</h3>
+</div>
+<div class="bg-surface-container-lowest rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] p-8">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[1.5rem]" data-icon="cloud_sync">cloud_sync</span>
+</div>
+<div>
+<span class="text-[0.75rem] text-on-secondary-container font-bold uppercase tracking-widest">Dernière synchronisation</span>
+<h4 class="text-xl font-bold text-on-surface tabular-nums">Aujourd'hui, 14:24:08</h4>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<button class="bg-primary text-on-primary font-semibold text-[0.875rem] px-6 py-2.5 rounded-full hover:opacity-90 transition-all bg-gradient-to-b from-primary-container to-primary">
+                                    Sauvegarder maintenant
+                                </button>
+<a class="text-primary text-[0.8rem] font-bold flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[1.1rem]" data-icon="download">download</span>
+                                    Télécharger dernière sauvegarde
+                                </a>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-3 gap-4">
+<div class="bg-surface-container-low p-4 rounded-2xl">
+<p class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-tight mb-1">Taille</p>
+<p class="text-[1.125rem] font-bold text-on-surface tabular-nums">1.24 GB</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl">
+<p class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-tight mb-1">Stockage</p>
+<p class="text-[1.125rem] font-bold text-on-surface tabular-nums">AWS S3 (Paris)</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl">
+<p class="text-[0.7rem] font-bold text-on-secondary-container uppercase tracking-tight mb-1">Fréquence</p>
+<p class="text-[1.125rem] font-bold text-on-surface tabular-nums">Toutes les 6h</p>
+</div>
+</div>
+</div>
+</section>
+<div class="pt-8 pb-12 flex items-center justify-center gap-4">
+<button class="px-8 py-3 rounded-full bg-surface-container-high text-on-surface font-semibold text-[0.875rem] hover:bg-surface-container-highest transition-all">
+                        Annuler les modifications
+                    </button>
+<button class="px-8 py-3 rounded-full bg-primary text-on-primary font-bold text-[0.875rem] hover:shadow-xl transition-all scale-105">
+                        Enregistrer la configuration
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Component -->
+<nav class="fixed bottom-8 left-1/2 -translate-x-1/2 rounded-full px-6 py-3 w-max bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl flex items-center gap-4 z-50 border-[0.5px] border-zinc-200/20 shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[1.2rem]" data-icon="bolt">bolt</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Quick Actions</span>
+</button>
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[1.2rem]" data-icon="ios_share">ios_share</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">Export</span>
+</button>
+<button class="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 px-4 py-2 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[1.2rem]" data-icon="warning">warning</span>
+<span class="font-['Inter'] font-semibold text-[0.75rem] tracking-tight">System Alert</span>
+</button>
+</nav>
+<!-- TopNavBar for Desktop Polish -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl flex items-center justify-between px-10 z-30 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-4">
+<span class="text-[0.875rem] font-semibold text-zinc-500">Configuration</span>
+<span class="material-symbols-outlined text-[1rem] text-zinc-300" data-icon="chevron_right">chevron_right</span>
+<span class="text-[0.875rem] font-bold text-blue-600">Système Global</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-[1rem] text-tertiary" data-icon="fiber_manual_record" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="text-[0.75rem] font-bold uppercase tracking-tighter">Live Monitor</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-zinc-200">
+<img alt="Super Admin Profile" data-alt="Close-up professional portrait of a tech executive in high-key lighting, clean white background, minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWE-NB4cae98xPSYY8mmYVBGjTHHG9ounBet2uBGo8aMnI479Cj-oZF7yy7w7hYre3dHm1TUFizw6fKLETY6yYeviiP0DeZs_k0_DBKWHvjTzpRbZLtXsh4UGB51QoF3CyeV4ar9zUQ0u7Amd0p-oZxA-yNE9JQLt0bQep9oCOGqnXnps40_V51bGBNTv-KMJ3fxkjdhl9D59JaQo6v6vEo5aPeubbYrinvcBMK2HRIQUVQmjwLujAWagewrdbSGZD5WlNr4GHd8JC"/>
+</div>
+</div>
+</header>
+</body></html>

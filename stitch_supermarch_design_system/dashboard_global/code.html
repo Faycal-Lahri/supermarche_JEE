@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SuperMarché - Tableau de Bord Global</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#006a26",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#f9f9fb",
+                    "on-tertiary-fixed": "#002107",
+                    "surface-container-low": "#f3f3f5",
+                    "tertiary-fixed-dim": "#53e16f",
+                    "on-secondary-container": "#626267",
+                    "primary-container": "#0071e3",
+                    "background": "#f9f9fb",
+                    "primary-fixed": "#d7e2ff",
+                    "on-background": "#1a1c1d",
+                    "primary-fixed-dim": "#abc7ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#00531c",
+                    "surface-dim": "#d9dadc",
+                    "on-primary-container": "#fcfbff",
+                    "primary": "#0059b5",
+                    "surface-tint": "#005cbb",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f3132",
+                    "on-primary-fixed-variant": "#00458f",
+                    "on-secondary-fixed": "#1a1b1f",
+                    "on-surface-variant": "#414753",
+                    "secondary": "#5e5e63",
+                    "on-primary-fixed": "#001b3f",
+                    "secondary-fixed": "#e3e2e7",
+                    "inverse-primary": "#abc7ff",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface-container": "#eeeef0",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-surface": "#1a1c1d",
+                    "on-secondary-fixed-variant": "#46464b",
+                    "tertiary-container": "#008633",
+                    "on-tertiary-container": "#f1ffec",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c6d6",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "outline": "#717785",
+                    "surface-variant": "#e2e2e4",
+                    "secondary-fixed-dim": "#c7c6cb",
+                    "secondary-container": "#e0dfe4",
+                    "tertiary-fixed": "#72fe88"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; letter-spacing: -0.02em; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-zinc-50 dark:bg-zinc-950 flex flex-col py-8 px-4 gap-2 z-40 hidden md:flex">
+<div class="flex items-center gap-3 px-4 mb-8">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-black text-xl">S</div>
+<div>
+<h1 class="text-lg font-black text-zinc-900 dark:text-zinc-100 leading-none">Super Admin</h1>
+<p class="text-[0.65rem] uppercase tracking-[0.1em] text-zinc-500 font-bold mt-1">Invisible Authority</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<!-- Active State: Dashboard -->
+<a class="bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm rounded-full mx-2 flex items-center gap-3 px-4 py-3 font-medium transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Dashboard</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full flex items-center gap-3 px-4 py-3 font-medium transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Admins</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full flex items-center gap-3 px-4 py-3 font-medium transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Supervision</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full flex items-center gap-3 px-4 py-3 font-medium transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="database">database</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Data</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full flex items-center gap-3 px-4 py-3 font-medium transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Configuration</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 mx-2 hover:bg-zinc-200/50 rounded-full flex items-center gap-3 px-4 py-3 font-medium transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="history">history</span>
+<span class="font-['Inter'] tracking-[-0.02em] text-[0.875rem]">Logs</span>
+</a>
+</nav>
+</aside>
+<!-- TopAppBar (Authority Source: JSON) -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.04)] h-16 flex items-center justify-between px-6 md:px-10 md:ml-64 md:w-[calc(100%-16rem)]">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50">SuperMarché</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm" data-icon="search">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Rechercher..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 p-2 rounded-full transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="fiber_manual_record">fiber_manual_record</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-zinc-200 overflow-hidden">
+<img alt="Super Admin Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a professional man in a minimal workspace with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWrrVVemxEefK2_qr1yXPwjtyX5ffTZhbxFg2isEcMVZv-h6qu9__ptLk-5bXBfW_p4mdt5VKmeVjv0wFuthZPxiGA37lX45u_KaquCPZuUSxOE2485S0JmuxrQQJFxFdiA4y_B5g8BgUtH1lwn7MktOVmCWrGXxsLMDpugW-iMvN--4F1h7SwSCCoxrgRoK9Z_HGTlHtHfuf9Dq7e5F-o_WProUDtjWVrvY_t43RHmDnwLs3F8Iy96vp8fvPBazrqyob9J7AZhpXm"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 px-6 md:px-12 md:ml-64 min-h-screen max-w-[1400px] mx-auto">
+<!-- Hero Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-[28px] font-bold text-on-surface leading-tight">Bonjour, Super Admin</h2>
+<p class="text-[17px] text-on-secondary-container mt-1">Mardi 15 avril 2025</p>
+</div>
+<div class="flex items-center gap-2 bg-tertiary/5 px-4 py-2 rounded-full">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-tertiary text-sm font-semibold">Tous les systèmes opérationnels</span>
+</div>
+</div>
+</section>
+<!-- KPI Bento Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] group transition-transform hover:-translate-y-1">
+<p class="text-on-secondary-container text-[0.75rem] font-bold uppercase tracking-wider mb-2">Administrateurs</p>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="text-[3.5rem] font-bold tabular-nums tracking-tighter">12</span>
+<span class="text-tertiary text-sm font-semibold">+2 ce mois</span>
+</div>
+<a class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline" href="#">
+                    Voir tout <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] group transition-transform hover:-translate-y-1">
+<p class="text-on-secondary-container text-[0.75rem] font-bold uppercase tracking-wider mb-2">Produits</p>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="text-[3.5rem] font-bold tabular-nums tracking-tighter">1,247</span>
+<span class="text-tertiary text-sm font-semibold">+45 ajoutés</span>
+</div>
+<a class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline" href="#">
+                    Gérer le catalogue <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] group transition-transform hover:-translate-y-1">
+<p class="text-on-secondary-container text-[0.75rem] font-bold uppercase tracking-wider mb-2">Commandes</p>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="text-[3.5rem] font-bold tabular-nums tracking-tighter">156</span>
+<span class="text-on-secondary-container text-sm font-semibold">Aujourd'hui</span>
+</div>
+<a class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline" href="#">
+                    Flux commandes <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-8 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)] group transition-transform hover:-translate-y-1">
+<p class="text-on-secondary-container text-[0.75rem] font-bold uppercase tracking-wider mb-2">Clients</p>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="text-[3.5rem] font-bold tabular-nums tracking-tighter">2,847</span>
+<span class="text-tertiary text-sm font-semibold">Actifs</span>
+</div>
+<a class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline" href="#">
+                    Base clients <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Activity & Visual Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Activity List -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-10 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-bold tracking-tight">Activité Récente</h3>
+<button class="text-sm font-semibold text-primary">Tout exporter</button>
+</div>
+<div class="space-y-0">
+<div class="flex items-start gap-6 py-6 border-b-[0.5px] border-outline-variant/20">
+<span class="text-on-secondary-container font-mono text-sm tabular-nums pt-1">14:32</span>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-[10px] font-black uppercase">Admin Stock</span>
+<span class="text-sm font-semibold">Commande #12458 confirmée</span>
+</div>
+<p class="text-on-secondary-container text-xs">Mise à jour automatique des inventaires effectuée.</p>
+</div>
+</div>
+<div class="flex items-start gap-6 py-6 border-b-[0.5px] border-outline-variant/20">
+<span class="text-on-secondary-container font-mono text-sm tabular-nums pt-1">14:15</span>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-[10px] font-black uppercase">Nouveau Profil</span>
+<span class="text-sm font-semibold">Marie D. a été créée</span>
+</div>
+<p class="text-on-secondary-container text-xs">Rôle assigné : Admin Produits. Accès limité au catalogue.</p>
+</div>
+</div>
+<div class="flex items-start gap-6 py-6">
+<span class="text-on-secondary-container font-mono text-sm tabular-nums pt-1">13:58</span>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-error/10 text-error text-[10px] font-black uppercase">Alerte Système</span>
+<span class="text-sm font-semibold">Stock bas détecté</span>
+</div>
+<p class="text-on-secondary-container text-xs">Alerte critique sur 3 produits de la catégorie Frais.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Context Card -->
+<div class="flex flex-col gap-6">
+<div class="bg-zinc-900 rounded-[20px] p-8 text-white relative overflow-hidden h-full min-h-[300px]">
+<div class="relative z-10">
+<h4 class="text-lg font-bold mb-2">Performances Serveur</h4>
+<p class="text-zinc-400 text-sm mb-8 leading-relaxed">Surveillance en temps réel des clusters de données régionaux.</p>
+<div class="flex gap-1 h-20 items-end">
+<div class="flex-1 bg-primary h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[70%] rounded-t-sm"></div>
+</div>
+</div>
+<img alt="Server Data" class="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay" data-alt="glowing server rack nodes in a dark high-tech data center with neon blue light streaks and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP864frbU8bpHfBCjETvr5knLC_d_elVAQlNVFQkm4v1pXsQW_UpFdB-iv7o9nNVvZN5Qj0tkDsiyL9fhpt5XwPfP21b7MDlO9q3EgD9OKOEAi5fL4UXLoaYwGxGdKGdM6XboSzw-NvYSzytLIUAWX3tiCc00qB5XMR8nqKFHDl34L-ci6frHiKeNAO-Ic-K2kx5hasyLXFZhjHjcwClVjRQzJQ3Cn8kq_s19iE24fDBgF8mHWqjU5kJHPuq5C1FcgM_Kcywjrjwra"/>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Authority Source: JSON) -->
+<nav class="fixed bottom-8 left-1/2 -translate-x-1/2 rounded-full px-6 py-3 w-max bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl flex items-center gap-4 z-50 border-[0.5px] border-zinc-200/20 shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+<button class="bg-blue-600 text-white rounded-full px-4 py-2 flex items-center gap-2 font-['Inter'] font-semibold text-[0.75rem] tracking-tight hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="bolt">bolt</span>
+            Quick Actions
+        </button>
+<button class="text-zinc-600 dark:text-zinc-300 px-4 py-2 flex items-center gap-2 font-['Inter'] font-semibold text-[0.75rem] tracking-tight hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="ios_share">ios_share</span>
+            Export
+        </button>
+<button class="text-zinc-600 dark:text-zinc-300 px-4 py-2 flex items-center gap-2 font-['Inter'] font-semibold text-[0.75rem] tracking-tight hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="warning">warning</span>
+            System Alert
+        </button>
+</nav>
+<!-- Floating Action Cluster (Task Specific) -->
+<div class="fixed bottom-8 right-8 flex flex-col gap-3">
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-transform group">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="absolute right-full mr-4 bg-zinc-900 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Créer un admin</span>
+</button>
+</div>
+</body></html>

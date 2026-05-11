@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f9f9fb",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#005cbb",
+                    "on-secondary-fixed": "#1a1b1f",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#00531c",
+                    "secondary-fixed-dim": "#c7c6cb",
+                    "secondary": "#5e5e63",
+                    "on-surface": "#1a1c1d",
+                    "tertiary-container": "#008633",
+                    "tertiary-fixed": "#72fe88",
+                    "on-secondary-container": "#626267",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#414753",
+                    "on-secondary-fixed-variant": "#46464b",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f3f3f5",
+                    "secondary-fixed": "#e3e2e7",
+                    "error": "#ba1a1a",
+                    "surface-container": "#eeeef0",
+                    "primary": "#0059b5",
+                    "on-primary-container": "#fcfbff",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#006a26",
+                    "on-tertiary-fixed": "#002107",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f9f9fb",
+                    "tertiary-fixed-dim": "#53e16f",
+                    "on-primary-fixed-variant": "#00458f",
+                    "primary-fixed": "#d7e2ff",
+                    "outline": "#717785",
+                    "primary-fixed-dim": "#abc7ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#1a1c1d",
+                    "inverse-primary": "#abc7ff",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface": "#f9f9fb",
+                    "primary-container": "#0071e3",
+                    "on-primary-fixed": "#001b3f",
+                    "surface-variant": "#e2e2e4",
+                    "outline-variant": "#c1c6d6",
+                    "secondary-container": "#e0dfe4",
+                    "surface-dim": "#d9dadc",
+                    "inverse-surface": "#2f3132",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-tertiary-container": "#f1ffec"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {},
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e2e4; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-[#f3f3f5] dark:bg-slate-900 border-r-0 flex flex-col py-6 px-4 font-['Inter'] antialiased tabular-nums text-sm font-medium">
+<div class="mb-10 px-2 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">package_2</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tight text-[#1A1C1D] dark:text-white leading-none">SuperMarché</h1>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-1">Admin Stock Control</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white dark:bg-slate-800 text-[#0059b5] dark:text-blue-400 border-l-4 border-[#0059b5] shadow-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                History
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                Orders
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-[#e8e8ea] dark:hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+                Alerts
+            </a>
+</nav>
+<div class="mt-auto px-2">
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-sm hover:opacity-90 active:scale-95 duration-150">
+<span class="material-symbols-outlined">analytics</span>
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 left-64 h-16 z-30 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-8 w-full font-['Inter'] tabular-nums text-sm">
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant material-symbols-outlined">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Rechercher une référence..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:bg-[#f3f3f5] p-2 rounded-lg transition-colors"><span class="material-symbols-outlined" data-icon="schedule">schedule</span></button>
+<button class="hover:bg-[#f3f3f5] p-2 rounded-lg transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-semibold text-on-surface leading-none">Admin Stock</p>
+<p class="text-[11px] text-on-surface-variant font-medium mt-1 uppercase tracking-tighter">Gestionnaire Principal</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container-high" data-alt="close-up of a professional warehouse manager in a clean modern environment with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDfKYbJdla86y440KHJqYGctQtX0MuWUp20y3q-U4q3EYFG20ilaDKGwD5J6pHQSGpJev_XMno61J6p7UQ92msEmJ7Ssy_amncOOcNahrlV1GQ3Zm79rYr6EXsv2sL3DvsUHeG-73bXve1XSyFA25vBVfokB4gsC8KdB7dAve40m6S6NDG-LYtjTFJvPOtpVB7xNphTceYDu_qfgY3LDFTPSmhvibqPfbBbsyNSxSxYITZgOAO4UfvpiXN3klBDT9ivxAvKZT0n-ac"/>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="pt-24 px-8 pb-32 max-w-[1600px] w-full mx-auto space-y-6">
+<!-- Hero Title Section -->
+<div class="flex justify-between items-end">
+<div>
+<span class="text-[11px] font-bold text-primary uppercase tracking-[0.1em]">Inventaire Global</span>
+<h2 class="text-3xl font-extrabold tracking-tight mt-1 text-on-surface">Gestion du Stock</h2>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 bg-surface-container-lowest text-on-surface-variant rounded-xl border border-outline-variant/20 hover:bg-surface-container-high transition-all text-sm font-semibold">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+                        Filtres Avancés
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-xl hover:opacity-90 transition-all text-sm font-semibold shadow-md">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Nouveau Produit
+                    </button>
+</div>
+</div>
+<!-- Sticky Filter Bar (Simplified Representation) -->
+<div class="sticky top-[64px] z-20 bg-surface/90 backdrop-blur-md py-4">
+<div class="bg-surface-container-lowest p-2 rounded-2xl shadow-sm flex items-center gap-4 flex-wrap">
+<div class="flex-1 flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">category</span>
+<select class="bg-transparent border-none text-sm font-medium focus:ring-0 w-full">
+<option>Toutes les catégories</option>
+<option>Produits Frais</option>
+<option>Épicerie</option>
+<option>Entretien</option>
+</select>
+</div>
+<div class="flex items-center gap-2 px-2">
+<button class="px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary">Tous</button>
+<button class="px-4 py-2 text-sm font-semibold rounded-lg text-on-surface-variant hover:bg-surface-container-low">OK</button>
+<button class="px-4 py-2 text-sm font-semibold rounded-lg text-on-surface-variant hover:bg-surface-container-low">Alerte</button>
+<button class="px-4 py-2 text-sm font-semibold rounded-lg text-on-surface-variant hover:bg-surface-container-low">Rupture</button>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">calendar_today</span>
+<input class="bg-transparent border-none text-sm font-medium focus:ring-0 w-44" type="text" value="01 Jan - 31 Jan 2024"/>
+</div>
+</div>
+</div>
+<!-- Main Data Table Container -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="p-5 w-12">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Produit</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Référence</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Catégorie</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Stock Actuel</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Seuil</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Statut</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Mise à jour</th>
+<th class="py-5 px-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="p-5">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-lg object-cover shadow-sm" data-alt="close-up of fresh organic gala apples in a wooden crate with warm natural morning lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfncDV54UxTObFfs85-73daRQIWBWUe-cteVBT8BAnNPgKkiwzkiQavDQJHnpZuQqY-mNg-sAmX0tcR_Y0T7uONL4MBmnSkCVywwLsC_3HAS3ZZrsWZeo1DdBwhwUiIWPf3xG3doX4U-3sHLulY4r0heCh8rFEV8X5tJq5tMxe6or0TQZGCqTz_D2jho4VxPCFN4OYPC50mU-C80ycN2RF-Mq3wIt9amioqi_yUejihy88R96hM8iAavPqFzVldUIRt7K8a93PHP7c"/>
+<span class="font-semibold text-on-surface">Pommes Gala BIO</span>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums text-on-surface-variant font-medium">REF-90210</td>
+<td class="py-4 px-4 text-on-surface-variant">Fruits &amp; Légumes</td>
+<td class="py-4 px-4">
+<div class="flex items-center bg-surface-container-low w-24 px-2 py-1.5 rounded-lg justify-between">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="font-bold tabular-nums">42</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums font-medium">15</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/10 text-tertiary-container rounded-full text-xs font-bold uppercase tracking-tight">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+                                    Disponible
+                                </span>
+</td>
+<td class="py-4 px-4 text-[12px] text-on-surface-variant font-medium">Aujourd'hui, 09:42</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="History"><span class="material-symbols-outlined">history</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-error transition-colors" title="Alert"><span class="material-symbols-outlined">campaign</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="p-5">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-lg object-cover shadow-sm" data-alt="stack of milk cartons on a cold supermarket shelf with clean reflections and sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwEhjt8cLq2xw6qJplR5nq75Hbk-Yvf3qVwaQwf6HgyZC0UNFoZOSQls93cpmi5DYSGPbijDrBMDXqSVXicL74qP0STDKQJY6V3Fm9jE3OErE09IyNnz-wB-FhrH6NxRVY1RTb5DVsb74_kMtABfnQ1WwNg2TqRs9xJHUPRvzThWd7pCr57ry3fI60dWzbwScc-2pTApH4t72kNPId1Yjms77hvtGgAdVlVB1wJf-t8shT3i4kV2O-rvcKGRjgNM3jcDK5Fk7-R9g9"/>
+<span class="font-semibold text-on-surface">Lait Demi-écrémé</span>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums text-on-surface-variant font-medium">REF-44231</td>
+<td class="py-4 px-4 text-on-surface-variant">Laitage</td>
+<td class="py-4 px-4">
+<div class="flex items-center bg-surface-container-low w-24 px-2 py-1.5 rounded-lg justify-between">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="font-bold tabular-nums">08</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums font-medium">20</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#ff9800]/10 text-[#e65100] rounded-full text-xs font-bold uppercase tracking-tight">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ff9800]"></span>
+                                    Alerte
+                                </span>
+</td>
+<td class="py-4 px-4 text-[12px] text-on-surface-variant font-medium">Hier, 18:15</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="History"><span class="material-symbols-outlined">history</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-error transition-colors" title="Alert"><span class="material-symbols-outlined">campaign</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="p-5">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-lg object-cover shadow-sm" data-alt="macro shot of fresh baguette crust with golden bread crumbs and artisan bakery aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbgFUlgyXWzRsv-YGyFewgSmwJZdhuHvqL9tVz_D7dphPZ-HgvmT9lKfUvEHRKv9weG8vHo-D1DLXZp295hl6ruunQISA6AkSgvucxWwwuxdiPEVIUxWzYjRYBDVP-CNUokm_giWhZnxuC9vGISa2-JW3isus6hLyBSJVrGUiv2vVbbzi23I1jgPSry1nd7PDSJQ70DXBxq69jaA85bz171WujQhvB7sINqmunjc_huQ58ovaZUPi8ImlVXw2sx-XiU9qZneRd_ImG"/>
+<span class="font-semibold text-on-surface">Baguette Tradition</span>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums text-on-surface-variant font-medium">REF-00342</td>
+<td class="py-4 px-4 text-on-surface-variant">Boulangerie</td>
+<td class="py-4 px-4">
+<div class="flex items-center bg-surface-container-low w-24 px-2 py-1.5 rounded-lg justify-between ring-2 ring-error/20">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="font-bold tabular-nums text-error">00</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums font-medium">50</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-error-container/40 text-error rounded-full text-xs font-bold uppercase tracking-tight">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                    Rupture
+                                </span>
+</td>
+<td class="py-4 px-4 text-[12px] text-on-surface-variant font-medium">3 min ago</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="History"><span class="material-symbols-outlined">history</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-error transition-colors" title="Alert"><span class="material-symbols-outlined">campaign</span></button>
+</div>
+</td>
+</tr>
+<!-- Additional Row 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="p-5">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-lg object-cover shadow-sm" data-alt="top view of various fresh pasta shapes on a flour-dusted surface with rustic kitchen lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpmUaQFmmNhs1_P_VzOGINXmszZ1jzJepdCk9v_zp9OkAjyCqrgG34buH6J-QQWW40Jiyw2g3ofEDjr06198P5O6qb-S_i2V6NJbfXKNZCe6_S6F7r6-ggOk4xJS_c0R4XOz5Gbd3WsYCJackK7k8qF53cclEeMZSbjtB02cY2uRIbjOD9HZnLrFcM8oy3yDivIHlGwXMPu-8XsBo8RBvmeKO_qqUjUKn6ehtmqOfw_j7_SVPwOB5WMnBOw6Hsao3m89Ouy5B6I_yk"/>
+<span class="font-semibold text-on-surface">Pâtes Fusilli 500g</span>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums text-on-surface-variant font-medium">REF-77123</td>
+<td class="py-4 px-4 text-on-surface-variant">Épicerie Sèche</td>
+<td class="py-4 px-4">
+<div class="flex items-center bg-surface-container-low w-24 px-2 py-1.5 rounded-lg justify-between">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">remove</span></button>
+<span class="font-bold tabular-nums">154</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">add</span></button>
+</div>
+</td>
+<td class="py-4 px-4 tabular-nums font-medium">40</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/10 text-tertiary-container rounded-full text-xs font-bold uppercase tracking-tight">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+                                    Disponible
+                                </span>
+</td>
+<td class="py-4 px-4 text-[12px] text-on-surface-variant font-medium">Hier, 10:00</td>
+<td class="py-4 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="History"><span class="material-symbols-outlined">history</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant transition-colors" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-error transition-colors" title="Alert"><span class="material-symbols-outlined">campaign</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="p-6 flex items-center justify-between bg-surface-container-low/20">
+<p class="text-sm text-on-surface-variant font-medium">Affichage de <span class="font-bold text-on-surface">1-4</span> sur <span class="font-bold text-on-surface">248</span> produits</p>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-colors font-bold">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-colors font-bold">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bulk Actions Bottom Bar -->
+<div class="fixed bottom-6 left-[280px] right-6 z-40">
+<div class="bg-inverse-surface/95 backdrop-blur-xl text-inverse-on-surface p-4 rounded-2xl flex items-center justify-between shadow-2xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
+<div class="flex items-center gap-4 px-2">
+<div class="bg-primary text-on-primary w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm">1</div>
+<p class="text-sm font-semibold tracking-tight">Produit sélectionné pour modification groupée</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 hover:bg-white/10 rounded-xl transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+                        Mettre à jour le stock
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 hover:bg-white/10 rounded-xl transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+                        Changer le seuil d'alerte
+                    </button>
+<div class="w-[1px] h-6 bg-white/20 mx-1"></div>
+<button class="flex items-center gap-2 px-6 py-2 bg-white text-on-surface rounded-xl hover:opacity-90 transition-all text-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                        Exporter sélection
+                    </button>
+<button class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
