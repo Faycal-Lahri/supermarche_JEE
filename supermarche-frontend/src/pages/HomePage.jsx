@@ -159,7 +159,7 @@ export default function HomePage() {
           <form onSubmit={handleSearch} style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
               <span className="material-symbols-outlined" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#6E6E73', fontSize: 20 }}>search</span>
-              <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher un produit..." className="apple-input" style={{ width: '100%', paddingLeft: 44, background: '#F5F5F7', border: 'none' }} />
+              <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Rechercher un produit..." className="apple-input" style={{ paddingLeft: 44 }} />
             </div>
             <button type="submit" style={{ background: '#0071E3', color: '#fff', border: 'none', borderRadius: 9999, height: 44, padding: '0 24px', fontSize: 15, fontWeight: 600, cursor: 'pointer', flexShrink: 0, transition: 'background 200ms' }} onMouseEnter={e=>e.currentTarget.style.background='#006EDB'} onMouseLeave={e=>e.currentTarget.style.background='#0071E3'}>Chercher</button>
           </form>

@@ -92,32 +92,32 @@ export default function CheckoutPage() {
           <p style={{ fontSize: 17, color: '#6E6E73', marginTop: 8 }}>Finalisez votre commande en toute simplicité.</p>
         </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) minmax(0, 1fr)', gap: 40, alignItems: 'flex-start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'minmax(0, 1.5fr) minmax(0, 1fr)', gap: window.innerWidth < 768 ? 24 : 40, alignItems: 'flex-start', animation: 'fadeSlideUp 600ms ease forwards' }}>
           
           <form onSubmit={handleSubmit} style={{ background: '#fff', borderRadius: 24, padding: 40, boxShadow: '0 10px 40px rgba(0,0,0,0.08)' }}>
             <h2 style={{ fontSize: 24, fontWeight: 700, color: '#1D1D1F', marginBottom: 24 }}>1. Coordonnées de livraison</h2>
             <div style={{ display: 'grid', gap: 20 }}>
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Adresse complète *</label>
-                <input required value={form.adresse} onChange={e=>setForm({...form, adresse:e.target.value})} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="N° de rue, nom de rue..." />
+                <input required value={form.adresse} onChange={e=>setForm({...form, adresse:e.target.value})} className="apple-input" placeholder="N° de rue, nom de rue..." />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 480 ? '1fr' : '1fr 1fr', gap: 16 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Ville *</label>
-                  <input required value={form.ville} onChange={e=>setForm({...form, ville:e.target.value})} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} />
+                  <input required value={form.ville} onChange={e=>setForm({...form, ville:e.target.value})} className="apple-input" />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Code postal</label>
-                  <input value={form.code_postal} onChange={e=>setForm({...form, code_postal:e.target.value})} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="Ex: 20000" />
+                  <input value={form.code_postal} onChange={e=>setForm({...form, code_postal:e.target.value})} className="apple-input" placeholder="Ex: 20000" />
                 </div>
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Téléphone *</label>
-                <input required type="tel" value={form.telephone} onChange={e=>setForm({...form, telephone:e.target.value})} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="06..." />
+                <input required type="tel" value={form.telephone} onChange={e=>setForm({...form, telephone:e.target.value})} className="apple-input" placeholder="06..." />
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Instructions au livreur (Optionnel)</label>
-                <textarea value={form.notes} onChange={e=>setForm({...form, notes:e.target.value})} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none', height: 80, paddingTop: 12, resize: 'none' }} placeholder="Code d'entrée, étage..." />
+                <textarea value={form.notes} onChange={e=>setForm({...form, notes:e.target.value})} className="apple-input" style={{ height: 80, paddingTop: 12, resize: 'none' }} placeholder="Code d'entrée, étage..." />
               </div>
             </div>
 
@@ -179,7 +179,7 @@ export default function CheckoutPage() {
             <div style={{ marginBottom: 24 }}>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Code Promo</label>
               <div style={{ display: 'flex', gap: 8 }}>
-                <input value={promoInput} onChange={e=>setPromoInput(e.target.value)} disabled={!!appliedPromo} className="apple-input" style={{ flex: 1, background: '#F5F5F7', border: 'none', textTransform: 'uppercase' }} placeholder="Ex: ETE2024" />
+                <input value={promoInput} onChange={e=>setPromoInput(e.target.value)} disabled={!!appliedPromo} className="apple-input" style={{ textTransform: 'uppercase' }} placeholder="Ex: ETE2024" />
                 {!appliedPromo ? (
                   <button type="button" onClick={handleApplyPromo} disabled={promoLoading || !promoInput.trim()} style={{ padding: '0 16px', borderRadius: 12, background: '#1D1D1F', color: '#fff', border: 'none', fontSize: 13, fontWeight: 600, cursor: 'pointer', opacity: promoLoading || !promoInput.trim() ? 0.5 : 1 }}>
                     {promoLoading ? '...' : 'Appliquer'}

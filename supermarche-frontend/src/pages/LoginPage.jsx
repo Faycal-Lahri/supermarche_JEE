@@ -50,7 +50,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right side - Form */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '40px 24px', background: '#fff', position: 'relative' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '40px 24px', background: '#fff', color: '#1D1D1F', position: 'relative' }}>
         <div className="hide-desktop" style={{ marginBottom: 40 }}>
           <Link to="/" style={{ color: '#1D1D1F', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, fontSize: 15, fontWeight: 600 }}>
             <span className="material-symbols-outlined">arrow_back</span> Retour
@@ -66,7 +66,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 20 }}>
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Adresse email</label>
-              <input required type="email" value={email} onChange={e=>setEmail(e.target.value)} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="vous@email.com" />
+              <input required type="email" value={email} onChange={e=>setEmail(e.target.value)} className="apple-input" placeholder="vous@email.com" />
             </div>
             
             <div>
@@ -74,7 +74,7 @@ export default function LoginPage() {
                 <label style={{ fontSize: 13, fontWeight: 600, color: '#1D1D1F' }}>Mot de passe</label>
                 <Link to="/contact" style={{ fontSize: 13, color: '#0071E3', textDecoration: 'none', fontWeight: 500 }}>Oublié ?</Link>
               </div>
-              <input required type="password" value={password} onChange={e=>setPassword(e.target.value)} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="••••••••" />
+              <input required type="password" value={password} onChange={e=>setPassword(e.target.value)} className="apple-input" placeholder="••••••••" />
             </div>
 
             <button type="submit" disabled={loading} style={{ width: '100%', height: 48, borderRadius: 9999, background: '#1D1D1F', color: '#fff', border: 'none', fontSize: 15, fontWeight: 600, cursor: loading ? 'wait' : 'pointer', marginTop: 12, transition: 'transform 200ms, background 200ms' }}

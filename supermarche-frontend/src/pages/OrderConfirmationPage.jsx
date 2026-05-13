@@ -53,7 +53,7 @@ export default function OrderConfirmationPage() {
           <p style={{ fontSize: 17, color: '#6E6E73' }}>Votre commande #{cmd.id_commande || cmd.numero_commande} a bien été enregistrée.</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr', gap: window.innerWidth < 768 ? 24 : 32, animation: 'fadeSlideUp 600ms ease forwards' }}>
           {/* COLONNE GAUCHE : INFOS COMMANDE */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
@@ -71,7 +71,7 @@ export default function OrderConfirmationPage() {
               )}
             </div>
 
-            <div style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.03)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+            <div style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.03)', display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr', gap: 24 }}>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#8E8E93', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 12 }}>Livraison</div>
                 <div style={{ fontSize: 15, color: '#1D1D1F', lineHeight: 1.6 }}>{cmd.adresse_livraison || cmd.adresseLivraison || 'Adresse non renseignée'}</div>

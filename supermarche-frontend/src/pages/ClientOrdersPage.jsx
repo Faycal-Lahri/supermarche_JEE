@@ -76,11 +76,11 @@ export default function ClientOrdersPage() {
   return (
     <div style={{ fontFamily: 'var(--font-sf)', paddingBottom: 80 }}>
       <div style={{ marginBottom: 32 }}>
-        <h2 style={{ fontSize: 28, fontWeight: 800, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: 24 }}>Historique d'achats</h2>
+        <h2 style={{ fontSize: window.innerWidth < 768 ? 24 : 28, fontWeight: 800, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: 24 }}>Historique d'achats</h2>
         
         {/* Barre de recherche et filtres */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div style={{ position: 'relative', maxWidth: 400 }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: window.innerWidth < 768 ? '100%' : 440 }}>
             <span className="material-symbols-outlined" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#8E8E93', fontSize: 20 }}>search</span>
             <input 
               type="text"
@@ -154,23 +154,20 @@ export default function ClientOrdersPage() {
             .toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
           return (
-            <div key={id} style={{ background: '#F5F5F7', borderRadius: 24, padding: 24, transition: 'box-shadow 200ms' }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-            >
+            <div key={id} className="order-card" style={{ marginBottom: 12 }}>
               {/* En-tête commande */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#8E8E93', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 4 }}>
-                    Commande {num}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'nowrap', gap: 16, marginBottom: 16 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#8E8E93', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    #{num.split('-').pop()} • {num}
                   </div>
-                  <div style={{ fontSize: 15, color: '#1D1D1F', fontWeight: 600 }}>{dateStr}</div>
+                  <div style={{ fontSize: 14, color: '#1D1D1F', fontWeight: 700 }}>{dateStr}</div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <span style={{ display: 'inline-block', background: cfg.bg, color: cfg.color, padding: '6px 14px', borderRadius: 9999, fontSize: 13, fontWeight: 700, marginBottom: 8 }}>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <span style={{ display: 'inline-block', background: cfg.bg, color: cfg.color, padding: '4px 10px', borderRadius: 9999, fontSize: 11, fontWeight: 800, marginBottom: 4 }}>
                     {cfg.label}
                   </span>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: '#1D1D1F' }}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: '#1D1D1F', letterSpacing: '-0.02em' }}>
                     {Number(cmd.montant_total || cmd.montantTotal || cmd.total || 0).toFixed(2)} €
                   </div>
                 </div>
@@ -178,9 +175,9 @@ export default function ClientOrdersPage() {
 
               {/* Barre de progression (sauf annulée) */}
               {statut !== 'annulee' && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 16, marginBottom: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
                   {[1, 2, 3, 4, 5].map(step => (
-                    <div key={step} style={{ flex: 1, height: 4, borderRadius: 9999, background: step <= cfg.step ? cfg.color : '#D5D5D7', transition: 'background 400ms' }} />
+                    <div key={step} style={{ flex: 1, height: 3, borderRadius: 9999, background: step <= cfg.step ? cfg.color : '#D5D5D7', transition: 'background 400ms' }} />
                   ))}
                 </div>
               )}

@@ -54,6 +54,10 @@ export default function ProfilePage({ defaultTab = 'infos' }) {
 
   useEffect(() => { setTab(defaultTab); }, [defaultTab]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [tab]);
+
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -112,65 +116,94 @@ export default function ProfilePage({ defaultTab = 'infos' }) {
 
   if (!user) return null;
 
-  const fieldStyle = { width: '100%', background: '#F5F5F7', border: 'none' };
   const labelStyle = { display: 'block', fontSize: 12, fontWeight: 600, color: '#6E6E73', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.04em' };
   const readonlyStyle = { fontSize: 16, color: '#1D1D1F', fontWeight: 500, padding: '12px 16px', background: '#F5F5F7', borderRadius: 12 };
 
   return (
     <div style={{ background: '#F5F5F7', minHeight: '100vh', fontFamily: 'var(--font-sf)' }}>
       <ClientNavbar />
-      <div className="apple-container" style={{ paddingTop: 100, paddingBottom: 80 }}>
+      <div className="apple-container profile-container-main">
         
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 40, alignItems: 'flex-start' }}>
+        <div className="profile-grid-layout">
           
-          {/* ── SIDEBAR ── */}
-          <div style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 2px 12px rgba(0,0,0,0.03)', position: 'sticky', top: 90 }}>
-            {/* Avatar */}
-            <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <div style={{ width: 80, height: 80, borderRadius: 40, background: 'linear-gradient(135deg, #0071E3, #34AADC)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 700, margin: '0 auto 16px', boxShadow: '0 8px 24px rgba(0,113,227,0.25)' }}>
-                {(user.prenom?.[0] || '').toUpperCase()}{(user.nom?.[0] || '').toUpperCase()}
+          {/* ── SIDEBAR / TABS NAV ── */}
+          <div className="profile-sidebar-wrapper">
+            {/* Mobile: Horizontal scroll tabs */}
+            <div className="profile-tabs-mobile-container no-scrollbar">
+              <div className="profile-tabs-mobile">
+                {TABS.map((t, i) => (
+                  <button
+                    key={t.key}
+                    onClick={() => setTab(t.key)}
+                    style={{
+                      padding: '10px 16px', borderRadius: 12, border: 'none',
+                      background: tab === t.key ? '#0071E3' : '#F5F5F7',
+                      color: tab === t.key ? '#fff' : '#1D1D1F',
+                      fontSize: 13, fontWeight: tab === t.key ? 700 : 500,
+                      cursor: 'pointer', transition: 'all 200ms',
+                      display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap',
+                      animation: `fadeSlideUp 600ms ease forwards`,
+                      animationDelay: `${i * 50}ms`
+                    }}
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 16, fontVariationSettings: tab === t.key ? "'FILL' 1" : "'FILL' 0" }}>
+                      {t.icon}
+                    </span>
+                    <span className="hide-mobile">{t.label}</span>
+                  </button>
+                ))}
+                <button
+                  onClick={() => { logout(); success('Déconnexion réussie'); navigate('/'); }}
+                  className="profile-logout-btn"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 16 }}>logout</span>
+                </button>
               </div>
-              <div style={{ fontSize: 18, fontWeight: 700, color: '#1D1D1F' }}>{user.prenom} {user.nom}</div>
-              <div style={{ fontSize: 13, color: '#6E6E73', marginTop: 2 }}>{user.email}</div>
             </div>
 
-            {/* Navigation */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {TABS.map(t => (
+            {/* Desktop: Vertical sidebar */}
+            <div className="profile-sidebar-desktop">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '0 12px 32px' }}>
+                <div style={{ width: 48, height: 48, borderRadius: 24, background: 'linear-gradient(135deg, #0071E3, #30D158)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 18, fontWeight: 700 }}>
+                  {(user.prenom?.[0] || '').toUpperCase()}
+                </div>
+                <div>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: '#1D1D1F' }}>{user.prenom} {user.nom}</div>
+                  <div style={{ fontSize: 13, color: '#6E6E73' }}>Client Fidèle</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {TABS.map(t => (
+                  <button
+                    key={t.key}
+                    onClick={() => setTab(t.key)}
+                    style={{
+                      textAlign: 'left', padding: '12px 16px', borderRadius: 14, border: 'none',
+                      background: tab === t.key ? 'rgba(0,113,227,0.1)' : 'transparent',
+                      color: tab === t.key ? '#0071E3' : '#1D1D1F',
+                      fontSize: 14, fontWeight: tab === t.key ? 700 : 500,
+                      cursor: 'pointer', transition: 'all 200ms',
+                      display: 'flex', alignItems: 'center', gap: 12
+                    }}
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 20 }}>{t.icon}</span>
+                    {t.label}
+                  </button>
+                ))}
+                <div style={{ height: 1, background: '#EDEDF2', margin: '12px 0' }} />
                 <button
-                  key={t.key}
-                  onClick={() => setTab(t.key)}
-                  style={{
-                    textAlign: 'left', padding: '12px 16px', borderRadius: 14, border: 'none',
-                    background: tab === t.key ? 'rgba(0,113,227,0.1)' : 'transparent',
-                    color: tab === t.key ? '#0071E3' : '#1D1D1F',
-                    fontSize: 14, fontWeight: tab === t.key ? 700 : 500,
-                    cursor: 'pointer', transition: 'all 200ms',
-                    display: 'flex', alignItems: 'center', gap: 12
-                  }}
+                  onClick={() => { logout(); success('Déconnexion réussie'); navigate('/'); }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', padding: '12px 16px', borderRadius: 12, border: 'none', background: 'transparent', color: '#FF453A', fontSize: 15, fontWeight: 500, cursor: 'pointer', transition: 'all 200ms', textAlign: 'left' }}
                 >
-                  <span className="material-symbols-outlined" style={{ fontSize: 20, fontVariationSettings: tab === t.key ? "'FILL' 1" : "'FILL' 0" }}>
-                    {t.icon}
-                  </span>
-                  {t.label}
+                  <span className="material-symbols-outlined" style={{ fontSize: 20 }}>logout</span>
+                  Se déconnecter
                 </button>
-              ))}
+              </div>
             </div>
-            
-            <div style={{ height: 1, background: '#EDEDF2', margin: '20px 0' }} />
-            
-            <button
-              onClick={() => { logout(); success('Déconnexion réussie'); navigate('/'); }}
-              style={{ width: '100%', textAlign: 'left', padding: '12px 16px', borderRadius: 14, border: 'none', background: 'rgba(255,69,58,0.08)', color: '#FF453A', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, transition: 'background 200ms' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,69,58,0.15)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,69,58,0.08)'}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>logout</span> Déconnexion
-            </button>
           </div>
 
           {/* ── CONTENU ── */}
-          <div style={{ background: '#fff', borderRadius: 24, padding: 40, boxShadow: '0 2px 12px rgba(0,0,0,0.03)', minHeight: 500 }}>
+          <div className="profile-content">
             
             {/* ══ ONGLET INFOS ══ */}
             {tab === 'infos' && (
@@ -191,10 +224,10 @@ export default function ProfilePage({ defaultTab = 'infos' }) {
                 {isEditing ? (
                   <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-                      <div><label style={labelStyle}>Prénom</label><input required value={form.prenom} onChange={e => setForm({ ...form, prenom: e.target.value })} className="apple-input" style={fieldStyle} /></div>
-                      <div><label style={labelStyle}>Nom</label><input required value={form.nom} onChange={e => setForm({ ...form, nom: e.target.value })} className="apple-input" style={fieldStyle} /></div>
-                      <div><label style={labelStyle}>Email</label><input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="apple-input" style={fieldStyle} /></div>
-                      <div><label style={labelStyle}>Téléphone</label><input type="tel" value={form.telephone} onChange={e => setForm({ ...form, telephone: e.target.value })} className="apple-input" style={fieldStyle} /></div>
+                      <div><label style={labelStyle}>Prénom</label><input required value={form.prenom} onChange={e => setForm({ ...form, prenom: e.target.value })} className="apple-input" /></div>
+                      <div><label style={labelStyle}>Nom</label><input required value={form.nom} onChange={e => setForm({ ...form, nom: e.target.value })} className="apple-input" /></div>
+                      <div><label style={labelStyle}>Email</label><input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="apple-input" /></div>
+                      <div><label style={labelStyle}>Téléphone</label><input type="tel" value={form.telephone} onChange={e => setForm({ ...form, telephone: e.target.value })} className="apple-input" /></div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <button type="submit" disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 24px', borderRadius: 9999, border: 'none', background: '#0071E3', color: '#fff', fontSize: 15, fontWeight: 600, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>
@@ -221,16 +254,16 @@ export default function ProfilePage({ defaultTab = 'infos' }) {
                 <form onSubmit={handleSaveAdresse} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   <div>
                     <label style={labelStyle}>Adresse complète</label>
-                    <input value={adresseForm.adresse} onChange={e => setAdresseForm({ ...adresseForm, adresse: e.target.value })} className="apple-input" style={fieldStyle} placeholder="N° et rue" />
+                    <input value={adresseForm.adresse} onChange={e => setAdresseForm({ ...adresseForm, adresse: e.target.value })} className="apple-input" placeholder="N° et rue" />
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
                     <div>
                       <label style={labelStyle}>Ville</label>
-                      <input value={adresseForm.ville} onChange={e => setAdresseForm({ ...adresseForm, ville: e.target.value })} className="apple-input" style={fieldStyle} />
+                      <input value={adresseForm.ville} onChange={e => setAdresseForm({ ...adresseForm, ville: e.target.value })} className="apple-input" />
                     </div>
                     <div>
                       <label style={labelStyle}>Code Postal</label>
-                      <input value={adresseForm.code_postal} onChange={e => setAdresseForm({ ...adresseForm, code_postal: e.target.value })} className="apple-input" style={fieldStyle} />
+                      <input value={adresseForm.code_postal} onChange={e => setAdresseForm({ ...adresseForm, code_postal: e.target.value })} className="apple-input" />
                     </div>
                   </div>
 

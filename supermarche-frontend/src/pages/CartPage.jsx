@@ -71,7 +71,7 @@ export default function CartPage() {
           <p style={{ fontSize: 17, color: '#6E6E73', marginTop: 8 }}>{count} article{count > 1 ? 's' : ''} • Sous-total : {Number(total).toFixed(2)} €</p>
         </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 40, alignItems: 'flex-start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'minmax(0,1fr) 380px', gap: window.innerWidth < 768 ? 24 : 40, alignItems: 'flex-start', animation: 'fadeSlideUp 600ms ease forwards' }}>
           
           {/* ── LISTE DES ARTICLES ── */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

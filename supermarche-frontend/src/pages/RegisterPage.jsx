@@ -53,7 +53,7 @@ export default function RegisterPage() {
       </div>
 
       {/* Côté droit — Formulaire (scrollable) */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '40px 24px', background: '#fff', overflowY: 'auto' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '40px 24px', background: '#fff', color: '#1D1D1F', overflowY: 'auto' }}>
         <div className="hide-desktop" style={{ marginBottom: 40 }}>
           <Link to="/" style={{ color: '#1D1D1F', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, fontSize: 15, fontWeight: 600 }}>
             <span className="material-symbols-outlined">arrow_back</span> Retour à l'accueil
@@ -71,24 +71,24 @@ export default function RegisterPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Prénom *</label>
-                <input required value={form.prenom} onChange={e => setForm({ ...form, prenom: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} />
+                <input required value={form.prenom} onChange={e => setForm({ ...form, prenom: e.target.value })} className="apple-input" />
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Nom *</label>
-                <input required value={form.nom} onChange={e => setForm({ ...form, nom: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} />
+                <input required value={form.nom} onChange={e => setForm({ ...form, nom: e.target.value })} className="apple-input" />
               </div>
             </div>
             
             {/* Email */}
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Email *</label>
-              <input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="vous@email.com" />
+              <input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="apple-input" placeholder="vous@email.com" />
             </div>
 
             {/* Téléphone */}
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Téléphone *</label>
-              <input required type="tel" value={form.telephone} onChange={e => setForm({ ...form, telephone: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="06..." />
+              <input required type="tel" value={form.telephone} onChange={e => setForm({ ...form, telephone: e.target.value })} className="apple-input" placeholder="06..." />
             </div>
 
             {/* CIN */}
@@ -99,7 +99,6 @@ export default function RegisterPage() {
                 value={form.cin}
                 onChange={e => setForm({ ...form, cin: e.target.value.toUpperCase() })}
                 className="apple-input"
-                style={{ width: '100%', background: '#F5F5F7', border: 'none' }}
                 placeholder="AB123456"
                 maxLength={20}
               />
@@ -112,11 +111,11 @@ export default function RegisterPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Mot de passe *</label>
-                <input required type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} />
+                <input required type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} className="apple-input" />
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Confirmer *</label>
-                <input required type="password" value={form.confirm} onChange={e => setForm({ ...form, confirm: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} />
+                <input required type="password" value={form.confirm} onChange={e => setForm({ ...form, confirm: e.target.value })} className="apple-input" />
               </div>
             </div>
 
@@ -125,7 +124,7 @@ export default function RegisterPage() {
             {/* Ville */}
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Ville *</label>
-              <select required value={form.ville} onChange={e => setForm({ ...form, ville: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }}>
+              <select required value={form.ville} onChange={e => setForm({ ...form, ville: e.target.value })} className="apple-input">
                 <option value="Casablanca">Casablanca</option>
                 <option value="Mohammedia">Mohammedia</option>
                 <option value="Rabat">Rabat</option>
@@ -138,7 +137,7 @@ export default function RegisterPage() {
             {/* Adresse */}
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Adresse complète *</label>
-              <input required value={form.adresse} onChange={e => setForm({ ...form, adresse: e.target.value })} className="apple-input" style={{ width: '100%', background: '#F5F5F7', border: 'none' }} placeholder="N° de rue, nom de la rue..." />
+              <input required value={form.adresse} onChange={e => setForm({ ...form, adresse: e.target.value })} className="apple-input" placeholder="N° de rue, nom de la rue..." />
             </div>
 
             <button
