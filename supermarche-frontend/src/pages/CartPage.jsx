@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import ClientNavbar from '../components/ClientNavbar';
-import { promoApi } from '../api/api';
 
 export default function CartPage() {
   const { items, total, count, promoMap, getEffectivePrix, updateQty, removeFromCart, loading } = useCart();
@@ -13,29 +12,6 @@ export default function CartPage() {
   const debounceTimers = useRef({});
 
   // promoMap et getEffectivePrix viennent du CartContext (source unique)
-
-  // ── Code promo ──
-  const [codeInput, setCodeInput] = useState('');
-  const [codeApplied, setCodeApplied] = useState(null);
-  const [codeLoading, setCodeLoading] = useState(false);
-
-  const handleCodePromo = async () => {
-    if (!codeInput.trim()) return;
-    setCodeLoading(true);
-    try {
-      const res = await promoApi.valider({ code: codeInput.trim(), montant_total: total });
-      // La réponse est { success:true, data: { code, type_remise, valeur, remise, ... } }
-      const data = (res.data && res.data.code) ? res.data : res;
-      if (!data || !data.code) throw new Error('Réponse invalide du serveur');
-      setCodeApplied(data);
-      success(`Code "${data.code}" appliqué ! -${Number(data.remise || 0).toFixed(2)} €`);
-    } catch (err) {
-      error(err.message || 'Code promo invalide ou expiré');
-      setCodeInput('');
-    } finally {
-      setCodeLoading(false);
-    }
-  };
 
   const handleRemove = useCallback((id) => {
     setRemovingIds(s => new Set([...s, id]));
@@ -57,23 +33,7 @@ export default function CartPage() {
   const isFreeShipping = total >= 35;
   const shipping = isFreeShipping ? 0 : 5.99;
 
-  // Réduction code promo
-  // Le backend retourne type_remise='pourcentage' ou 'montant' (minuscules)
-  // Et retourne aussi 'remise' déjà calculée — on l'utilise en priorité
-  const reductionCode = codeApplied
-    ? (() => {
-        // Priorité : utiliser la remise pré-calculée par le backend
-        if (codeApplied.remise != null && !isNaN(parseFloat(codeApplied.remise))) {
-          return parseFloat(codeApplied.remise);
-        }
-        // Fallback : calcul local
-        const type = (codeApplied.type_remise || codeApplied.type || '').toLowerCase();
-        const valeur = parseFloat(codeApplied.valeur || 0);
-        return type === 'pourcentage' ? total * valeur / 100 : valeur;
-      })()
-    : 0;
-
-  const finalTotal = total + shipping - reductionCode;
+  const finalTotal = total + shipping;
 
   const economies = items.reduce((sum, it) => {
     const pid = it.id_produit || it.idProduit;
@@ -218,70 +178,7 @@ export default function CartPage() {
               )}
             </div>
 
-            {/* ── CODE PROMO ── */}
-            <div style={{ margin: '16px 0' }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
-                Code promo
-              </div>
-              {!codeApplied ? (
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <input
-                    value={codeInput}
-                    onChange={e => setCodeInput(e.target.value.toUpperCase())}
-                    placeholder="Ex : BIENVENUE10"
-                    className="apple-input"
-                    style={{ flex: 1, background: '#F5F5F7', border: 'none', height: 44, fontSize: 14 }}
-                    onKeyDown={e => e.key === 'Enter' && handleCodePromo()}
-                  />
-                  <button
-                    onClick={handleCodePromo}
-                    disabled={codeLoading || !codeInput.trim()}
-                    style={{
-                      height: 44, padding: '0 20px', borderRadius: 9999,
-                      background: '#1D1D1F', color: '#fff', border: 'none',
-                      fontSize: 14, fontWeight: 600, cursor: 'pointer',
-                      opacity: codeLoading || !codeInput.trim() ? 0.5 : 1,
-                      transition: 'opacity 200ms'
-                    }}>
-                    {codeLoading ? '...' : 'Appliquer'}
-                  </button>
-                </div>
-              ) : (
-                <div style={{
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  background: 'rgba(48,209,88,0.08)',
-                  border: '1px solid rgba(48,209,88,0.2)',
-                  padding: '10px 16px', borderRadius: 12
-                }}>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: '#1C9E4B' }}>
-                      ✅ Code "{codeApplied.code}" appliqué
-                    </div>
-                    <div style={{ fontSize: 12, color: '#6E6E73' }}>
-                      {/* Affichage : utiliser remise pré-calculée si dispo, sinon calculer depuis type_remise */}
-                      -{codeApplied.remise != null
-                        ? `${Number(codeApplied.remise).toFixed(2)} €`
-                        : (codeApplied.type_remise || '').toLowerCase() === 'pourcentage'
-                          ? `${codeApplied.valeur}%`
-                          : `${Number(codeApplied.valeur).toFixed(2)} €`
-                      } de réduction
-                    </div>
-                  </div>
-                  <button onClick={() => { setCodeApplied(null); setCodeInput(''); }}
-                    style={{ border: 'none', background: 'transparent', color: '#FF453A', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                    Retirer
-                  </button>
-                </div>
-              )}
-            </div>
 
-            {/* Réduction code promo */}
-            {reductionCode > 0 && (
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: '#1C9E4B', fontWeight: 600, marginBottom: 8 }}>
-                <span>Code promo</span>
-                <span>-{reductionCode.toFixed(2)} €</span>
-              </div>
-            )}
 
             <div style={{ height: 1, background: '#EDEDF2', margin: '20px 0' }} />
             
@@ -291,7 +188,7 @@ export default function CartPage() {
             </div>
             
             <button
-              onClick={() => navigate('/checkout', { state: { codePromo: codeApplied } })}
+              onClick={() => navigate('/checkout')}
               disabled={items.length === 0}
               style={{ width: '100%', height: 56, borderRadius: 9999, background: '#0071E3', color: '#fff', border: 'none', fontSize: 17, fontWeight: 600, cursor: 'pointer', transition: 'background 200ms, transform 200ms', opacity: items.length === 0 ? 0.5 : 1 }}
               onMouseEnter={e => { if (items.length > 0) e.currentTarget.style.transform = 'scale(1.02)'; e.currentTarget.style.background = '#006EDB'; }}

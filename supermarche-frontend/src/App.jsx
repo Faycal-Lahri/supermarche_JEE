@@ -30,6 +30,7 @@ import PromotionsPage from './pages/PromotionsPage';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
 
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 // Guards
 function ProtectedRoute({ children, reqRole }) {
@@ -62,6 +63,7 @@ export default function App() {
       <ToastProvider>
         <CartProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
