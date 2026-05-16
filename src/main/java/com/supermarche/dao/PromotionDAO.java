@@ -174,9 +174,20 @@ public class PromotionDAO {
 
     // ── Delete ───────────────────────────────────────────────────────────────
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM promotion WHERE id_promotion=?";
-        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id); ps.executeUpdate();
+        try (Connection conn = DatabaseConfig.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                try (PreparedStatement ps = conn.prepareStatement("DELETE FROM promotion_produit WHERE id_promotion=?")) {
+                    ps.setInt(1, id); ps.executeUpdate();
+                }
+                try (PreparedStatement ps = conn.prepareStatement("DELETE FROM promotion WHERE id_promotion=?")) {
+                    ps.setInt(1, id); ps.executeUpdate();
+                }
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
         }
     }
 

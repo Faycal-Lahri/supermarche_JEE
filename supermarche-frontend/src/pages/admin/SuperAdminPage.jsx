@@ -7,18 +7,17 @@ import { useConfirm } from '../../components/ConfirmModal';
 
 const PER_PAGE = 10;
 
-// typeAdmin en BDD : 'super' | 'produits' | 'stock' | 'commandes' | 'clients'
+// typeAdmin en BDD : 'super' | 'produits' | 'stock'
 const ROLES_CFG = {
-  super:      { label: 'Super Administrateur', icon: 'admin_panel_settings', color: '#FF453A', bg: 'rgba(255,69,58,0.1)' },
-  produits:   { label: 'Admin Produits',       icon: 'inventory_2',          color: '#BF5AF2', bg: 'rgba(191,90,242,0.1)' },
-  stock:      { label: 'Admin Stock',          icon: 'warehouse',             color: '#32ADE6', bg: 'rgba(50,173,230,0.1)' },
-  commandes:  { label: 'Admin Commandes',      icon: 'local_shipping',        color: '#FF9F0A', bg: 'rgba(255,159,10,0.1)' },
-  clients:    { label: 'Admin Clients',        icon: 'group',                 color: '#30D158', bg: 'rgba(48,209,88,0.1)' },
+  super:    { label: 'Super Administrateur',          icon: 'admin_panel_settings', color: '#FF453A', bg: 'rgba(255,69,58,0.1)' },
+  produits: { label: 'Admin Produits/Catégories/Clients', icon: 'inventory_2',          color: '#BF5AF2', bg: 'rgba(191,90,242,0.1)' },
+  stock:    { label: 'Admin Stock/Commandes/Promos',    icon: 'warehouse',             color: '#32ADE6', bg: 'rgba(50,173,230,0.1)' },
 };
 
-const ROLE_OPTIONS = Object.entries(ROLES_CFG)
-  .filter(([k]) => k !== 'super') // ne pas créer de super admin via ce formulaire
-  .map(([k, v]) => ({ value: k, label: v.label }));
+const ROLE_OPTIONS = [
+  { value: 'produits', label: 'Admin Produits/Catégories/Clients' },
+  { value: 'stock',    label: 'Admin Stock/Commandes/Promos' },
+];
 
 // Lit le champ dans l'objet (snake_case ou camelCase)
 const g = (o, s, c) => o?.[s] ?? o?.[c];
@@ -119,9 +118,14 @@ export default function SuperAdminPage() {
             <h1 style={{ fontSize: 32, fontWeight: 800, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: 4 }}>Contrôle d'accès</h1>
             <p style={{ fontSize: 13, color: '#6E6E73', fontWeight: 600 }}>Gestion des privilèges ({admins.length} administrateurs)</p>
           </div>
-          <button onClick={openCreate} style={{ display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 22px', background: '#1D1D1F', color: '#fff', border: 'none', borderRadius: 9999, fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.15)' }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 20 }}>person_add</span> Nouvel administrateur
-          </button>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <a href="/admin" style={{ display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 20px', background: '#F5F5F7', color: '#1D1D1F', border: '1px solid #EDEDF2', borderRadius: 9999, fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>dashboard</span> Tableau de bord
+            </a>
+            <button onClick={openCreate} style={{ display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 22px', background: '#1D1D1F', color: '#fff', border: 'none', borderRadius: 9999, fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.15)' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>person_add</span> Nouvel administrateur
+            </button>
+          </div>
         </header>
 
         {/* Filtres */}

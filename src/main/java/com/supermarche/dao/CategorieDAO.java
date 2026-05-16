@@ -33,7 +33,7 @@ public class CategorieDAO {
     }
 
     public int create(Categorie c) throws SQLException {
-        String sql = "INSERT INTO categorie (nom_categorie, description, id_categorie_parent) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO categorie (nom_categorie, description, id_categorie_parent, image_categorie) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, c.getNomCategorie());
@@ -42,6 +42,7 @@ public class CategorieDAO {
                 ps.setInt(3, c.getIdCategorieParent());
             else
                 ps.setNull(3, Types.INTEGER);
+            ps.setString(4, c.getImageCategorie());
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 if (keys.next()) return keys.getInt(1);
@@ -51,7 +52,7 @@ public class CategorieDAO {
     }
 
     public void update(Categorie c) throws SQLException {
-        String sql = "UPDATE categorie SET nom_categorie=?, description=?, id_categorie_parent=? WHERE id_categorie=?";
+        String sql = "UPDATE categorie SET nom_categorie=?, description=?, id_categorie_parent=?, image_categorie=? WHERE id_categorie=?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, c.getNomCategorie());
@@ -60,7 +61,8 @@ public class CategorieDAO {
                 ps.setInt(3, c.getIdCategorieParent());
             else
                 ps.setNull(3, Types.INTEGER);
-            ps.setInt(4, c.getIdCategorie());
+            ps.setString(4, c.getImageCategorie());
+            ps.setInt(5, c.getIdCategorie());
             ps.executeUpdate();
         }
     }
@@ -103,6 +105,7 @@ public class CategorieDAO {
         c.setDescription(rs.getString("description"));
         int parent = rs.getInt("id_categorie_parent");
         c.setIdCategorieParent(rs.wasNull() ? null : parent);
+        c.setImageCategorie(rs.getString("image_categorie"));
         return c;
     }
 }

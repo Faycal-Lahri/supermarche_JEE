@@ -110,9 +110,20 @@ public class CodePromoDAO {
     }
 
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM code_promo WHERE id_code_promo=?";
-        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id); ps.executeUpdate();
+        try (Connection conn = DatabaseConfig.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                try (PreparedStatement ps = conn.prepareStatement("DELETE FROM usage_code_promo WHERE id_code_promo=?")) {
+                    ps.setInt(1, id); ps.executeUpdate();
+                }
+                try (PreparedStatement ps = conn.prepareStatement("DELETE FROM code_promo WHERE id_code_promo=?")) {
+                    ps.setInt(1, id); ps.executeUpdate();
+                }
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
         }
     }
 

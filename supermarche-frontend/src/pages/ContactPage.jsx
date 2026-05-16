@@ -59,7 +59,7 @@ export default function ContactPage() {
         <div className="apple-container" style={{ maxWidth: 1100, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 40, alignItems: 'start' }}>
           
           {/* COLONNE GAUCHE - Formulaire */}
-          <div className="apple-card" style={{ padding: 40, order: window.innerWidth < 768 ? 2 : 1 }}>
+          <div className="apple-card" style={{ padding: 40, order: 2 }}>
             <h2 style={{ fontSize: 24, fontWeight: 700, color: '#1D1D1F', marginBottom: 24 }}>Envoyer un message</h2>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               
@@ -97,7 +97,7 @@ export default function ContactPage() {
           </div>
           
           {/* COLONNE DROITE - Infos de contact */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, order: window.innerWidth < 768 ? 1 : 2 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, order: 1 }}>
             
             {[
               { icon: 'location_on', color: '#0071E3', bg: 'rgba(0,113,227,0.1)', label: 'Adresse', text: 'Casablanca, Maroc' },

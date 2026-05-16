@@ -9,6 +9,85 @@ import { useAuth } from '../../context/AuthContext';
 const PER_PAGE = 8;
 const f = (o, s, c) => o?.[s] ?? o?.[c] ?? null;
 
+/* ── Modal Reset Mot de passe ── */
+function ResetMdpModal({ client, onClose, onSave, saving }) {
+  const [mdp, setMdp]         = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [show, setShow]       = useState(false);
+  const valid = mdp.length >= 6 && mdp === confirm;
+
+  return (
+    <div onClick={e => e.target === e.currentTarget && !saving && onClose()}
+      style={{ position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',backdropFilter:'blur(10px)',zIndex:1100,display:'flex',alignItems:'center',justifyContent:'center',padding:24 }}>
+      <div style={{ background:'#fff',borderRadius:28,padding:40,width:'100%',maxWidth:440,boxShadow:'0 40px 80px rgba(0,0,0,0.25)' }}>
+        {/* Header */}
+        <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24 }}>
+          <div style={{ display:'flex',alignItems:'center',gap:12 }}>
+            <div style={{ width:44,height:44,borderRadius:22,background:'rgba(0,113,227,0.1)',display:'flex',alignItems:'center',justifyContent:'center' }}>
+              <span className="material-symbols-outlined" style={{ fontSize:24,color:'#0071E3',fontVariationSettings:"'FILL' 1" }}>lock_reset</span>
+            </div>
+            <div>
+              <div style={{ fontSize:17,fontWeight:800,color:'#1D1D1F' }}>Nouveau mot de passe</div>
+              <div style={{ fontSize:12,color:'#6E6E73' }}>{client.prenom} {client.nom}</div>
+            </div>
+          </div>
+          <button onClick={onClose} style={{ width:32,height:32,borderRadius:'50%',background:'#F5F5F7',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center' }}>
+            <span className="material-symbols-outlined" style={{ fontSize:18 }}>close</span>
+          </button>
+        </div>
+
+        <div style={{ display:'flex',flexDirection:'column',gap:16 }}>
+          {/* Nouveau mdp */}
+          <div>
+            <label style={{ display:'block',fontSize:11,fontWeight:700,color:'#8E8E93',marginBottom:6,textTransform:'uppercase',letterSpacing:'0.05em' }}>Nouveau mot de passe</label>
+            <div style={{ position:'relative' }}>
+              <input
+                type={show ? 'text' : 'password'}
+                value={mdp} onChange={e=>setMdp(e.target.value)}
+                placeholder="Min. 6 caractères"
+                style={{ width:'100%',height:46,borderRadius:12,border:'1.5px solid #EDEDF2',padding:'0 44px 0 14px',fontSize:14,outline:'none',boxSizing:'border-box',transition:'border 200ms' }}
+              />
+              <button type="button" onClick={()=>setShow(s=>!s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'#8E8E93',display:'flex' }}>
+                <span className="material-symbols-outlined" style={{ fontSize:18 }}>{show?'visibility_off':'visibility'}</span>
+              </button>
+            </div>
+            {/* Barre de force */}
+            {mdp && <div style={{ marginTop:6,height:3,background:'#EDEDF2',borderRadius:9999,overflow:'hidden' }}>
+              <div style={{ height:'100%',borderRadius:9999,transition:'all 400ms',
+                width: mdp.length<6?'25%':(/[A-Z]/.test(mdp)&&/[0-9]/.test(mdp)?'100%':'60%'),
+                background: mdp.length<6?'#FF453A':(/[A-Z]/.test(mdp)&&/[0-9]/.test(mdp)?'#30D158':'#FF9F0A')
+              }} />
+            </div>}
+          </div>
+
+          {/* Confirmer */}
+          <div>
+            <label style={{ display:'block',fontSize:11,fontWeight:700,color:'#8E8E93',marginBottom:6,textTransform:'uppercase',letterSpacing:'0.05em' }}>Confirmer le mot de passe</label>
+            <input
+              type={show ? 'text' : 'password'}
+              value={confirm} onChange={e=>setConfirm(e.target.value)}
+              placeholder="Répéter le mot de passe"
+              style={{ width:'100%',height:46,borderRadius:12,border:`1.5px solid ${confirm&&confirm!==mdp?'#FF453A':'#EDEDF2'}`,padding:'0 14px',fontSize:14,outline:'none',boxSizing:'border-box',transition:'border 200ms' }}
+            />
+            {confirm && confirm !== mdp && <div style={{ fontSize:11,color:'#FF453A',marginTop:4,fontWeight:600 }}>Les mots de passe ne correspondent pas</div>}
+          </div>
+
+          {/* Boutons */}
+          <div style={{ display:'flex',gap:10,marginTop:8 }}>
+            <button onClick={onClose} disabled={saving} style={{ flex:1,height:46,borderRadius:9999,background:'#F5F5F7',border:'none',cursor:'pointer',fontSize:14,fontWeight:600,color:'#1D1D1F' }}>Annuler</button>
+            <button onClick={()=>valid&&!saving&&onSave(mdp)} disabled={!valid||saving}
+              style={{ flex:2,height:46,borderRadius:9999,background:valid?'#0071E3':'#EDEDF2',border:'none',cursor:valid&&!saving?'pointer':'not-allowed',fontSize:14,fontWeight:700,color:valid?'#fff':'#8E8E93',display:'flex',alignItems:'center',justifyContent:'center',gap:8,transition:'all 200ms' }}>
+              {saving && <span className="material-symbols-outlined" style={{ fontSize:16,animation:'spin 1s linear infinite' }}>autorenew</span>}
+              {saving ? 'Enregistrement...' : 'Changer le mot de passe'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 /* ── Modal Édition ── */
 function EditModal({ client, onClose, onSave, saving }) {
   const [data, setData] = useState({
@@ -78,7 +157,12 @@ export default function AdminClientsPage() {
   const { success, error } = useToast();
   const { confirm, ConfirmDialog } = useConfirm();
   const { user } = useAuth();
-  const isSuperAdmin = user?.typeAdmin === 'super' || user?.role === 'super_admin';
+  const isSuperAdmin  = user?.typeAdmin === 'super' || user?.role === 'super_admin';
+  const isAdminProduits = user?.typeAdmin === 'produits' || user?.role === 'admin_produits';
+  const isAdminStock  = user?.typeAdmin === 'stock' || user?.role === 'admin_stock';
+  // admin_stock = consultation uniquement ; admin_produits & super_admin = peut modifier
+  const canEdit   = isSuperAdmin || isAdminProduits;
+  const canDelete = isSuperAdmin;
 
   const [clients, setClients]   = useState([]);
   const [loading, setLoading]   = useState(true);
@@ -87,8 +171,10 @@ export default function AdminClientsPage() {
   const [sortField, setSortField] = useState('date_desc');
   const [page, setPage]         = useState(1);
   const [working, setWorking]   = useState({});
-  const [editClient, setEditClient] = useState(null);
-  const [saving, setSaving]     = useState(false);
+  const [editClient, setEditClient]   = useState(null);
+  const [saving, setSaving]           = useState(false);
+  const [resetClient, setResetClient] = useState(null); // modal reset mdp
+  const [savingReset, setSavingReset] = useState(false);
 
   const fetchClients = useCallback(() => {
     setLoading(true);
@@ -103,13 +189,32 @@ export default function AdminClientsPage() {
   // Remettre à la page 1 à chaque changement de filtre/recherche
   useEffect(() => { setPage(1); }, [search, filterStatut, sortField]);
 
+  /* Reset mot de passe client */
+  const handleResetMdp = async (nouveauMdp) => {
+    const id = f(resetClient,'id_client','idClient') || f(resetClient,'id_utilisateur','idUtilisateur');
+    if (!id) { error('ID client introuvable'); return; }
+    setSavingReset(true);
+    try {
+      await adminClientsApi.resetPassword(id, { nouveauMotDePasse: nouveauMdp });
+      success(`Mot de passe réinitialisé pour ${resetClient.prenom} ${resetClient.nom}`);
+      setResetClient(null);
+    } catch (e) { error(e.message || 'Erreur réinitialisation mot de passe'); }
+    finally { setSavingReset(false); }
+  };
+
   /* Sauvegarder l'édition */
   const handleSave = async (data) => {
     const id = f(editClient,'id_client','idClient');
     if (!id) { error('ID client introuvable'); return; }
     setSaving(true);
     try {
-      await adminClientsApi.updateProfile(id, data);
+      // Le backend Java lit 'codePostal' (camelCase) — mapper depuis snake_case
+      const payload = { ...data };
+      if (payload.code_postal !== undefined) {
+        payload.codePostal = payload.code_postal;
+        delete payload.code_postal;
+      }
+      await adminClientsApi.updateProfile(id, payload);
       setClients(prev => prev.map(c => f(c,'id_client','idClient') === id ? { ...c, ...data } : c));
       success('Client modifié avec succès');
       setEditClient(null);
@@ -174,7 +279,10 @@ export default function AdminClientsPage() {
         <header style={{ marginBottom:28,display:'flex',justifyContent:'space-between',alignItems:'flex-end' }}>
           <div>
             <h1 style={{ fontSize:32,fontWeight:800,color:'#1D1D1F',letterSpacing:'-0.03em',marginBottom:4 }}>Clients</h1>
-            <p style={{ fontSize:13,color:'#6E6E73',fontWeight:600 }}>Gestion des comptes ({clients.length} clients)</p>
+            <p style={{ fontSize:13,color:'#6E6E73',fontWeight:600 }}>
+              {canEdit ? 'Gestion des comptes' : 'Consultation des comptes'} ({clients.length} clients)
+              {isAdminStock && <span style={{ marginLeft:8,fontSize:11,background:'rgba(255,159,10,0.1)',color:'#FF9F0A',padding:'2px 8px',borderRadius:9999,fontWeight:700 }}>Lecture seule</span>}
+            </p>
           </div>
           <button onClick={fetchClients} style={{ display:'flex',alignItems:'center',gap:8,height:44,padding:'0 20px',background:'#fff',color:'#1D1D1F',border:'1px solid #EDEDF2',borderRadius:9999,fontSize:14,fontWeight:600,cursor:'pointer',boxShadow:'0 2px 8px rgba(0,0,0,0.04)' }}>
             <span className="material-symbols-outlined" style={{ fontSize:20 }}>refresh</span> Rafraîchir
@@ -286,19 +394,33 @@ export default function AdminClientsPage() {
                     {/* Actions */}
                     <td style={{ padding:'14px 20px' }}>
                       <div style={{ display:'flex',alignItems:'center',justifyContent:'flex-end',gap:6 }}>
-                        {/* Modifier */}
-                        <button onClick={()=>setEditClient(c)} title="Modifier" style={{ height:34,padding:'0 12px',borderRadius:9999,background:'rgba(0,113,227,0.08)',border:'none',color:'#0071E3',cursor:'pointer',fontSize:12,fontWeight:700,display:'inline-flex',alignItems:'center',gap:5 }}>
-                          <span className="material-symbols-outlined" style={{ fontSize:14 }}>edit</span> Modifier
-                        </button>
-                        {/* Suspendre/Activer */}
-                        <button disabled={working[`s${id}`]} onClick={()=>toggleStatut(c)} title={isActif?'Suspendre':'Activer'} style={{ height:34,padding:'0 12px',borderRadius:9999,background:isActif?'rgba(255,159,10,0.09)':'rgba(48,209,88,0.1)',border:'none',color:isActif?'#FF9F0A':'#30D158',cursor:working[`s${id}`]?'wait':'pointer',fontSize:12,fontWeight:700,display:'inline-flex',alignItems:'center',gap:5 }}>
-                          {working[`s${id}`]
-                            ? <span className="material-symbols-outlined" style={{ fontSize:14,animation:'spin 1s linear infinite' }}>autorenew</span>
-                            : <><span className="material-symbols-outlined" style={{ fontSize:14 }}>{isActif?'pause_circle':'play_circle'}</span>{isActif?'Suspendre':'Activer'}</>
-                          }
-                        </button>
-                        {/* Supprimer (super_admin) */}
-                        {isSuperAdmin && (
+                        {/* Modifier — admin_produits et super_admin seulement */}
+                        {canEdit && (
+                          <button onClick={()=>setEditClient(c)} title="Modifier" style={{ height:34,padding:'0 12px',borderRadius:9999,background:'rgba(0,113,227,0.08)',border:'none',color:'#0071E3',cursor:'pointer',fontSize:12,fontWeight:700,display:'inline-flex',alignItems:'center',gap:5 }}>
+                            <span className="material-symbols-outlined" style={{ fontSize:14 }}>edit</span> Modifier
+                          </button>
+                        )}
+                        {/* Réinitialiser MDP — admin_produits et super_admin seulement */}
+                        {canEdit && (
+                          <button onClick={()=>setResetClient(c)} title="Réinitialiser le mot de passe" style={{ height:34,width:34,borderRadius:9999,background:'rgba(0,113,227,0.06)',border:'none',color:'#0071E3',cursor:'pointer',display:'inline-flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
+                            <span className="material-symbols-outlined" style={{ fontSize:16 }}>lock_reset</span>
+                          </button>
+                        )}
+                        {/* Suspendre/Activer — admin_produits et super_admin seulement */}
+                        {canEdit && (
+                          <button disabled={working[`s${id}`]} onClick={()=>toggleStatut(c)} title={isActif?'Suspendre':'Activer'} style={{ height:34,padding:'0 12px',borderRadius:9999,background:isActif?'rgba(255,159,10,0.09)':'rgba(48,209,88,0.1)',border:'none',color:isActif?'#FF9F0A':'#30D158',cursor:working[`s${id}`]?'wait':'pointer',fontSize:12,fontWeight:700,display:'inline-flex',alignItems:'center',gap:5 }}>
+                            {working[`s${id}`]
+                              ? <span className="material-symbols-outlined" style={{ fontSize:14,animation:'spin 1s linear infinite' }}>autorenew</span>
+                              : <><span className="material-symbols-outlined" style={{ fontSize:14 }}>{isActif?'pause_circle':'play_circle'}</span>{isActif?'Suspendre':'Activer'}</>
+                            }
+                          </button>
+                        )}
+                        {/* Mode consultation pour admin_stock */}
+                        {!canEdit && (
+                          <span style={{ fontSize:12,color:'#8E8E93',fontStyle:'italic',padding:'0 8px' }}>Consultation seule</span>
+                        )}
+                        {/* Supprimer (super_admin uniquement) */}
+                        {canDelete && (
                           <button disabled={working[`d${id}`]} onClick={()=>handleDelete(c)} title="Supprimer définitivement" style={{ height:34,width:34,borderRadius:9999,background:'rgba(255,69,58,0.08)',border:'none',color:'#FF453A',cursor:working[`d${id}`]?'wait':'pointer',display:'inline-flex',alignItems:'center',justifyContent:'center' }}>
                             {working[`d${id}`]
                               ? <span className="material-symbols-outlined" style={{ fontSize:14,animation:'spin 1s linear infinite' }}>autorenew</span>
@@ -318,6 +440,7 @@ export default function AdminClientsPage() {
       </div>
 
       {editClient && <EditModal client={editClient} onClose={()=>!saving&&setEditClient(null)} onSave={handleSave} saving={saving} />}
+      {resetClient && <ResetMdpModal client={resetClient} onClose={()=>!savingReset&&setResetClient(null)} onSave={handleResetMdp} saving={savingReset} />}
       <ConfirmDialog />
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>

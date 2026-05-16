@@ -29,6 +29,7 @@ export const authApi = {
   connexion:    (data) => api.post('/auth/connexion', data),
   deconnexion:  ()     => api.post('/auth/deconnexion'),
   me:           ()     => api.get('/auth/me'),
+  passwordReset: (data) => api.post('/auth/password-reset', data),
 };
 
 /* ── Produits ── */
@@ -104,10 +105,11 @@ export const clientApi = {
 
 /* ── Admin Produits ── */
 export const adminProduitsApi = {
-  getAll:   ()           => api.get('/admin/produits'),
-  create:   (data)       => api.post('/admin/produits', data),
-  update:   (id, data)   => api.put(`/admin/produits/${id}`, data),
-  delete:   (id)         => api.delete(`/admin/produits/${id}`),
+  getAll:     ()           => api.get('/admin/produits'),
+  create:     (data)       => api.post('/admin/produits', data),
+  update:     (id, data)   => api.put(`/admin/produits/${id}`, data),
+  delete:     (id)         => api.delete(`/admin/produits/${id}`),
+  hardDelete: (id)         => api.delete(`/admin/produits/${id}?hard=true`),
 };
 
 /* ── Admin Catégories ── */
@@ -229,11 +231,18 @@ export const uploadApi = {
         method: 'POST',
         credentials: 'include',
         body: formData
-        // PAS de Content-Type → le browser gère automatiquement le boundary multipart
       }
     );
     const json = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(json.message || 'Erreur upload');
     return json;
   }
+};
+
+export const getImageUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http') || path.startsWith('data:')) return path;
+  if (path.startsWith('/')) return path;
+  if (path.startsWith('images/')) return `/supermarche-jee/${path}`;
+  return `/supermarche-jee/images/${path}`;
 };

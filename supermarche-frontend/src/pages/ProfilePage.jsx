@@ -14,7 +14,7 @@ const TABS = [
 ];
 
 export default function ProfilePage({ defaultTab = 'infos' }) {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
   const { success, error } = useToast();
   const navigate = useNavigate();
   const [tab, setTab] = useState(defaultTab);
@@ -33,7 +33,7 @@ export default function ProfilePage({ defaultTab = 'infos' }) {
   const [showMdp, setShowMdp] = useState({ ancien: false, nouveau: false, confirm: false });
 
   useEffect(() => {
-    if (!user) navigate('/login');
+    if (!user) navigate('/connexion');
     else {
       setForm({
         nom: user.nom || '',
@@ -63,6 +63,13 @@ export default function ProfilePage({ defaultTab = 'infos' }) {
     setSaving(true);
     try {
       await profilApi.modifier(form);
+      // Mise à jour immédiate dans le contexte AuthContext
+      updateUser({
+        nom:       form.nom,
+        prenom:    form.prenom,
+        email:     form.email,
+        telephone: form.telephone,
+      });
       success('Profil mis à jour avec succès.');
       setIsEditing(false);
     } catch (err) {
@@ -94,7 +101,7 @@ export default function ProfilePage({ defaultTab = 'infos' }) {
       await profilApi.mdp({ ancien_mdp: mdpForm.ancien_mdp, nouveau_mdp: mdpForm.nouveau_mdp });
       success('Mot de passe modifié. Reconnectez-vous dans 2 secondes...');
       setMdpForm({ ancien_mdp: '', nouveau_mdp: '', confirm_mdp: '' });
-      setTimeout(() => { logout(); navigate('/login'); }, 2000);
+      setTimeout(() => { logout(); navigate('/connexion'); }, 2000);
     } catch (err) {
       error(err.message || 'Mot de passe actuel incorrect');
     } finally {

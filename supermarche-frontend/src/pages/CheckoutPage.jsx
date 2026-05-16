@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
-import { publicCommandesApi, promoApi } from '../api/api';
+import { publicCommandesApi, promoApi, profilApi, getImageUrl } from '../api/api';
 import ClientNavbar from '../components/ClientNavbar';
 
 export default function CheckoutPage() {
@@ -16,11 +16,27 @@ export default function CheckoutPage() {
   const [form, setForm] = useState({
     adresse: user?.adresse || '',
     ville: user?.ville || 'Casablanca',
-    code_postal: '',
+    code_postal: user?.code_postal || '',
     telephone: user?.telephone || '',
     notes: '',
     methode_paiement: 'CASH'
   });
+
+  // Charger le profil complet pour pré-remplir téléphone et code postal
+  useEffect(() => {
+    if (user) {
+      profilApi.get().then(res => {
+        const p = res.data || res;
+        setForm(prev => ({
+          ...prev,
+          adresse: p.adresse || prev.adresse || '',
+          ville: p.ville || prev.ville || 'Casablanca',
+          code_postal: p.code_postal || p.codePostal || prev.code_postal || '',
+          telephone: p.telephone || prev.telephone || '',
+        }));
+      }).catch(() => {});
+    }
+  }, [user]);
 
   const [promoInput, setPromoInput] = useState('');
   const [promoLoading, setPromoLoading] = useState(false);
@@ -37,7 +53,7 @@ export default function CheckoutPage() {
       const res = await promoApi.valider({ code: promoInput, montant: total });
       if (res.data && res.data.valid) {
         setAppliedPromo(res.data);
-        success(`Code appliqué ! Vous économisez ${res.data.remise} €`);
+        success(`Code appliqué ! Vous économisez ${Number(res.data.remise).toFixed(2)} €`);
       } else {
         error(res.data?.message || 'Code invalide ou expiré');
         setAppliedPromo(null);
@@ -92,7 +108,7 @@ export default function CheckoutPage() {
           <p style={{ fontSize: 17, color: '#6E6E73', marginTop: 8 }}>Finalisez votre commande en toute simplicité.</p>
         </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'minmax(0, 1.5fr) minmax(0, 1fr)', gap: window.innerWidth < 768 ? 24 : 40, alignItems: 'flex-start', animation: 'fadeSlideUp 600ms ease forwards' }}>
+        <div className="checkout-grid">
           
           <form onSubmit={handleSubmit} style={{ background: '#fff', borderRadius: 24, padding: 40, boxShadow: '0 10px 40px rgba(0,0,0,0.08)' }}>
             <h2 style={{ fontSize: 24, fontWeight: 700, color: '#1D1D1F', marginBottom: 24 }}>1. Coordonnées de livraison</h2>
@@ -101,7 +117,7 @@ export default function CheckoutPage() {
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Adresse complète *</label>
                 <input required value={form.adresse} onChange={e=>setForm({...form, adresse:e.target.value})} className="apple-input" placeholder="N° de rue, nom de rue..." />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 480 ? '1fr' : '1fr 1fr', gap: 16 }}>
+              <div className="checkout-ville-grid">
                 <div>
                   <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6E6E73', marginBottom: 8 }}>Ville *</label>
                   <input required value={form.ville} onChange={e=>setForm({...form, ville:e.target.value})} className="apple-input" />
@@ -162,7 +178,7 @@ export default function CheckoutPage() {
                 return (
                   <div key={pid} style={{ display: 'flex', gap: 12 }}>
                     <div style={{ width: 64, height: 64, borderRadius: 12, background: '#F5F5F7', overflow: 'hidden', flexShrink: 0 }}>
-                      <img src={it.image_produit || it.imageProduit || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=100'} alt={it.nom_produit || it.nomProduit} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={it.image_produit || it.imageProduit ? getImageUrl(it.image_produit || it.imageProduit) : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=100'} alt={it.nom_produit || it.nomProduit} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: 14, fontWeight: 600, color: '#1D1D1F' }}>{it.nom_produit || it.nomProduit}</div>
@@ -192,7 +208,7 @@ export default function CheckoutPage() {
               </div>
               {appliedPromo && (
                 <div style={{ fontSize: 13, color: '#30D158', fontWeight: 600, marginTop: 8 }}>
-                  Code {appliedPromo.code} appliqué (-{appliedPromo.remise} €)
+                  Code {appliedPromo.code} appliqué (-{Number(appliedPromo.remise).toFixed(2)} €)
                 </div>
               )}
             </div>

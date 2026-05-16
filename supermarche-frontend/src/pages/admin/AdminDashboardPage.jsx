@@ -8,12 +8,15 @@ import AdminStockDashboard from './dashboards/AdminStockDashboard';
 export default function AdminDashboardPage() {
   const { user } = useAuth();
   
-  // Mappage robuste des rôles
-  const role = user?.typeAdmin || user?.role || '';
+  // Après normalizeUser() dans AuthContext, user.role est toujours précis :
+  // 'super_admin' | 'admin_produits' | 'admin_stock'
+  // On garde quand même les alias pour compatibilité
+  const role = user?.role || '';
+  const typeAdmin = user?.typeAdmin || user?.type_admin || '';
   
-  const isSuper = role === 'super_admin' || role === 'super';
-  const isProd = role === 'admin_produits' || role === 'produits';
-  const isStock = role === 'admin_stock' || role === 'stock';
+  const isSuper = role === 'super_admin' || typeAdmin === 'super';
+  const isProd  = role === 'admin_produits' || typeAdmin === 'produits';
+  const isStock = role === 'admin_stock' || typeAdmin === 'stock';
 
   let DashboardComponent = null;
 

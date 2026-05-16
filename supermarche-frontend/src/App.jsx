@@ -7,6 +7,7 @@ import { CartProvider } from './context/CartContext';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import CataloguePage from './pages/CataloguePage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import CartPage from './pages/CartPage';
@@ -25,6 +26,7 @@ import AdminOrdersPage from './pages/admin/AdminOrdersPage';
 import SuperAdminPage from './pages/admin/SuperAdminPage';
 import AdminClientsPage from './pages/admin/AdminClientsPage';
 import AdminPromotionsPage from './pages/admin/AdminPromotionsPage';
+import AdminProfilePage from './pages/admin/AdminProfilePage';
 import AboutPage from './pages/AboutPage';
 import PromotionsPage from './pages/PromotionsPage';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
@@ -52,7 +54,7 @@ function ProtectedRoute({ children, reqRole }) {
 function FooterWrapper() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin') || location.pathname.startsWith('/superadmin');
-  const isAuth = ['/connexion','/inscription'].includes(location.pathname);
+  const isAuth = ['/connexion','/inscription','/mot-de-passe-oublie'].includes(location.pathname);
   if (isAdmin || isAuth) return null;
   return <Footer />;
 }
@@ -69,6 +71,7 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/connexion" element={<LoginPage />} />
               <Route path="/inscription" element={<RegisterPage />} />
+              <Route path="/mot-de-passe-oublie" element={<ForgotPasswordPage />} />
               <Route path="/catalogue" element={<CataloguePage />} />
               <Route path="/produit/:id" element={<ProductDetailsPage />} />
               <Route path="/a-propos" element={<AboutPage />} />
@@ -85,12 +88,13 @@ export default function App() {
 
               {/* Admin Routes */}
               <Route path="/admin" element={<ProtectedRoute reqRole="admin"><AdminDashboardPage /></ProtectedRoute>} />
+              <Route path="/admin/profil" element={<ProtectedRoute reqRole="admin"><AdminProfilePage /></ProtectedRoute>} />
               <Route path="/admin/produits" element={<ProtectedRoute reqRole="admin_produits"><AdminProductsPage /></ProtectedRoute>} />
               <Route path="/admin/categories" element={<ProtectedRoute reqRole="admin_produits"><AdminCategoriesPage /></ProtectedRoute>} />
               <Route path="/admin/stock" element={<ProtectedRoute reqRole="admin_stock"><AdminStockPage /></ProtectedRoute>} />
               <Route path="/admin/commandes" element={<ProtectedRoute reqRole="admin_stock"><AdminOrdersPage /></ProtectedRoute>} />
+              <Route path="/admin/promotions" element={<ProtectedRoute reqRole="admin_stock"><AdminPromotionsPage /></ProtectedRoute>} />
               <Route path="/admin/clients" element={<ProtectedRoute reqRole="admin"><AdminClientsPage /></ProtectedRoute>} />
-              <Route path="/admin/promotions" element={<ProtectedRoute reqRole="admin"><AdminPromotionsPage /></ProtectedRoute>} />
               <Route path="/superadmin" element={<ProtectedRoute reqRole="super_admin"><SuperAdminPage /></ProtectedRoute>} />
 
               {/* 404 */}

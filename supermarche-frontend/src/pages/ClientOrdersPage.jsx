@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { publicCommandesApi, clientApi } from '../api/api';
+import { publicCommandesApi, clientApi, getImageUrl } from '../api/api';
 import { useToast } from '../context/ToastContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -76,23 +76,23 @@ export default function ClientOrdersPage() {
   return (
     <div style={{ fontFamily: 'var(--font-sf)', paddingBottom: 80 }}>
       <div style={{ marginBottom: 32 }}>
-        <h2 style={{ fontSize: window.innerWidth < 768 ? 24 : 28, fontWeight: 800, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: 24 }}>Historique d'achats</h2>
+        <h2 style={{ fontSize: 'clamp(22px, 5vw, 28px)', fontWeight: 800, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: 24 }}>Historique d'achats</h2>
         
         {/* Barre de recherche et filtres */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div style={{ position: 'relative', width: '100%', maxWidth: window.innerWidth < 768 ? '100%' : 440 }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: 480 }}>
             <span className="material-symbols-outlined" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#8E8E93', fontSize: 20 }}>search</span>
             <input 
               type="text"
               placeholder="Rechercher une commande (ex: CMD-2026...)"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              style={{
-                width: '100%', height: 44, padding: '0 16px 0 44px',
-                background: '#F5F5F7', border: 'none', borderRadius: 12,
-                fontSize: 15, fontFamily: 'inherit', outline: 'none',
-                transition: 'background 200ms'
-              }}
+          style={{
+            width: '100%', height: 44, padding: '0 16px 0 44px',
+            background: '#F5F5F7', border: 'none', borderRadius: 12,
+            fontSize: 15, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
+            transition: 'background 200ms'
+          }}
               onFocus={e => e.target.style.background = '#EDEDF2'}
               onBlur={e => e.target.style.background = '#F5F5F7'}
             />
@@ -175,15 +175,63 @@ export default function ClientOrdersPage() {
 
               {/* Barre de progression (sauf annulée) */}
               {statut !== 'annulee' && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 16 }}>
                   {[1, 2, 3, 4, 5].map(step => (
                     <div key={step} style={{ flex: 1, height: 3, borderRadius: 9999, background: step <= cfg.step ? cfg.color : '#D5D5D7', transition: 'background 400ms' }} />
                   ))}
                 </div>
               )}
 
+              {/* Articles de la commande avec badge quantité */}
+              {(() => {
+                const lignes = cmd.lignes_commande || cmd.lignesCommande || cmd.items || cmd.produits || [];
+                if (!lignes.length) return null;
+                return (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+                      {lignes.slice(0, 4).map((l, i) => {
+                        const nom = l.nom_produit || l.nomProduit || l.nom || `Produit`;
+                        const qte = l.quantite || l.quantite_commandee || l.quantiteCommandee || 1;
+                        const img = l.image_produit || l.imageProduit || l.image;
+                        return (
+                          <div key={i} style={{ position: 'relative', display: 'inline-block' }}>
+                            {/* Image produit */}
+                            <div style={{ width: 44, height: 44, borderRadius: 10, background: '#F5F5F7', overflow: 'hidden', border: '1.5px solid #EDEDF2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              {img
+                                ? <img src={getImageUrl(img)} alt={nom} title={nom} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                : <span className="material-symbols-outlined" style={{ fontSize: 20, color: '#8E8E93' }}>inventory_2</span>
+                              }
+                            </div>
+                            {/* Badge quantité — TOUJOURS VISIBLE */}
+                            <div style={{
+                              position: 'absolute', top: -6, right: -6,
+                              minWidth: 18, height: 18, borderRadius: 9999,
+                              background: '#0071E3', color: '#fff',
+                              fontSize: 10, fontWeight: 800,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              padding: '0 4px', border: '1.5px solid #fff',
+                              zIndex: 2, lineHeight: 1
+                            }}>
+                              {qte}
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {lignes.length > 4 && (
+                        <div style={{ width: 44, height: 44, borderRadius: 10, background: '#F5F5F7', border: '1.5px solid #EDEDF2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#6E6E73' }}>
+                          +{lignes.length - 4}
+                        </div>
+                      )}
+                      <span style={{ fontSize: 12, color: '#8E8E93', marginLeft: 4 }}>
+                        {lignes.reduce((s, l) => s + (l.quantite || l.quantite_commandee || l.quantiteCommandee || 1), 0)} article{lignes.length > 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Actions */}
-              <div style={{ marginTop: statut !== 'annulee' ? 0 : 20, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ marginTop: statut !== 'annulee' ? 0 : 20, display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
                 {/* Voir détails */}
                 <Link
                   to={`/order-confirmation/${id}`}

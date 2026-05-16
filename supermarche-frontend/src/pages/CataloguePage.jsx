@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, memo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { produitsApi, categoriesApi, promotionsPublicApi } from '../api/api';
+import { produitsApi, categoriesApi, promotionsPublicApi, getImageUrl } from '../api/api';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import ClientNavbar from '../components/ClientNavbar';
@@ -27,7 +27,7 @@ const ProductCard = memo(({ p, onAdd, view }) => {
     return (
       <Link to={`/produit/${id}`} style={{ display: 'flex', alignItems: 'center', gap: 20, background: '#fff', borderRadius: 16, padding: 16, textDecoration: 'none', borderBottom: '1px solid #EDEDF2', transition: 'background 200ms' }} onMouseEnter={e => e.currentTarget.style.background = '#F5F5F7'} onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
         <div style={{ position: 'relative', width: 80, height: 80, borderRadius: 12, overflow: 'hidden', flexShrink: 0, background: '#F5F5F7' }}>
-          <img src={p.image_produit || p.imageProduit || CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={p.image_produit || p.imageProduit ? getImageUrl(p.image_produit || p.imageProduit) : CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           {!inStock && <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(2px)' }} />}
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -51,7 +51,7 @@ const ProductCard = memo(({ p, onAdd, view }) => {
   return (
     <Link to={`/produit/${id}`} style={{ display: 'flex', flexDirection: 'column', background: '#fff', borderRadius: 20, textDecoration: 'none', color: 'inherit', transition: 'transform 300ms, box-shadow 300ms' }} onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 24px 56px rgba(0,0,0,0.12)'; }} onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
       <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '20px 20px 0 0', overflow: 'hidden', background: '#F5F5F7' }}>
-        <img src={p.image_produit || p.imageProduit || CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={p.image_produit || p.imageProduit ? getImageUrl(p.image_produit || p.imageProduit) : CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         {!inStock && (
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ background: '#1D1D1F', color: '#fff', fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 9999 }}>Épuisé</span>
@@ -405,7 +405,7 @@ export default function CataloguePage() {
 
       <div className="apple-container" style={{ paddingTop: 60, paddingBottom: 80 }}>
 
-        <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 1024 ? '1fr' : '280px 1fr', gap: 40, alignItems: 'start' }}>
+        <div className="catalogue-grid">
           
           {/* SIDEBAR DESKTOP */}
           <div className="hide-mobile" style={{ position: 'sticky', top: 100 }}>

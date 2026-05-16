@@ -1,21 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { superAdminApi, adminCommandesApi, adminClientsApi, adminStockApi, adminProduitsApi, adminCategoriesApi } from '../../../api/api';
+import {
+  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, LineChart, Line
+} from 'recharts';
+import {
+  superAdminApi, adminCommandesApi, adminClientsApi,
+  adminStockApi, adminProduitsApi,
+} from '../../../api/api';
 import { useAuth } from '../../../context/AuthContext';
 import { useToast } from '../../../context/ToastContext';
-import { KpiCard, SectionTitle, StatusBadge, Card, Skel, fmtDate, fmtMoney, arr, buildLast7, CSS, F } from './SharedComponents';
+import {
+  KpiCard, SectionTitle, StatusBadge, Card, Skel,
+  fmtDate, fmtMoney, arr, buildLast7, CustomTooltip, CSS, F, SparkBar,
+} from './SharedComponents';
 
-const ROLE_COLORS = { super:'#BF5AF2', produits:'#0071E3', stock:'#30D158', commandes:'#FF9F0A', clients:'#32ADE6' };
-const ROLE_LABELS = { super:'Super Admin', produits:'Admin Produits', stock:'Admin Stock', commandes:'Admin Commandes', clients:'Admin Clients' };
-const PIE_COLORS = ['#30D158','#FF9F0A','#FF453A','#0071E3','#BF5AF2','#32ADE6'];
-
-const CustomTooltip = ({ active, payload, label }) => active&&payload?.length?(
-  <div style={{ background:'#fff',border:'none',borderRadius:12,padding:'10px 14px',boxShadow:'0 4px 20px rgba(0,0,0,0.1)',fontSize:13,...F }}>
-    <div style={{ fontWeight:700,color:'#1D1D1F',marginBottom:4 }}>{label}</div>
-    {payload.map((p,i)=><div key={i} style={{ color:p.color||'#0071E3' }}>{p.name}: {p.value?.toFixed?.(2)} {p.name==='ca'?'€':''}</div>)}
-  </div>
-):null;
+/* ── Config rôles & Couleurs ─────────────────────────────────────────────── */
+const ROLE_CFG = {
+  super:    { label:'Super Admin',                   color:'#FF3B30', icon:'admin_panel_settings' },
+  produits: { label:'Admin Produits/Catégories',     color:'#AF52DE', icon:'inventory_2' },
+  stock:    { label:'Admin Stock/Commandes/Promos',  color:'#5AC8FA', icon:'warehouse' },
+};
+const PIE_COLORS = ['#FF9500','#007AFF','#AF52DE','#5AC8FA','#34C759','#FF3B30', '#FFCC00', '#5856D6'];
+const STATUS_COLOR = { en_attente:'#FF9500',confirmee:'#007AFF',en_preparation:'#AF52DE',en_livraison:'#5AC8FA',livree:'#34C759',annulee:'#FF3B30' };
 
 export default function SuperAdminDashboard() {
   const { user } = useAuth();
@@ -27,201 +34,492 @@ export default function SuperAdminDashboard() {
   const load = () => {
     setLoading(true);
     Promise.all([
-      superAdminApi.dashboard(), adminCommandesApi.getAll(),
-      adminClientsApi.getAll(), superAdminApi.getAdmins(),
-      adminStockApi.getAlertes(), adminProduitsApi.getAll(),
+      superAdminApi.dashboard().catch(()=>({})),
+      adminCommandesApi.getAll().catch(()=>[]),
+      adminClientsApi.getAll().catch(()=>[]),
+      superAdminApi.getAdmins().catch(()=>[]),
+      adminStockApi.getAlertes().catch(()=>[]),
+      adminProduitsApi.getAll().catch(()=>[]),
     ]).then(([kpiR, cmdR, cliR, admR, altR, prodR]) => {
       setData({
-        kpi: kpiR?.data?.data || kpiR?.data || kpiR || {},
-        commandes: arr(cmdR), clients: arr(cliR),
-        admins: arr(admR), alertes: arr(altR), produits: arr(prodR),
+        kpi:      kpiR?.data?.data || kpiR?.data || kpiR || {},
+        commandes: arr(cmdR),
+        clients:   arr(cliR),
+        admins:    arr(admR),
+        alertes:   arr(altR),
+        produits:  arr(prodR),
       });
-    }).catch(()=>error('Erreur chargement')).finally(()=>setLoading(false));
+    }).catch(() => error('Erreur chargement dashboard')).finally(() => setLoading(false));
   };
-  useEffect(()=>{ load(); const t=setInterval(load,60000); return ()=>clearInterval(t); },[]);
 
-  const { kpi, commandes, clients, admins, alertes, produits } = data;
+  useEffect(() => { load(); const t = setInterval(load, 60000); return () => clearInterval(t); }, []);
+
+  const { commandes, clients, admins, alertes, produits } = data;
+
+  // 1 & 2. CA & Commandes (Livrées uniquement pour le CA)
+  const livrees = commandes.filter(c=>(c.statut_commande||c.statutCommande)==='livree');
   const enAttente = commandes.filter(c=>(c.statut_commande||c.statutCommande)==='en_attente').length;
-  const chartData = buildLast7(commandes);
-  const caTotal = commandes.filter(c=>(c.statut_commande||c.statutCommande)!=='annulee').reduce((s,c)=>s+parseFloat(c.montant_total||c.montantTotal||0),0);
-
-  // Pie data par statut
-  const statutCounts = Object.keys({en_attente:1,confirmee:1,en_preparation:1,en_livraison:1,livree:1,annulee:1}).map(k=>({
-    name:k, value:commandes.filter(c=>(c.statut_commande||c.statutCommande)===k).length
+  const caTotal = Number(livrees.reduce((s,c)=>s+parseFloat(c.montant_total||c.montantTotal||0),0).toFixed(2));
+  const chartData = buildLast7(livrees); 
+  
+  // 3. Répartition Statuts Commandes
+  const statutCounts = Object.keys(STATUS_COLOR).map(k=>({
+    name: k, label: k.replace(/_/g,' '), value: commandes.filter(c=>(c.statut_commande||c.statutCommande)===k).length
   })).filter(x=>x.value>0);
 
-  // Produits par catégorie
-  const catMap={};
-  produits.forEach(p=>{ const c=p.nom_categorie||p.nomCategorie||'Autre'; catMap[c]=(catMap[c]||0)+1; });
-  const catData=Object.entries(catMap).map(([nom,nb])=>({nom:nom.substring(0,12),nb}));
+  // 4. Produits par Catégorie (Nb)
+  const catMap = {};
+  produits.forEach(p => { const c = p.nom_categorie || p.nomCategorie || 'Autre'; catMap[c] = (catMap[c] || 0) + 1; });
+  const produitsParCat = Object.entries(catMap).map(([name, value]) => ({ name: name.length>12?name.substring(0,12)+'…':name, value })).sort((a,b)=>b.value-a.value).slice(0,6);
 
-  const STATUS_COLOR_MAP = { en_attente:'#FF9F0A',confirmee:'#0A84FF',en_preparation:'#BF5AF2',en_livraison:'#32ADE6',livree:'#30D158',annulee:'#FF453A' };
+  // 5. Valeur du Stock par Catégorie (€)
+  const valMap = {};
+  produits.forEach(p => { 
+      const c = p.nom_categorie || p.nomCategorie || 'Autre'; 
+      const stock = p.quantite_stock || p.quantiteStock || 0;
+      valMap[c] = (valMap[c] || 0) + (stock * (p.prix || 0)); 
+  });
+  const valeurStockCat = Object.entries(valMap).map(([name, ca]) => ({ name: name.length>12?name.substring(0,12)+'…':name, ca: Number(ca.toFixed(2)) })).sort((a,b)=>b.ca-a.ca).slice(0,6);
+
+  // 6. Inscriptions Clients 7 jours
+  const client7j = Array.from({length:7},(_,i)=>{
+    const d=new Date(); d.setDate(d.getDate()-(6-i));
+    return {
+      jour: d.toLocaleDateString('fr-FR',{weekday:'short'}),
+      val: clients.filter(c => {
+          const dC = new Date(c.date_inscription || c.dateInscription || c.date_creation || d);
+          return dC.toDateString() === d.toDateString();
+      }).length
+    };
+  });
+
+  // 7. Top 5 Clients par CA
+  const bestClientsMap = {};
+  commandes.filter(c=>(c.statut_commande||c.statutCommande)!=='annulee').forEach(c => {
+      const nom = ((c.prenom_client||c.prenomClient||'') + ' ' + (c.nom_client||c.nomClient||'')).trim() || `Client #${c.id_client||c.idClient}`;
+      bestClientsMap[nom] = (bestClientsMap[nom] || 0) + parseFloat(c.montant_total || c.montantTotal || 0);
+  });
+  const bestClients = Object.entries(bestClientsMap).map(([name, ca]) => ({ name: name.substring(0,12), ca: Number(ca.toFixed(2)) })).sort((a,b)=>b.ca-a.ca).slice(0,5);
+
+  // 8. Panier Moyen 7 jours
+  const panierMoyen7j = buildLast7(commandes.filter(c=>(c.statut_commande||c.statutCommande)!=='annulee')).map(d => ({
+      jour: d.jour,
+      ca: Number((d.nb > 0 ? d.ca / d.nb : 0).toFixed(2))
+  }));
+
+  // 9. Clients Actifs vs Inactifs
+  const clientsActifsArr = clients.filter(c=>(c.statut||'actif')==='actif').length;
+  const clientsInactifs = clients.length - clientsActifsArr;
+  const clientsStatusData = [
+      { name: 'Actifs', value: clientsActifsArr, color: '#34C759' },
+      { name: 'Suspendus', value: clientsInactifs, color: '#FF3B30' }
+  ].filter(x=>x.value>0);
+
+  // 10. Santé du Stock
+  const stockAlerte = alertes.length;
+  const stockSain = produits.length - stockAlerte;
+  const stockHealthData = [
+      { name: 'Sain', value: stockSain, color: '#34C759' },
+      { name: 'En Alerte', value: stockAlerte, color: '#FF9500' }
+  ].filter(x=>x.value>0);
+
+  // 11. Top 5 Produits les plus chers
+  const topPrix = [...produits].sort((a,b) => (b.prix||0) - (a.prix||0)).slice(0,5).map(p => ({ name: (p.nom_produit||p.nomProduit||'').substring(0,12), ca: Number((p.prix||0).toFixed(2)) }));
+
+  // 12. Volume de Commandes
+  const cmdsLivrees = commandes.filter(c => (c.statut_commande||c.statutCommande) === 'livree').length;
+  const cmdsAnnulees = commandes.filter(c => (c.statut_commande||c.statutCommande) === 'annulee').length;
+  const cmdsEnCours = commandes.length - cmdsLivrees - cmdsAnnulees;
+  const cmdsGlobalData = [
+      { name: 'Livrées', value: cmdsLivrees, color: '#34C759' },
+      { name: 'En cours', value: cmdsEnCours, color: '#007AFF' },
+      { name: 'Annulées', value: cmdsAnnulees, color: '#FF3B30' }
+  ].filter(x=>x.value>0);
+
+  // 13. Répartition Rôles Admins
+  const rolesMap = {};
+  admins.forEach(a => { rolesMap[a.role||'admin'] = (rolesMap[a.role||'admin'] || 0) + 1; });
+  const adminRolesData = Object.entries(rolesMap).map(([name, value], i) => ({ name, value, color: PIE_COLORS[i%PIE_COLORS.length] }));
+
+  // 14. CA Réalisé vs Potentiel
+  const caPotentiel = Number(commandes.filter(c => {
+      const s = c.statut_commande||c.statutCommande;
+      return s !== 'livree' && s !== 'annulee';
+  }).reduce((s,c)=>s+parseFloat(c.montant_total||c.montantTotal||0), 0).toFixed(2));
+  const caVsPotentielData = [
+      { name: 'Réalisé (Livrées)', value: caTotal, color: '#34C759' },
+      { name: 'Potentiel (En cours)', value: caPotentiel, color: '#AF52DE' }
+  ].filter(x=>x.value>0);
+
+  // 15. Distribution des Prix Catalogue
+  let p0_10=0, p10_20=0, p20_50=0, p50_plus=0;
+  produits.forEach(p => {
+      const px = p.prix||0;
+      if (px < 10) p0_10++; else if (px < 20) p10_20++; else if (px < 50) p20_50++; else p50_plus++;
+  });
+  const priceDistData = [
+      { name: '< 10€', value: p0_10 }, { name: '10-20€', value: p10_20 },
+      { name: '20-50€', value: p20_50 }, { name: '> 50€', value: p50_plus }
+  ];
 
   return (
-    <div style={{ flex:1, padding:'40px 40px', overflowY:'auto', ...F }}>
-      <style>{CSS}</style>
+    <div style={{ flex:1, padding:'36px 40px', overflowY:'auto', background:'#F5F5F7', minHeight:'100vh', ...F }}>
+      <style>{CSS}
+      {`
+        .db-grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 28px; }
+        @media(max-width: 1600px) { .db-grid-6 { grid-template-columns: repeat(3, 1fr); } }
+        @media(max-width: 900px) { .db-grid-6 { grid-template-columns: 1fr; } .chart-grid { grid-template-columns: 1fr; } }
+      `}
+      </style>
 
-      {/* Header */}
-      <div style={{ display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:32 }}>
+      <div className="db-anim" style={{ marginBottom:32, display:'flex', justifyContent:'space-between', alignItems:'flex-end' }}>
         <div>
-          <h1 style={{ fontSize:30,fontWeight:900,color:'#1D1D1F',letterSpacing:'-0.03em',marginBottom:4 }}>Vue d'ensemble — Super Admin</h1>
-          <p style={{ fontSize:13,color:'#6E6E73',fontWeight:500 }}>Bonjour {user?.prenom||'Admin'}, voici l'activité globale.</p>
-        </div>
-        <div style={{ display:'flex',alignItems:'center',gap:12 }}>
-          <span style={{ fontSize:13,color:'#6E6E73' }}>{new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</span>
-          <span style={{ display:'flex',alignItems:'center',gap:6,background:'rgba(48,209,88,0.1)',color:'#30D158',padding:'6px 12px',borderRadius:9999,fontSize:12,fontWeight:700 }}>
-            <span style={{ width:8,height:8,borderRadius:'50%',background:'#30D158',display:'inline-block',animation:'livePulse 1.5s infinite' }}/>Live
-          </span>
-        </div>
-      </div>
-
-      {/* KPIs */}
-      <div className="db-grid-3" style={{ marginBottom:24 }}>
-        <KpiCard loading={loading} label="Chiffre d'affaires" value={caTotal} icon="payments" color="#30D158" suffix=" €" decimals={2} link="/admin/commandes" trend={0} trendLabel="ce mois"/>
-        <KpiCard loading={loading} label="Commandes en attente" value={enAttente} icon="pending_actions" color={enAttente>0?'#FF9F0A':'#30D158'} link="/admin/commandes" trend={enAttente} trendLabel="en attente"/>
-        <KpiCard loading={loading} label="Clients actifs" value={kpi.nb_clients||clients.length} icon="group" color="#0071E3" link="/admin/clients"/>
-        <KpiCard loading={loading} label="Alertes stock" value={kpi.nb_alertes_stock||alertes.length} icon="warning" color="#FF453A" link="/admin/stock"/>
-        <KpiCard loading={loading} label="Total commandes" value={kpi.nb_commandes||commandes.length} icon="receipt_long" color="#BF5AF2" link="/admin/commandes"/>
-        <KpiCard loading={loading} label="Administrateurs" value={kpi.nb_admins||admins.length} icon="admin_panel_settings" color="#32ADE6" link="/superadmin"/>
-      </div>
-
-      {/* Graphes */}
-      <div className="db-grid-2" style={{ marginBottom:24 }}>
-        <Card>
-          <SectionTitle icon="show_chart" title="Revenus — 7 derniers jours"/>
-          <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={chartData}>
-              <defs>
-                <linearGradient id="gCA" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0071E3" stopOpacity={0.15}/>
-                  <stop offset="95%" stopColor="#0071E3" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F7"/>
-              <XAxis dataKey="jour" tick={{ fontSize:12,fill:'#6E6E73' }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:12,fill:'#6E6E73' }} axisLine={false} tickLine={false} tickFormatter={v=>`${v}€`}/>
-              <Tooltip content={<CustomTooltip/>}/>
-              <Area type="monotone" dataKey="ca" name="ca" stroke="#0071E3" strokeWidth={2.5} fill="url(#gCA)" dot={false}/>
-            </AreaChart>
-          </ResponsiveContainer>
-        </Card>
-
-        <Card>
-          <SectionTitle icon="donut_large" title="Statuts des commandes"/>
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie data={statutCounts} cx="50%" cy="50%" innerRadius={55} outerRadius={85} dataKey="value" paddingAngle={3}>
-                {statutCounts.map((e,i)=><Cell key={i} fill={STATUS_COLOR_MAP[e.name]||PIE_COLORS[i%PIE_COLORS.length]}/>)}
-              </Pie>
-              <Tooltip formatter={(v,n)=>[v, n]}/>
-            </PieChart>
-          </ResponsiveContainer>
-          <div style={{ display:'flex',flexWrap:'wrap',gap:8,justifyContent:'center',marginTop:8 }}>
-            {statutCounts.map((e,i)=>(
-              <span key={i} style={{ display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:600,color:'#6E6E73' }}>
-                <span style={{ width:8,height:8,borderRadius:'50%',background:STATUS_COLOR_MAP[e.name]||PIE_COLORS[i%PIE_COLORS.length] }}/>
-                {e.name.replace('_',' ')} ({e.value})
-              </span>
-            ))}
+          <div style={{ fontSize:12,fontWeight:700,color:'#AF52DE',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:6,display:'flex',alignItems:'center',gap:6 }}>
+            <span className="material-symbols-outlined" style={{ fontSize:14,fontVariationSettings:"'FILL' 1" }}>admin_panel_settings</span>
+            Tableau de Bord Global
           </div>
+          <h1 style={{ fontSize:32,fontWeight:800,color:'#1D1D1F',letterSpacing:'-0.03em',marginBottom:4 }}>
+            Bonjour, {user?.prenom||'Admin'} 👋
+          </h1>
+          <p style={{ fontSize:14,color:'#86868B',fontWeight:500 }}>
+            Visualisation en temps réel de 15 indicateurs clés
+          </p>
+        </div>
+        <div style={{ display:'flex',flexDirection:'column',alignItems:'flex-end',gap:8 }}>
+          <div style={{ display:'flex',alignItems:'center',gap:6,background:'rgba(52, 199, 89, 0.1)',border:'1px solid rgba(52, 199, 89, 0.2)',color:'#34C759',padding:'6px 14px',borderRadius:9999,fontSize:12,fontWeight:700 }}>
+            <div style={{ width:8,height:8,borderRadius:'50%',background:'#34C759',animation:'livePulse 1.5s infinite' }}/>
+            LIVE
+          </div>
+          <button onClick={load} disabled={loading} style={{ display:'flex',alignItems:'center',gap:6,height:36,padding:'0 16px',background:'#1D1D1F',color:'#fff',border:'none',borderRadius:9999,fontSize:12,fontWeight:600,cursor:loading?'wait':'pointer',opacity:loading?0.7:1,transition:'all 200ms' }}>
+            <span className="material-symbols-outlined" style={{ fontSize:16,animation:loading?'spin 1s linear infinite':undefined }}>sync</span>
+            {loading?'Actualisation...':'Actualiser'}
+          </button>
+        </div>
+      </div>
+
+      <div className="db-grid-6 db-anim-1" style={{ marginBottom:28 }}>
+        <KpiCard loading={loading} size="sm" label="CA (Livrées)" value={caTotal} icon="payments" gradient="green" suffix="€" decimals={0}/>
+        <KpiCard loading={loading} size="sm" label="Commandes (Total)" value={commandes.length} icon="receipt_long" gradient="blue"/>
+        <KpiCard loading={loading} size="sm" label="À Traiter" value={enAttente} icon="pending_actions" gradient={enAttente>0?"orange":"blue"}/>
+        <KpiCard loading={loading} size="sm" label="Clients Actifs" value={clientsActifsArr} icon="group" gradient="purple"/>
+        <KpiCard loading={loading} size="sm" label="Produits Stock" value={produits.length} icon="inventory_2" gradient="teal"/>
+        <KpiCard loading={loading} size="sm" label="Alertes Stock" value={alertes.length} icon="warning" gradient={alertes.length>0?"red":"green"}/>
+      </div>
+
+      <div className="chart-grid db-anim-2" style={{ marginBottom:32 }}>
+        <Card style={{ gridColumn: '1 / -1' }}>
+          <SectionTitle icon="show_chart" title="1. Chiffre d'Affaires sur 7 jours (Commandes livrées)" subtitle={`Total: ${caTotal.toFixed(2)} €`} color="#34C759"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Évolution quotidienne du revenu généré exclusivement par les commandes finalisées et livrées aux clients.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <AreaChart data={chartData} margin={{ top:20,right:20,left:0,bottom:0 }}>
+                <defs><linearGradient id="gCA" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#34C759" stopOpacity={0.2}/><stop offset="95%" stopColor="#34C759" stopOpacity={0}/></linearGradient></defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E5E5EA" vertical={false}/>
+                <XAxis dataKey="jour" tick={{ fontSize:13, fill:'#3A3A3C', fontWeight:600, fontFamily:F.fontFamily }} axisLine={false} tickLine={false} dy={10}/>
+                <YAxis tick={{ fontSize:13, fill:'#3A3A3C', fontWeight:600, fontFamily:F.fontFamily }} axisLine={false} tickLine={false} tickFormatter={v=>`${v}€`} width={50}/>
+                <Tooltip content={<CustomTooltip/>}/>
+                <Area type="monotone" dataKey="ca" name="Chiffre d'affaires" stroke="#34C759" strokeWidth={4} fill="url(#gCA)" activeDot={{ r:8, fill:'#34C759', stroke:'#fff', strokeWidth:3 }}/>
+              </AreaChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="donut_large" title="2. Statuts des Commandes" color="#007AFF"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Visualisation de la répartition actuelle de toutes les commandes selon leur état d'avancement logistique.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie data={statutCounts} cx="50%" cy="45%" innerRadius={70} outerRadius={110} dataKey="value" paddingAngle={4} strokeWidth={0} label={{ fill: '#1D1D1F', fontSize: 13, fontWeight: 800 }}>
+                  {statutCounts.map((e,i) => <Cell key={i} fill={STATUS_COLOR[e.name]||PIE_COLORS[i%PIE_COLORS.length]}/>)}
+                </Pie>
+                <Tooltip formatter={v=>[`${v} cmds`]}/>
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 13, fontWeight: 600, color:'#1D1D1F', fontFamily: F.fontFamily, paddingTop: 20 }} />
+              </PieChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="account_balance_wallet" title="3. Réalisé vs Potentiel" color="#AF52DE"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Comparaison entre le chiffre d'affaires sécurisé (livré) et le montant des commandes encore en traitement.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie data={caVsPotentielData} cx="50%" cy="45%" innerRadius={0} outerRadius={110} dataKey="value" strokeWidth={3} stroke="#fff" label={{ fill: '#1D1D1F', fontSize: 13, fontWeight: 800 }}>
+                  {caVsPotentielData.map((e,i) => <Cell key={i} fill={e.color}/>)}
+                </Pie>
+                <Tooltip formatter={v=>[`${parseFloat(v).toFixed(2)} €`]}/>
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 13, fontWeight: 600, color:'#1D1D1F', fontFamily: F.fontFamily, paddingTop: 20 }} />
+              </PieChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="inventory" title="4. Volume de Commandes" color="#FF9500"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Analyse du volume global des transactions réparties entre les succès, les encours et les annulations.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={cmdsGlobalData} margin={{ top:25, right:0, left:0, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5EA"/>
+                <XAxis dataKey="name" tick={{fontSize:13, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} dy={10}/>
+                <Tooltip cursor={{fill:'#F5F5F7'}}/>
+                <Bar dataKey="value" name="Nombre de commandes" radius={[8,8,0,0]} barSize={60} label={{ position:'top', fill:'#1D1D1F', fontSize:14, fontWeight:800 }}>
+                  {cmdsGlobalData.map((e,i)=><Cell key={i} fill={e.color}/>)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="person_add" title="5. Inscriptions Clients (7j)" color="#5AC8FA"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Tendance des nouvelles ouvertures de comptes clients au cours de la dernière semaine.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart data={client7j} margin={{ top:25, right:20, left:0, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5EA"/>
+                <XAxis dataKey="jour" tick={{fontSize:13, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} dy={10}/>
+                <YAxis tick={{fontSize:13, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} width={40}/>
+                <Tooltip content={<CustomTooltip/>}/>
+                <Line type="monotone" dataKey="val" name="Nouveaux inscrits" stroke="#5AC8FA" strokeWidth={4} dot={{r:6, fill:'#5AC8FA', stroke:'#fff', strokeWidth:2}} label={{ position:'top', fill:'#1D1D1F', fontSize:13, fontWeight:700, dy:-10 }}/>
+              </LineChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="group" title="6. Santé Base Clients" color="#34C759"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Proportion d'utilisateurs dont le compte est actuellement fonctionnel par rapport à ceux suspendus.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie data={clientsStatusData} cx="50%" cy="45%" innerRadius={70} outerRadius={110} dataKey="value" paddingAngle={4} strokeWidth={0} label={{ fill: '#1D1D1F', fontSize: 13, fontWeight: 800 }}>
+                  {clientsStatusData.map((e,i) => <Cell key={i} fill={e.color}/>)}
+                </Pie>
+                <Tooltip formatter={v=>[`${v} clients`]}/>
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 13, fontWeight: 600, color:'#1D1D1F', fontFamily: F.fontFamily, paddingTop: 20 }} />
+              </PieChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="star" title="7. Top 5 Meilleurs Clients (€)" color="#FFCC00"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Classement des 5 clients ayant généré le plus de chiffre d'affaires sur la plateforme.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={bestClients} layout="vertical" margin={{ top:0, right:60, left:20, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E5EA"/>
+                <XAxis type="number" hide/>
+                <YAxis dataKey="name" type="category" tick={{fontSize:13, fill:'#1D1D1F', fontWeight:600}} axisLine={false} tickLine={false} width={80}/>
+                <Tooltip formatter={v=>[`${parseFloat(v).toFixed(2)} €`]} cursor={{fill:'#F5F5F7'}}/>
+                <Bar dataKey="ca" name="Total Dépensé (€)" fill="#FFCC00" radius={[0,8,8,0]} barSize={28} label={{ position:'right', fill:'#1D1D1F', fontSize:13, fontWeight:800, formatter: v => `${v}€` }}/>
+              </BarChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="shopping_cart" title="8. Panier Moyen (7j)" color="#AF52DE"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Évolution quotidienne de la valeur moyenne d'une commande (panier moyen) sur la semaine.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <AreaChart data={panierMoyen7j} margin={{ top:25, right:20, left:0, bottom:0 }}>
+                <defs><linearGradient id="gPM" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#AF52DE" stopOpacity={0.3}/><stop offset="95%" stopColor="#AF52DE" stopOpacity={0}/></linearGradient></defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5EA"/>
+                <XAxis dataKey="jour" tick={{fontSize:13, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} dy={10}/>
+                <YAxis tick={{fontSize:13, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} width={50} tickFormatter={v=>`${v}€`}/>
+                <Tooltip formatter={v=>[`${parseFloat(v).toFixed(2)} €`]}/>
+                <Area type="monotone" dataKey="ca" name="Montant Panier Moyen" stroke="#AF52DE" strokeWidth={4} fill="url(#gPM)" dot={{r:6,fill:'#AF52DE', stroke:'#fff', strokeWidth:2}} label={{ position:'top', fill:'#1D1D1F', fontSize:13, fontWeight:700, formatter: v => `${Math.round(v)}€`, dy:-10 }}/>
+              </AreaChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="category" title="9. Nb Produits par Catégorie" color="#007AFF"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Répartition du nombre d'articles distincts disponibles dans le catalogue pour chaque catégorie principale.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={produitsParCat} margin={{ top:25, right:0, left:0, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5EA"/>
+                <XAxis dataKey="name" tick={{fontSize:12, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} dy={10}/>
+                <Tooltip cursor={{fill:'#F5F5F7'}}/>
+                <Bar dataKey="value" name="Articles en catalogue" fill="#007AFF" radius={[8,8,0,0]} barSize={40} label={{ position:'top', fill:'#1D1D1F', fontSize:14, fontWeight:800 }}>
+                  {produitsParCat.map((e,i)=><Cell key={i} fill={PIE_COLORS[i%PIE_COLORS.length]}/>)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="account_balance" title="10. Valeur Stock par Catégorie" color="#5AC8FA"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Estimation de la valeur marchande totale du stock dormant, calculée et regroupée par catégorie.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={valeurStockCat} layout="vertical" margin={{ top:0, right:60, left:20, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E5EA"/>
+                <XAxis type="number" hide/>
+                <YAxis dataKey="name" type="category" tick={{fontSize:12, fill:'#1D1D1F', fontWeight:600}} axisLine={false} tickLine={false} width={80}/>
+                <Tooltip formatter={v=>[`${parseFloat(v).toFixed(2)} €`]} cursor={{fill:'#F5F5F7'}}/>
+                <Bar dataKey="ca" name="Valeur Stock Immobilisé (€)" fill="#5AC8FA" radius={[0,8,8,0]} barSize={24} label={{ position:'right', fill:'#1D1D1F', fontSize:13, fontWeight:800, formatter: v => `${v}€` }}/>
+              </BarChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="sell" title="11. Distribution des Prix" color="#FF3B30"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Segmentation du catalogue en fonction des tranches de prix pour analyser le positionnement tarifaire global.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={priceDistData} margin={{ top:25, right:0, left:0, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5EA"/>
+                <XAxis dataKey="name" tick={{fontSize:13, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} dy={10}/>
+                <Tooltip cursor={{fill:'#F5F5F7'}}/>
+                <Bar dataKey="value" name="Quantité de produits" fill="#FF3B30" radius={[8,8,0,0]} barSize={50} label={{ position:'top', fill:'#1D1D1F', fontSize:14, fontWeight:800 }}/>
+              </BarChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="diamond" title="12. Produits les plus chers" color="#BF5AF2"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Identification détaillée des produits du catalogue de l'épicerie ayant la valeur unitaire la plus élevée.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={topPrix} layout="vertical" margin={{ top:0, right:60, left:20, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E5EA"/>
+                <XAxis type="number" hide/>
+                <YAxis dataKey="name" type="category" tick={{fontSize:12, fill:'#1D1D1F', fontWeight:600}} axisLine={false} tickLine={false} width={80}/>
+                <Tooltip formatter={v=>[`${parseFloat(v).toFixed(2)} €`]} cursor={{fill:'#F5F5F7'}}/>
+                <Bar dataKey="ca" name="Prix Unitaire (€)" fill="#BF5AF2" radius={[0,8,8,0]} barSize={24} label={{ position:'right', fill:'#1D1D1F', fontSize:13, fontWeight:800, formatter: v => `${v}€` }}/>
+              </BarChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="health_and_safety" title="13. Santé du Stock" color="#FF9500"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Évaluation de la fiabilité logistique en comparant les produits sains à ceux nécessitant un réapprovisionnement.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie data={stockHealthData} cx="50%" cy="45%" innerRadius={70} outerRadius={110} dataKey="value" paddingAngle={4} strokeWidth={0} label={{ fill: '#1D1D1F', fontSize: 13, fontWeight: 800 }}>
+                  {stockHealthData.map((e,i) => <Cell key={i} fill={e.color}/>)}
+                </Pie>
+                <Tooltip formatter={v=>[`${v} produits`]}/>
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 13, fontWeight: 600, color:'#1D1D1F', fontFamily: F.fontFamily, paddingTop: 20 }} />
+              </PieChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="manage_accounts" title="14. Répartition des Admins" color="#32ADE6"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Distribution des droits d'accès administratifs au sein de l'équipe de gestion opérationnelle.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie data={adminRolesData} cx="50%" cy="45%" innerRadius={0} outerRadius={110} dataKey="value" strokeWidth={3} stroke="#fff" label={{ fill: '#1D1D1F', fontSize: 13, fontWeight: 800 }}>
+                  {adminRolesData.map((e,i) => <Cell key={i} fill={e.color}/>)}
+                </Pie>
+                <Tooltip formatter={v=>[`${v} admins`]}/>
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 13, fontWeight: 600, color:'#1D1D1F', fontFamily: F.fontFamily, paddingTop: 20 }} />
+              </PieChart>
+            </ResponsiveContainer>
+          }
+        </Card>
+        <Card>
+          <SectionTitle icon="bar_chart" title="15. Nb Commandes (7j)" color="#34C759"/>
+          <p style={{ fontSize:14, fontWeight:500, color:'#48484A', lineHeight:1.5, marginBottom:24 }}>Volume de commandes globales passées chaque jour sur la plateforme durant la toute dernière semaine.</p>
+          {loading ? <Skel h={320}/> :
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={chartData} margin={{ top:25, right:0, left:0, bottom:0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5EA"/>
+                <XAxis dataKey="jour" tick={{fontSize:13, fill:'#3A3A3C', fontWeight:600}} axisLine={false} tickLine={false} dy={10}/>
+                <Tooltip cursor={{fill:'#F5F5F7'}}/>
+                <Bar dataKey="nb" name="Nouvelles Commandes" fill="#34C759" radius={[8,8,0,0]} barSize={40} label={{ position:'top', fill:'#1D1D1F', fontSize:14, fontWeight:800 }}/>
+              </BarChart>
+            </ResponsiveContainer>
+          }
         </Card>
       </div>
 
-      {/* Dernières commandes + Alertes */}
-      <div style={{ display:'grid',gridTemplateColumns:'1fr 320px',gap:16,marginBottom:24 }}>
+      <div style={{ display:'grid',gridTemplateColumns:'1fr 340px',gap:20,marginBottom:24 }} className="db-anim-3">
         <Card>
-          <SectionTitle icon="receipt_long" title="Dernières commandes" actionLabel="Tout voir" actionLink="/admin/commandes"/>
-          {loading?[...Array(4)].map((_,i)=><Skel key={i} h={36} mb={8}/>):(
-            <table style={{ width:'100%',borderCollapse:'collapse' }}>
-              <thead><tr style={{ borderBottom:'1px solid #EDEDF2' }}>
-                {['Référence','Client','Date','Total','Statut'].map(h=>(
-                  <th key={h} style={{ padding:'8px 10px',fontSize:11,fontWeight:700,color:'#8E8E93',textTransform:'uppercase',textAlign:'left' }}>{h}</th>
-                ))}
-              </tr></thead>
-              <tbody>
-                {[...commandes].sort((a,b)=>new Date(b.date_commande||b.dateCommande)-new Date(a.date_commande||a.dateCommande)).slice(0,6).map((c,i)=>{
-                  const id=c.id_commande||c.idCommande;
-                  const num=c.numero_commande||c.numeroCommande||`#${id}`;
-                  const nom=c.nom_client||c.nomClient?`${c.prenom_client||c.prenomClient||''} ${c.nom_client||c.nomClient}`.trim():`Client #${c.id_client||c.idClient}`;
-                  return (
-                    <tr key={i} onClick={()=>nav('/admin/commandes')} style={{ borderBottom:'1px solid #EDEDF2',cursor:'pointer',transition:'background 150ms' }}
-                      onMouseEnter={e=>e.currentTarget.style.background='#F5F5F7'}
-                      onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
-                      <td style={{ padding:'10px',fontSize:13,fontWeight:700,color:'#0071E3' }}>{num}</td>
-                      <td style={{ padding:'10px',fontSize:13,color:'#1D1D1F' }}>{nom}</td>
-                      <td style={{ padding:'10px',fontSize:12,color:'#6E6E73' }}>{fmtDate(c.date_commande||c.dateCommande)}</td>
-                      <td style={{ padding:'10px',fontSize:13,fontWeight:700 }}>{fmtMoney(c.montant_total||c.montantTotal)}</td>
-                      <td style={{ padding:'10px' }}><StatusBadge statut={c.statut_commande||c.statutCommande}/></td>
+          <SectionTitle icon="receipt_long" title="Dernières Commandes" subtitle={`${enAttente} en attente`} color="#007AFF" actionLabel="Gérer" actionLink="/admin/commandes"/>
+          {loading
+            ? [...Array(5)].map((_,i) => <Skel key={i} h={44} mb={6}/>)
+            : <div style={{ overflowX:'auto' }}>
+                <table style={{ width:'100%',borderCollapse:'collapse' }}>
+                  <thead>
+                    <tr style={{ borderBottom:'1.5px solid #E5E5EA' }}>
+                      {['Réf.','Client','Date','Montant','Statut'].map(h => (
+                        <th key={h} style={{ padding:'10px 12px',fontSize:11,fontWeight:700,color:'#86868B',textTransform:'uppercase',letterSpacing:'0.05em',textAlign:'left' }}>{h}</th>
+                      ))}
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
+                  </thead>
+                  <tbody>
+                    {[...commandes].sort((a,b)=>new Date(b.date_commande||b.dateCommande)-new Date(a.date_commande||a.dateCommande)).slice(0,6).map((c,i) => {
+                      const id  = c.id_commande||c.idCommande;
+                      const num = c.numero_commande||c.numeroCommande||`#${id}`;
+                      const nom = c.nom_client||c.nomClient ? `${c.prenom_client||c.prenomClient||''} ${c.nom_client||c.nomClient}`.trim() : `Client #${c.id_client||c.idClient}`;
+                      return (
+                        <tr key={i} onClick={()=>nav('/admin/commandes')}
+                          style={{ borderBottom:'1px solid #F5F5F7',cursor:'pointer',transition:'background 150ms' }}
+                          onMouseEnter={e=>e.currentTarget.style.background='#FBFBFD'}
+                          onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                          <td style={{ padding:'14px 12px',fontSize:13,fontWeight:700,color:'#1D1D1F' }}>{num}</td>
+                          <td style={{ padding:'14px 12px',fontSize:13,color:'#1D1D1F',fontWeight:500 }}>{nom}</td>
+                          <td style={{ padding:'14px 12px',fontSize:13,color:'#86868B' }}>{fmtDate(c.date_commande||c.dateCommande)}</td>
+                          <td style={{ padding:'14px 12px',fontSize:13,fontWeight:700,color:'#1D1D1F' }}>{fmtMoney(c.montant_total||c.montantTotal)}</td>
+                          <td style={{ padding:'14px 12px' }}><StatusBadge statut={c.statut_commande||c.statutCommande}/></td>
+                        </tr>
+                      );
+                    })}
+                    {!loading && commandes.length === 0 && (
+                      <tr><td colSpan={5} style={{ padding:'32px',textAlign:'center',color:'#86868B',fontSize:14 }}>Aucune commande</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+          }
         </Card>
 
-        {/* Alertes stock */}
-        <Card style={{ background:'#fff5f5' }}>
-          <SectionTitle icon="warning" title="Alertes stock" actionLabel="Gérer" actionLink="/admin/stock"/>
-          {loading?[...Array(3)].map((_,i)=><Skel key={i} h={54} mb={8}/>):alertes.length===0?(
-            <div style={{ textAlign:'center',padding:'24px 0',color:'#30D158',fontWeight:600,fontSize:14 }}>✅ Tous les stocks OK !</div>
-          ):alertes.slice(0,6).map((p,i)=>{
-            const q=p.quantite_disponible??p.quantiteDisponible??0;
-            const s=p.seuil_alerte??p.seuilAlerte??10;
-            const rupt=q===0;
-            return (
-              <div key={i} style={{ background:'#fff',borderRadius:12,padding:'12px',marginBottom:8,border:`1px solid ${rupt?'rgba(255,69,58,0.2)':'rgba(255,159,10,0.2)'}` }}>
-                <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6 }}>
-                  <span style={{ fontSize:13,fontWeight:600,color:'#1D1D1F' }}>{p.nom_produit||p.nomProduit}</span>
-                  <span style={{ fontSize:11,fontWeight:700,color:rupt?'#FF453A':'#FF9F0A',background:rupt?'rgba(255,69,58,0.1)':'rgba(255,159,10,0.1)',padding:'2px 8px',borderRadius:9999 }}>{rupt?'Rupture':'Alerte'}</span>
+        <Card style={{ border:'1px solid rgba(255, 59, 48, 0.1)' }}>
+          <SectionTitle icon="warning" title="Alertes stock" subtitle={`${alertes.length} alerte(s)`} color="#FF3B30" actionLabel="Voir" actionLink="/admin/stock"/>
+          {loading
+            ? [...Array(4)].map((_,i)=><Skel key={i} h={64} mb={8} radius={12}/>)
+            : alertes.length===0
+              ? (
+                <div style={{ textAlign:'center',padding:'32px 0' }}>
+                  <div style={{ fontSize:36,marginBottom:8 }}>✅</div>
+                  <div style={{ fontSize:14,fontWeight:700,color:'#34C759' }}>Tous les stocks OK !</div>
+                  <div style={{ fontSize:12,color:'#86868B',marginTop:4 }}>Aucune alerte active</div>
                 </div>
-                <div style={{ fontSize:12,color:'#6E6E73',marginBottom:6 }}>{q} / {s} unités</div>
-                <div style={{ height:4,background:'#F5F5F7',borderRadius:2,overflow:'hidden' }}>
-                  <div style={{ width:`${Math.min(s>0?q/s*100:0,100)}%`,height:'100%',background:rupt?'#FF453A':'#FF9F0A',borderRadius:2 }}/>
+              )
+              : <div style={{ display:'flex',flexDirection:'column',gap:8,maxHeight:340,overflowY:'auto' }}>
+                  {alertes.slice(0,6).map((p,i)=>{
+                    const q=p.quantite_disponible??p.quantiteDisponible??0;
+                    const s=p.seuil_alerte??p.seuilAlerte??10;
+                    const rupt=q===0;
+                    const pct=s>0?Math.min(q/s*100,100):0;
+                    return (
+                      <div key={i} style={{ background:rupt?'rgba(255, 59, 48, 0.04)':'rgba(255, 149, 0, 0.04)',borderRadius:12,padding:12,border:`1px solid ${rupt?'rgba(255, 59, 48, 0.15)':'rgba(255, 149, 0, 0.15)'}` }}>
+                        <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6 }}>
+                          <span style={{ fontSize:13,fontWeight:700,color:'#1D1D1F',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',flex:1 }}>{p.nom_produit||p.nomProduit}</span>
+                          <span style={{ fontSize:10,fontWeight:800,color:rupt?'#FF3B30':'#FF9500',background:rupt?'rgba(255, 59, 48, 0.12)':'rgba(255, 149, 0, 0.12)',padding:'3px 8px',borderRadius:9999,flexShrink:0,marginLeft:6 }}>
+                            {rupt?'RUPTURE':'ALERTE'}
+                          </span>
+                        </div>
+                        <div style={{ fontSize:11,color:'#86868B',marginBottom:6,fontWeight:600 }}>{q} / seuil {s} unités</div>
+                        <div style={{ height:4,background:'#E5E5EA',borderRadius:9999,overflow:'hidden' }}>
+                          <div style={{ width:`${pct}%`,height:'100%',background:rupt?'#FF3B30':'#FF9500',borderRadius:9999,transition:'width 600ms ease' }}/>
+                        </div>
+                        <button onClick={()=>nav('/admin/stock')} style={{ marginTop:8,fontSize:11,fontWeight:700,color:'#FF3B30',background:'transparent',border:'none',cursor:'pointer',padding:0,display:'flex',alignItems:'center',gap:4 }}>
+                          Gérer <span style={{ fontSize:14 }}>→</span>
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
-                <button onClick={()=>nav('/admin/stock')} style={{ marginTop:8,fontSize:11,fontWeight:700,color:'#FF453A',background:'rgba(255,69,58,0.08)',border:'none',borderRadius:9999,padding:'4px 10px',cursor:'pointer' }}>Réapprovisionner →</button>
-              </div>
-            );
-          })}
+          }
         </Card>
       </div>
 
-      {/* Admins + Produits par catégorie */}
-      <div className="db-grid-2">
-        <Card>
-          <SectionTitle icon="group" title="Équipe admin" actionLabel="+ Ajouter" actionLink="/superadmin"/>
-          {loading?[...Array(3)].map((_,i)=><Skel key={i} h={48} mb={8}/>):admins.map((a,i)=>{
-            const role=a.type_admin||a.typeAdmin||'produits';
-            return (
-              <div key={i} style={{ display:'flex',alignItems:'center',gap:12,padding:'10px 0',borderBottom:i<admins.length-1?'1px solid #EDEDF2':'none' }}>
-                <div style={{ width:38,height:38,borderRadius:10,background:'rgba(0,113,227,0.08)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:800,color:'#0071E3' }}>
-                  {(a.prenom?.[0]||'').toUpperCase()}{(a.nom?.[0]||'').toUpperCase()}
-                </div>
-                <div style={{ flex:1 }}>
-                  <div style={{ fontSize:13,fontWeight:700,color:'#1D1D1F' }}>{a.prenom} {a.nom}</div>
-                  <div style={{ fontSize:11,color:'#6E6E73' }}>{a.email}</div>
-                </div>
-                <span style={{ fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:9999,color:ROLE_COLORS[role]||'#6E6E73',background:`${ROLE_COLORS[role]||'#6E6E73'}18` }}>
-                  {ROLE_LABELS[role]||role}
-                </span>
-              </div>
-            );
-          })}
-        </Card>
 
-        <Card>
-          <SectionTitle icon="bar_chart" title="Produits par catégorie"/>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={catData} margin={{ top:4,right:8,left:-20,bottom:0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F7" vertical={false}/>
-              <XAxis dataKey="nom" tick={{ fontSize:11,fill:'#6E6E73' }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:11,fill:'#6E6E73' }} axisLine={false} tickLine={false}/>
-              <Tooltip contentStyle={{ background:'#fff',border:'none',borderRadius:12,boxShadow:'0 4px 20px rgba(0,0,0,0.1)',fontSize:13 }} formatter={(v)=>[`${v} produits`,'Nb']}/>
-              <Bar dataKey="nb" fill="#0071E3" radius={[4,4,0,0]}/>
-            </BarChart>
-          </ResponsiveContainer>
-        </Card>
-      </div>
     </div>
   );
 }

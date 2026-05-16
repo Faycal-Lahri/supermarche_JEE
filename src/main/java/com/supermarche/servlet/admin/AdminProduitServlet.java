@@ -108,9 +108,16 @@ public class AdminProduitServlet extends HttpServlet {
             return;
         }
         int id = Integer.parseInt(pathInfo.substring(1));
+        String hard = request.getParameter("hard");
+
         try {
-            produitDAO.delete(id); // soft-delete
-            JsonUtil.sendSuccessMessage(response, "Produit désactivé");
+            if ("true".equals(hard)) {
+                produitDAO.hardDelete(id);
+                JsonUtil.sendSuccessMessage(response, "Produit supprimé de la base de données");
+            } else {
+                produitDAO.delete(id); // soft-delete
+                JsonUtil.sendSuccessMessage(response, "Produit désactivé");
+            }
         } catch (Exception e) {
             JsonUtil.sendError(response, 500, e.getMessage());
         }

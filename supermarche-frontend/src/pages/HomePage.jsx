@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { produitsApi, categoriesApi, promotionsPublicApi } from '../api/api';
+import { produitsApi, categoriesApi, promotionsPublicApi, getImageUrl } from '../api/api';
 import { useToast } from '../context/ToastContext';
 import { useCart } from '../context/CartContext';
 import ClientNavbar from '../components/ClientNavbar';
@@ -246,7 +246,7 @@ export default function HomePage() {
                   onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
                 >
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '20px 20px 0 0', overflow: 'hidden', background: '#F5F5F7' }}>
-                    <img src={p.image_produit || p.imageProduit || CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={p.image_produit || p.imageProduit ? getImageUrl(p.image_produit || p.imageProduit) : CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     {!inStock && (
                       <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <span style={{ background: '#1D1D1F', color: '#fff', fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 9999 }}>Épuisé</span>
@@ -317,7 +317,7 @@ export default function HomePage() {
                 return (
                   <Link key={id} to={`/produit/${id}`} style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, textDecoration: 'none', color: 'inherit', flexShrink: 0, width: '100%', minWidth: 240, overflow: 'hidden' }}>
                     <div style={{ position: 'relative', aspectRatio: '4/3' }}>
-                      <img src={p.image_produit || p.imageProduit || CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={p.image_produit || p.imageProduit ? getImageUrl(p.image_produit || p.imageProduit) : CAT_IMAGES.default} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       <span style={{ position: 'absolute', top: 12, right: 12, background: '#FF453A', color: '#fff', fontSize: 11, fontWeight: 800, padding: '4px 10px', borderRadius: 9999 }}>-{discount}%</span>
                     </div>
                     <div style={{ padding: '16px 20px 20px' }}>

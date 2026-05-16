@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { promotionsPublicApi } from '../api/api';
+import { promotionsPublicApi, getImageUrl } from '../api/api';
 import ClientNavbar from '../components/ClientNavbar';
 
 export default function PromotionsPage() {
@@ -69,7 +69,7 @@ export default function PromotionsPage() {
                   onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.04)'; }}
                 >
                   <div style={{ position: 'relative', aspectRatio: '4/3', background: '#F5F5F7' }}>
-                    <img src={p.image_produit || p.imageProduit || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=500'} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={p.image_produit || p.imageProduit ? getImageUrl(p.image_produit || p.imageProduit) : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=500'} alt={p.nom_produit || p.nomProduit} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <span style={{ position: 'absolute', top: 16, right: 16, background: '#FF453A', color: '#fff', fontSize: 13, fontWeight: 800, padding: '6px 12px', borderRadius: 9999 }}>-{discount}%</span>
                   </div>
                   <div style={{ padding: 24 }}>

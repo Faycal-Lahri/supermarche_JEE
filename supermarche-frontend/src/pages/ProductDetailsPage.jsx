@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { produitsApi, promotionsPublicApi } from '../api/api';
+import { produitsApi, promotionsPublicApi, getImageUrl } from '../api/api';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import ClientNavbar from '../components/ClientNavbar';
@@ -113,7 +113,7 @@ export default function ProductDetailsPage() {
           {/* IMAGE COLUMN */}
           <div style={{ flex: '1 1 500px', minWidth: 300, background: '#F5F5F7', padding: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
             <img
-              src={product.image_produit || product.imageProduit || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800'}
+              src={product.image_produit || product.imageProduit ? getImageUrl(product.image_produit || product.imageProduit) : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800'}
               alt={product.nom_produit || product.nomProduit}
               style={{ width: '100%', maxWidth: 500, aspectRatio: '1/1', objectFit: 'cover', borderRadius: 24, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
             />
@@ -211,7 +211,7 @@ export default function ProductDetailsPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 40 }}>
                 <div style={{ display: 'flex', alignItems: 'center', background: '#F5F5F7', borderRadius: 9999, padding: '4px 12px', height: 56 }}>
                   <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: 40, height: 40, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 24, color: '#1D1D1F', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
-                  <span style={{ fontSize: 18, fontWeight: 700, width: 32, textAlign: 'center' }}>{qty}</span>
+                  <span style={{ fontSize: 18, fontWeight: 700, width: 32, textAlign: 'center', color: '#1D1D1F', userSelect: 'none' }}>{qty}</span>
                   <button onClick={() => setQty(Math.min(stock, qty + 1))} style={{ width: 40, height: 40, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 24, color: '#1D1D1F', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
                 </div>
                 <button
@@ -276,7 +276,7 @@ export default function ProductDetailsPage() {
               const pid = p.id_produit || p.idProduit;
               const nom = p.nom_produit || p.nomProduit || 'Produit';
               const cat = p.nom_categorie || p.nomCategorie || '';
-              const img = p.image_produit || p.imageProduit || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=300';
+              const img = p.image_produit || p.imageProduit ? getImageUrl(p.image_produit || p.imageProduit) : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=300';
               const prix = Number(p.prix || 0);
               const stock = p.quantite_disponible || p.quantiteDisponible || 0;
 

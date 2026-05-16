@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { getImageUrl } from '../api/api';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import ClientNavbar from '../components/ClientNavbar';
@@ -71,7 +72,7 @@ export default function CartPage() {
           <p style={{ fontSize: 17, color: '#6E6E73', marginTop: 8 }}>{count} article{count > 1 ? 's' : ''} • Sous-total : {Number(total).toFixed(2)} €</p>
         </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'minmax(0,1fr) 380px', gap: window.innerWidth < 768 ? 24 : 40, alignItems: 'flex-start', animation: 'fadeSlideUp 600ms ease forwards' }}>
+        <div className="checkout-grid" style={{ animation: 'fadeSlideUp 600ms ease forwards' }}>
           
           {/* ── LISTE DES ARTICLES ── */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -89,7 +90,7 @@ export default function CartPage() {
                 <div key={pid} style={{ display: 'flex', gap: 20, background: '#fff', borderRadius: 24, padding: 20, transition: 'all 300ms', opacity: isRemoving ? 0 : 1, transform: isRemoving ? 'translateX(-20px)' : 'none', boxShadow: '0 2px 12px rgba(0,0,0,0.03)' }}>
                   {/* Image avec badge promo */}
                   <div style={{ width: 120, height: 120, borderRadius: 16, background: '#F5F5F7', overflow: 'hidden', flexShrink: 0, position: 'relative' }}>
-                    <img src={it.image_produit || it.imageProduit || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=200'} alt={it.nom_produit || it.nomProduit} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={it.image_produit || it.imageProduit ? getImageUrl(it.image_produit || it.imageProduit) : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=200'} alt={it.nom_produit || it.nomProduit} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     {promo && (
                       <div style={{ position: 'absolute', top: 6, right: 6, background: '#FF453A', color: '#fff', fontSize: 11, fontWeight: 800, padding: '2px 8px', borderRadius: 9999 }}>
                         -{Math.round(promo.pourcentage || 0)}%

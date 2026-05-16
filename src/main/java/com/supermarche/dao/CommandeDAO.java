@@ -272,12 +272,14 @@ public class CommandeDAO {
 
     private String genererNumero(Connection conn) throws SQLException {
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        String sql = "SELECT COUNT(*) FROM commande WHERE YEAR(date_commande) = ?";
+        String sql = "SELECT MAX(CAST(SUBSTRING_INDEX(numero_commande, '-', -1) AS UNSIGNED)) FROM commande WHERE YEAR(date_commande) = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, year);
             try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                int seq = rs.getInt(1) + 1;
+                int seq = 1;
+                if (rs.next()) {
+                    seq = rs.getInt(1) + 1;
+                }
                 return String.format("CMD-%d-%04d", year, seq);
             }
         }

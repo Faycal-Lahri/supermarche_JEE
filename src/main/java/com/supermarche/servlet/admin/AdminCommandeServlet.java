@@ -82,7 +82,25 @@ public class AdminCommandeServlet extends HttpServlet {
                     JsonUtil.sendError(response, 400, "Statut invalide : " + statut);
                     return;
                 }
+
                 commandeDAO.updateStatut(idCommande, statut);
+                
+                // Envoi des emails transactionnels selon le statut
+                if ("en_livraison".equals(statut) || "livree".equals(statut)) {
+                    try {
+                        Commande commandeComplete = commandeDAO.findById(idCommande);
+                        if (commandeComplete != null && commandeComplete.getEmailClient() != null) {
+                            if ("en_livraison".equals(statut)) {
+                                com.supermarche.util.EmailUtil.sendOrderShipped(commandeComplete.getEmailClient(), commandeComplete);
+                            } else if ("livree".equals(statut)) {
+                                com.supermarche.util.EmailUtil.sendOrderDelivered(commandeComplete.getEmailClient(), commandeComplete);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        System.err.println("Erreur envoi email (" + statut + ") : " + ex.getMessage());
+                    }
+                }
+
                 JsonUtil.sendSuccessMessage(response, "Statut mis à jour : " + statut);
 
             } else if ("annuler".equals(action)) {

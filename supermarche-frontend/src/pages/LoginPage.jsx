@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   
   const { login } = useAuth();
@@ -66,15 +67,20 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 20 }}>
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1D1D1F', marginBottom: 8 }}>Adresse email</label>
-              <input required type="email" value={email} onChange={e=>setEmail(e.target.value)} className="apple-input" placeholder="vous@email.com" />
+              <input required type="email" value={email} onChange={e=>setEmail(e.target.value)} className="apple-input" placeholder="vous@email.com" style={{ backgroundColor: '#fff', color: '#000', width: '100%' }} />
             </div>
             
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <label style={{ fontSize: 13, fontWeight: 600, color: '#1D1D1F' }}>Mot de passe</label>
-                <Link to="/contact" style={{ fontSize: 13, color: '#0071E3', textDecoration: 'none', fontWeight: 500 }}>Oublié ?</Link>
+                <Link to="/mot-de-passe-oublie" style={{ fontSize: 13, color: '#0071E3', textDecoration: 'none', fontWeight: 500 }}>Oublié ?</Link>
               </div>
-              <input required type="password" value={password} onChange={e=>setPassword(e.target.value)} className="apple-input" placeholder="••••••••" />
+              <div style={{ position: 'relative' }}>
+                <input required type={showPassword ? 'text' : 'password'} value={password} onChange={e=>setPassword(e.target.value)} className="apple-input" placeholder="••••••••" style={{ backgroundColor: '#fff', color: '#000', width: '100%', paddingRight: 40 }} />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, color: '#8E8E93' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: 20 }}>{showPassword ? 'visibility_off' : 'visibility'}</span>
+                </button>
+              </div>
             </div>
 
             <button type="submit" disabled={loading} style={{ width: '100%', height: 48, borderRadius: 9999, background: '#1D1D1F', color: '#fff', border: 'none', fontSize: 15, fontWeight: 600, cursor: loading ? 'wait' : 'pointer', marginTop: 12, transition: 'transform 200ms, background 200ms' }}
@@ -86,7 +92,7 @@ export default function LoginPage() {
           </form>
 
           <div style={{ textAlign: 'center', marginTop: 32, fontSize: 15, color: '#6E6E73' }}>
-            Nouveau client ? <Link to="/register" style={{ color: '#0071E3', fontWeight: 600, textDecoration: 'none' }}>Créer un compte</Link>
+            Nouveau client ? <Link to="/inscription" style={{ color: '#0071E3', fontWeight: 600, textDecoration: 'none' }}>Créer un compte</Link>
           </div>
         </div>
       </div>

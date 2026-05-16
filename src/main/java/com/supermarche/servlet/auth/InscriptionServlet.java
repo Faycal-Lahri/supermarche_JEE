@@ -29,6 +29,20 @@ public class InscriptionServlet extends HttpServlet {
         String body = request.getReader().lines().collect(Collectors.joining());
         JsonObject json = JsonUtil.getGson().fromJson(body, JsonObject.class);
 
+        if (json.has("action") && "check_cin".equals(json.get("action").getAsString())) {
+            String cinCheck = getStr(json, "cin");
+            try {
+                if (clientDAO.findByCin(cinCheck) != null) {
+                    JsonUtil.sendError(response, 409, "Cette carte CIN existe déjà chez quelqu'un d'autre.");
+                } else {
+                    JsonUtil.sendJson(response, 200, buildSuccess("CIN libre"));
+                }
+            } catch (Exception e) {
+                JsonUtil.sendError(response, 500, "Erreur serveur : " + e.getMessage());
+            }
+            return;
+        }
+
         String nom      = getStr(json, "nom");
         String prenom   = getStr(json, "prenom");
         String email    = getStr(json, "email");

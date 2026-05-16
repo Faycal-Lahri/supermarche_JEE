@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { adminStockApi } from '../../api/api';
+import { adminStockApi, getImageUrl } from '../../api/api';
 import { useToast } from '../../context/ToastContext';
 import AdminSidebar from '../../components/AdminSidebar';
 import { Dropdown, Pagination, SearchInput, FilterBar } from '../../components/AdminFilterBar';
@@ -22,7 +22,7 @@ function StockAdjustModal({ produit, stockActuel, onClose, onConfirm, saving }) 
   const valid  = qte > 0 && newQty >= 0;
 
   const nom    = produit.nom_produit || produit.nomProduit || 'Produit';
-  const image  = produit.image_produit || produit.imageProduit;
+  const image  = produit.image_produit || produit.imageProduit ? getImageUrl(produit.image_produit || produit.imageProduit) : null;
 
   const handleSubmit = () => {
     if (!valid) return;
@@ -82,7 +82,8 @@ function StockAdjustModal({ produit, stockActuel, onClose, onConfirm, saving }) 
                 onChange={e => setQuantite(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && valid && handleSubmit()}
                 placeholder="Ex. : 50"
-                style={{ width: '100%', height: 52, borderRadius: 14, border: `2px solid ${quantite && !valid ? '#FF453A' : '#EDEDF2'}`, padding: '0 18px', fontSize: 20, fontWeight: 700, color: '#1D1D1F', outline: 'none', boxSizing: 'border-box', transition: 'border 200ms' }}
+                className="stock-qty-input"
+                style={{ borderColor: quantite && !valid ? '#FF453A' : '#EDEDF2' }}
               />
               {type === 'sortie' && qte > stockActuel && (
                 <p style={{ fontSize: 12, color: '#FF453A', marginTop: 6, fontWeight: 600 }}>⚠️ Quantité supérieure au stock disponible ({stockActuel})</p>
@@ -337,7 +338,7 @@ export default function AdminStockPage() {
                 const seuil   = s.seuil_alerte ?? s.seuilAlerte ?? 10;
                 const nom     = s.nom_produit || s.nomProduit || '—';
                 const cat     = s.nom_categorie || s.nomCategorie || '—';
-                const img     = s.image_produit || s.imageProduit;
+                const img     = s.image_produit || s.imageProduit ? getImageUrl(s.image_produit || s.imageProduit) : null;
                 const etat    = stockVal === 0 ? 'rupture' : stockVal <= seuil ? 'alerte' : 'disponible';
                 const ETAT_CFG = {
                   disponible: { label: 'En stock',    color: '#30D158', bg: 'rgba(48,209,88,0.1)' },

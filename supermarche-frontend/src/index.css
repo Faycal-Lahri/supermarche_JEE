@@ -219,20 +219,37 @@ body {
   box-shadow: 0 0 0 2px var(--primary);
 }
 
+/* ── Force light styles on all form inputs — override Tailwind dark mode ── */
+input, textarea, select {
+  background-color: #ffffff !important;
+  color: #1D1D1F !important;
+  -webkit-text-fill-color: #1D1D1F !important;
+  color-scheme: light !important;
+}
+
+.no-focus-ring:focus, .no-focus-ring:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .apple-input {
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid #EDEDF2;
+  border: 1.5px solid #EDEDF2;
   font-size: 14px;
-  color: #1D1D1F;
+  color: #1D1D1F !important;
+  background: #ffffff !important;
   outline: none;
-  transition: all 200ms;
+  transition: border 200ms, box-shadow 200ms;
   font-family: inherit;
+  width: 100%;
 }
 .apple-input:focus {
   border-color: #0A84FF;
   box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.1);
 }
+.apple-input::placeholder { color: #C7C7CC !important; }
 
 select.apple-input, select {
   appearance: none;
@@ -261,6 +278,60 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
+}
+
+/* ── Apple Design System — Classes Admin ──────────────────────────────────── */
+:root { --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif; }
+
+.apple-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  border: 0.5px solid rgba(0,0,0,0.05);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* ── Spinner ── */
+.spinner {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(0,0,0,0.1);
+  border-top-color: #0071E3;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Admin page transitions ── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Apple Container ── */
+.apple-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 input[type="file"]::file-selector-button {
@@ -612,6 +683,32 @@ input[type="file"]::file-selector-button:hover {
 .fixed { position: fixed; }
 
 /* ── Responsive ── */
+.hide-mobile  { display: block; }
+.show-mobile  { display: none; }
+
+/* Catalogue layout : sidebar + liste */
+.catalogue-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Cart layout : articles + récapitulatif */
+.cart-grid {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 380px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .catalogue-grid {
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar { transform: translateX(-100%); transition: transform var(--transition-base); }
   .sidebar.open { transform: translateX(0); }
@@ -620,6 +717,24 @@ input[type="file"]::file-selector-button:hover {
   .page-content { padding: 1.25rem; }
   .display-lg { font-size: 2.5rem; }
   .display-md { font-size: 2rem; }
+
+  .hide-mobile  { display: none !important; }
+  .show-mobile  { display: block !important; }
+
+  .catalogue-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* Checkout responsive (surcharge pour cart & confirmation) */
+  .checkout-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
 }
 
 /* ── Apple-Style Animations ── */
@@ -1737,3 +1852,133 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* --- APPLE DESIGN SYSTEM END --- */
+
+/* ═══════════════════════════════════════════════════════
+   CHECKOUT RESPONSIVE
+   ═══════════════════════════════════════════════════════ */
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: flex-start;
+  animation: fadeSlideUp 600ms ease forwards;
+}
+
+.checkout-ville-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-ville-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ORDER CARD — RESPONSIVE AMÉLIORÉ
+   ═══════════════════════════════════════════════════════ */
+
+.order-card .order-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0;
+}
+
+/* Badge quantité toujours visible */
+.order-qty-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #0071E3;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 0 6px;
+}
+
+@media (max-width: 600px) {
+  .order-card {
+    padding: 16px !important;
+  }
+
+  .order-card .order-actions a,
+  .order-card .order-actions button {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-width: 120px;
+    white-space: nowrap;
+    font-size: 12px !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+  }
+
+  /* Grille profil — formulaire 1 colonne sur petit écran */
+  .profile-content form [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ADMIN STOCK — INPUT QUANTITÉ BIEN VISIBLE
+   ═══════════════════════════════════════════════════════ */
+
+.stock-qty-input {
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: 2px solid #EDEDF2;
+  padding: 0 18px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1D1D1F;
+  outline: none;
+  box-sizing: border-box;
+  transition: border 200ms;
+  text-align: center;
+  background: #fff;
+  -moz-appearance: textfield;
+}
+.stock-qty-input::-webkit-outer-spin-button,
+.stock-qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.stock-qty-input:focus {
+  border-color: #0071E3;
+  box-shadow: 0 0 0 4px rgba(0,113,227,0.1);
+}
+
+/* ═══════════════════════════════════════════════════════
+   ADMIN DASHBOARD — RESPONSIVE
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  /* Dashboard grids deviennent 2 colonnes */
+  [style*="gridTemplateColumns: '1fr 340px'"],
+  [style*="gridTemplateColumns: '1fr 320px'"],
+  [style*="gridTemplateColumns: '1fr 300px'"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Profil mobile — champs 1 colonne */
+@media (max-width: 640px) {
+  .profile-content div[style*="grid-template-columns: '1fr 1fr'"] {
+    grid-template-columns: 1fr !important;
+  }
+}

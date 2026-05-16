@@ -40,6 +40,24 @@ public class ClientDAO {
         return null;
     }
 
+    public Client findByCin(String cin) throws SQLException {
+        String sql = "SELECT * FROM client WHERE cin = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, cin);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Client c = new Client();
+                    c.setIdClient(rs.getInt("id_client"));
+                    c.setIdUtilisateur(rs.getInt("id_utilisateur"));
+                    c.setCin(rs.getString("cin"));
+                    return c;
+                }
+            }
+        }
+        return null;
+    }
+
     public Client findById(int idClient) throws SQLException {
         String sql = "SELECT c.*, u.nom, u.prenom, u.email, u.telephone, u.statut, u.photo_profil, u.date_creation " +
                      "FROM client c JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur " +

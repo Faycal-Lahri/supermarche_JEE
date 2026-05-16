@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { publicCommandesApi } from '../api/api';
+import { publicCommandesApi, getImageUrl } from '../api/api';
 import ClientNavbar from '../components/ClientNavbar';
 
 export default function OrderConfirmationPage() {
@@ -53,7 +53,7 @@ export default function OrderConfirmationPage() {
           <p style={{ fontSize: 17, color: '#6E6E73' }}>Votre commande #{cmd.id_commande || cmd.numero_commande} a bien été enregistrée.</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr', gap: window.innerWidth < 768 ? 24 : 32, animation: 'fadeSlideUp 600ms ease forwards' }}>
+        <div className="checkout-grid" style={{ animation: 'fadeSlideUp 600ms ease forwards' }}>
           {/* COLONNE GAUCHE : INFOS COMMANDE */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
@@ -71,7 +71,7 @@ export default function OrderConfirmationPage() {
               )}
             </div>
 
-            <div style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.03)', display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr', gap: 24 }}>
+            <div style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.03)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24 }}>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#8E8E93', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 12 }}>Livraison</div>
                 <div style={{ fontSize: 15, color: '#1D1D1F', lineHeight: 1.6 }}>{cmd.adresse_livraison || cmd.adresseLivraison || 'Adresse non renseignée'}</div>
@@ -115,7 +115,7 @@ export default function OrderConfirmationPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
                 {(cmd.lignes || cmd.lignesCommande || []).map((l, i) => {
                   const nom = l.nom_produit_snapshot || l.nomProduitSnapshot || l.nom_produit || l.nomProduit || `Article #${l.id_produit || l.idProduit}`;
-                  const image = l.image_produit || l.imageProduit || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=100';
+                  const image = l.image_produit || l.imageProduit ? getImageUrl(l.image_produit || l.imageProduit) : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=100';
                   const prix = parseFloat(l.prix_unitaire_snapshot || l.prixUnitaireSnapshot || l.prix_unitaire || l.prixUnitaire || 0);
                   const sousTotal = parseFloat(l.sous_total || l.sousTotal || (prix * l.quantite));
                   return (
